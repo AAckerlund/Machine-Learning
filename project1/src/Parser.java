@@ -113,7 +113,7 @@ public class Parser
 				}
 				catch(NumberFormatException ex)
 				{
-					dataPoints[i-1] = -1;
+					dataPoints[i-1] = (int)(Math.random()*10) + 1;
 				}
 			}
 			nodes.add(new CancerNode(id, dataPoints));
@@ -141,7 +141,7 @@ public class Parser
 				{
 					case ("y") -> votes[i - 1] = 1;
 					case ("n") -> votes[i - 1] = 2;
-					default -> votes[i - 1] = 0;
+					default -> votes[i - 1] = (int)(Math.random()*2)+1;//randomly generating unknown values
 				}
 			}
 			nodes.add(new VoteNode(dr, votes));
