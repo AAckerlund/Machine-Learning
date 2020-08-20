@@ -1,6 +1,6 @@
 package Nodes;
 
-public class GlassNode//TODO
+public class GlassNode
 {
 	int id;
 	int glassType;//valid values are 1-7, 0 if unknown

@@ -26,6 +26,7 @@ public class Parser
 		return null;
 	}
 	
+	//The below functions are all slightly different but all parse the data out from their respective files.
 	public ArrayList<BeanNode> beanParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);

@@ -1,7 +1,7 @@
 import Nodes.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Arrays;//used in printing out the parsed data
 
 public class Driver
 {
@@ -9,47 +9,48 @@ public class Driver
 	
 	public Driver(String filePath)
 	{
+		//parse out the data in the file
 		System.out.println(filePath);
 		Parser p = new Parser();
-		if(filePath.equals("house-votes-84"))
+		switch(filePath)
 		{
-			ArrayList<VoteNode> vNodes = p.votesParser(fileStart + filePath + fileEnd);
-			/*for(VoteNode node : vNodes)
-			{
-				System.out.println(node.getDR() + " " + Arrays.toString(node.getVotes()));
-			}*/
-		}
-		else if(filePath.equals("breast-cancer-wisconsin"))
-		{
-			ArrayList<CancerNode> cNodes = p.cancerParser(fileStart + filePath + fileEnd);
-			/*for(CancerNode node : cNodes)
-			{
-				System.out.println(node.getId() + Arrays.toString(node.getData()));
-			}*/
-		}
-		else if(filePath.equals("glass"))
-		{
-			ArrayList<GlassNode> gNodes = p.glassParser(fileStart + filePath + fileEnd);
-			/*for(GlassNode node : gNodes)
-			{
-				System.out.println(node.getId() + Arrays.toString(node.getData()) + node.getGlassType());
-			}*/
-		}
-		else if(filePath.equals("iris"))
-		{
-			ArrayList<IrisNode> iNodes = p.irisParser(fileStart + filePath + fileEnd);
-			/*for(IrisNode node : iNodes)
-			{
-				System.out.println(node.getType() + Arrays.toString(node.getData()));
-			}*/
-		}
-		else if(filePath.equals("soybean-small"))
-		{
-			ArrayList<BeanNode> bNodes = p.beanParser(fileStart + filePath + fileEnd);
-			/*for(BeanNode node : bNodes)
-			{
-				System.out.println(node.getType() + Arrays.toString(node.getData()));
-			}*/
+			case "house-votes-84":
+				ArrayList<VoteNode> vNodes = p.votesParser(fileStart + filePath + fileEnd);
+				/*for(VoteNode node : vNodes)
+				{
+					System.out.println(node.getDR() + " " + Arrays.toString(node.getVotes()));
+				}*/
+				break;
+			case "breast-cancer-wisconsin":
+				ArrayList<CancerNode> cNodes = p.cancerParser(fileStart + filePath + fileEnd);
+				/*for(CancerNode node : cNodes)
+				{
+					System.out.println(node.getId() + Arrays.toString(node.getData()));
+				}*/
+				break;
+			case "glass":
+				ArrayList<GlassNode> gNodes = p.glassParser(fileStart + filePath + fileEnd);
+				/*for(GlassNode node : gNodes)
+				{
+					System.out.println(node.getId() + Arrays.toString(node.getData()) + node.getGlassType());
+				}*/
+				break;
+			case "iris":
+				ArrayList<IrisNode> iNodes = p.irisParser(fileStart + filePath + fileEnd);
+				/*for(IrisNode node : iNodes)
+				{
+					System.out.println(node.getType() + Arrays.toString(node.getData()));
+				}*/
+				break;
+			case "soybean-small":
+				ArrayList<BeanNode> bNodes = p.beanParser(fileStart + filePath + fileEnd);
+				/*for(BeanNode node : bNodes)
+				{
+					System.out.println(node.getType() + Arrays.toString(node.getData()));
+				}*/
+				break;
+			default:
+				System.out.println("Bad file path: " + filePath);
 		}
 		
 	}
