@@ -1,7 +1,6 @@
-import Nodes.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
+import java.util.Objects;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
@@ -11,56 +10,40 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	{
 		this.filePath = filePath;
 	}
-		
+	
 	public void run()//the method that is called when a Thread starts
 	{
 		//parse out the data in the file
 		System.out.println(filePath);
 		Parser p = new Parser();
+		ArrayList<Node> nodes = null;
 		switch(filePath)
 		{
-			case "house-votes-84":
-				ArrayList<VoteNode> vNodes = p.votesParser(fileStart + filePath + fileEnd);
-				/*System.out.println("Done 1");
-				for(VoteNode node : vNodes)
-				{
-					System.out.println(node.getDR() + " " + Arrays.toString(node.getVotes()));
-				}*/
-				break;
-			case "breast-cancer-wisconsin":
-				ArrayList<CancerNode> cNodes = p.cancerParser(fileStart + filePath + fileEnd);
-				/*System.out.println("Done 2");
-				for(CancerNode node : cNodes)
-				{
-					System.out.println(node.getId() + Arrays.toString(node.getData()));
-				}*/
-				break;
-			case "glass":
-				ArrayList<GlassNode> gNodes = p.glassParser(fileStart + filePath + fileEnd);
-				/*System.out.println("Done 3");
-				for(GlassNode node : gNodes)
-				{
-					System.out.println(node.getId() + Arrays.toString(node.getData()) + node.getGlassType());
-				}*/
-				break;
-			case "iris":
-				ArrayList<IrisNode> iNodes = p.irisParser(fileStart + filePath + fileEnd);
-				/*System.out.println("Done 4");
-				for(IrisNode node : iNodes)
-				{
-					System.out.println(node.getType() + Arrays.toString(node.getData()));
-				}*/
-				break;
-			case "soybean-small":
-				ArrayList<BeanNode> bNodes = p.beanParser(fileStart + filePath + fileEnd);
-				/*System.out.println("Done 5");
-				for(BeanNode node : bNodes)
-				{
-					System.out.println(node.getType() + Arrays.toString(node.getData()));
-				}*/
-				break;
-			default:
-				System.out.println("Bad file path: " + filePath);
+			case "house-votes-84" -> {
+				nodes = p.votesParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Votes");
+			}
+			case "breast-cancer-wisconsin" -> {
+				nodes = p.cancerParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Cancer");
+			}
+			case "glass" -> {
+				nodes = p.glassParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Glass");
+			}
+			case "iris" -> {
+				nodes = p.irisParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Iris");
+			}
+			case "soybean-small" -> {
+				nodes = p.beanParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Beans");
+			}
+			default -> System.out.println("Bad file path: " + filePath);
+		}
+		for(Node node : Objects.requireNonNull(nodes))
+		{
+			System.out.println(node.getId() + Arrays.toString(node.getData()));
 		}
 	}
 	

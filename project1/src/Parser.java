@@ -1,5 +1,3 @@
-import Nodes.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -27,84 +25,95 @@ public class Parser
 	}
 	
 	//The below functions are all slightly different but all parse the data out from their respective files.
-	public ArrayList<BeanNode> beanParser(String filePath)
+	public ArrayList<Node> beanParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
-		ArrayList<BeanNode> nodes = new ArrayList<>();
+		ArrayList<Node> nodes = new ArrayList<>();
 		while(in.hasNext())
 		{
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			int type = Integer.parseInt(data[data.length-1].substring(1));
-			int[] dataPoints = new int[data.length-1];
+			float type = Integer.parseInt(data[data.length-1].substring(1));
+			float[] dataPoints = new float[data.length-1];
 			for(int i = 0; i < data.length - 1; i++)
 			{
 				dataPoints[i] = Integer.parseInt(data[i]);
 			}
-			nodes.add(new BeanNode(type, dataPoints));
+			nodes.add(new Node(type, dataPoints));
 		}
 		return nodes;
 	}
 	
-	public ArrayList<IrisNode> irisParser(String filePath)
+	public ArrayList<Node> irisParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
-		ArrayList<IrisNode> nodes = new ArrayList<>();
+		ArrayList<Node> nodes = new ArrayList<>();
 		while(in.hasNext())
 		{
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			String type = data[data.length-1].substring(5);
-			double[] dataPoints = new double[data.length-1];
+			String typeString = data[data.length-1].substring(5);
+			float type;
+			switch(typeString)
+			{
+				case "setosa" -> type = 1;
+				case "versicolor" -> type = 2;
+				case "virginica" -> type = 3;
+				
+				default -> { //unknown type or an error happened
+					type = (int) (Math.random() * 3) + 1;
+					System.out.println("iris " + type);
+				}
+			}
+			float[] dataPoints = new float[data.length-1];
 			for(int i = 0; i < data.length-1; i++)
 			{
-				dataPoints[i] = Double.parseDouble(data[i]);
+				dataPoints[i] = Float.parseFloat(data[i]);
 			}
-			nodes.add(new IrisNode(type, dataPoints));
+			nodes.add(new Node(type, dataPoints));
 		}
 		return nodes;
 	}
 	
-	public ArrayList<GlassNode> glassParser(String filePath)
+	public ArrayList<Node> glassParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
-		ArrayList<GlassNode> nodes = new ArrayList<>();
+		ArrayList<Node> nodes = new ArrayList<>();
 		while(in.hasNext())
 		{
 			String line = in.next();
 			String[] data = line.split(",");
-			int id = Integer.parseInt(data[0]);
-			int type = 0;
+			float type = 0;
 			try
 			{
 				type = Integer.parseInt(data[data.length-1]);
 			}
 			catch(NumberFormatException ignored){}
 			
-			double[] dataPoints = new double[data.length-2];
+			float[] dataPoints = new float[data.length-2];
 			for(int i = 1; i < data.length-1; i++)
 			{
-				dataPoints[i-1] = Double.parseDouble(data[i]);
+				dataPoints[i-1] = Float.parseFloat(data[i]);
 			}
-			nodes.add(new GlassNode(id, type, dataPoints));
+			nodes.add(new Node(type, dataPoints));
 		}
 		return nodes;
 	}
 	
-	public ArrayList<CancerNode> cancerParser(String filePath)
+	public ArrayList<Node> cancerParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
-		ArrayList<CancerNode> nodes = new ArrayList<>();
+		ArrayList<Node> nodes = new ArrayList<>();
 		while(in.hasNext())
 		{
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			int id = Integer.parseInt(data[0]);
+			float id = Integer.parseInt(data[0]);
 			
-			int[] dataPoints = new int[data.length-1];
+			float[] dataPoints = new float[data.length-1];
 			for(int i = 1; i < data.length; i++)
 			{
 				try
@@ -116,25 +125,27 @@ public class Parser
 					dataPoints[i-1] = (int)(Math.random()*10) + 1;
 				}
 			}
-			nodes.add(new CancerNode(id, dataPoints));
+			nodes.add(new Node(id, dataPoints));
 		}
 		return nodes;
 	}
 	
-	public ArrayList<VoteNode> votesParser(String filePath)
+	public ArrayList<Node> votesParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
-		ArrayList<VoteNode> nodes = new ArrayList<>();
+		ArrayList<Node> nodes = new ArrayList<>();
 		while(in.hasNext())
 		{
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			boolean dr = false;
+			//republican = 0
+			//democrat = 1
+			float dr = 0;
 			if(data[0].equals("democrat"))
-				dr = true;
+				dr = 1;
 			
-			int[] votes = new int[data.length-1];
+			float[] votes = new float[data.length-1];
 			for(int i = 1; i < data.length; i++)
 			{
 				switch(data[i])
@@ -144,7 +155,7 @@ public class Parser
 					default -> votes[i - 1] = (int)(Math.random()*2)+1;//randomly generating unknown values
 				}
 			}
-			nodes.add(new VoteNode(dr, votes));
+			nodes.add(new Node(dr, votes));
 		}
 		return nodes;
 	}
