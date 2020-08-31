@@ -3,12 +3,26 @@ import java.util.HashMap;
 
 public class TrainingSetAlgorithm
 {
-    float[] probabilities;  // Contains all the conditional probabilities of attribute values given a class, probably multidimensional
+    Probabilities probabilities;  // Contains all the conditional probabilities of attribute values given a class,
+    // probably multidimensional. First index = classID, second index = attributeIndex, third index = attributeValue
     ArrayList<Node> trainingSet;    // Contains current training set
     HashMap<Float,ArrayList<Node>> classLists;  // Contains training sets divided by class into separate lists
 
+    public TrainingSetAlgorithm(ArrayList<Node> trainingSet) {
+        // initialize probability storage object, divide up classes into their own lists
+        this.trainingSet = trainingSet;
+        this.probabilities = new Probabilities();
+        divideClasses();
+    }
+
     public void divideClasses() {
         // divides the trainingSet by into multiple sets containing the same class
+        // These sets are then placed into a map with their class IDs as keys
+        // ** I'm not sure how the classes will be indexed yet, so I'll leave that til later **
+
+        //  classes
+        //  for (example in trainingSet) {
+        //      if (example.getId()
     }
 
     public float classProbability(float classID, ArrayList<Node> trainingSet) {
@@ -36,11 +50,11 @@ public class TrainingSetAlgorithm
         // loop through classSet and count the total nodes of a given classID that have a certain attribute value
         int numberWithAttributeValue = 0;
         for (int i = 0; i < classSet.size(); i++) {
-            if (trainingSet.get(i).data[attributeIndex] == attributeValue) {
+            if (trainingSet.get(i).getData()[attributeIndex] == attributeValue) {
                 numberWithAttributeValue++;
             }
         }
-        probability = (float)numberWithAttributeValue/classSet.size();
+        probability = (float)numberWithAttributeValue/classSet.size();  // divide by the number of elements in that class
 
         // return the probability of that attribute given the class (read from a list or table)
         return probability;
@@ -64,7 +78,7 @@ public class TrainingSetAlgorithm
         //      posteriorProb = classProbability(class);
         //      for (attributeIndex in list_of_attributes) {
         //          // find F(Aj=ak; C=ci), multiply by running product for probability
-        //          posteriorProb = posteriorProb * attributeProbability(data[attributeIndex], attributeIndex, class)
+        //          posteriorProb = posteriorProb * probabilities(data[attributeIndex], attributeIndex, class)
         //          }
         //      if (posteriorProb > mostProbableClassProbability) {
         //          mostProbableClass = class;
