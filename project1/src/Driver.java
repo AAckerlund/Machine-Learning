@@ -49,6 +49,10 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	
 	public static void main(String[] args)
 	{
+		Discretizer discretizer = new Discretizer(11);
+		int th = discretizer.getSizeOfThreshold(5.6, 0, 10);
+		System.out.println(th);
+
 		String[] files = {"breast-cancer-wisconsin", "glass", "house-votes-84", "iris", "soybean-small"};
 		
 		for(String file : files)//create a new instance of the driver for each of the data sets.
