@@ -19,10 +19,10 @@ public class Probabilities {
         if (!this.classMap.containsKey(classID)) {
             this.classMap.put(classID, new HashMap<Integer,HashMap<Float,Float>>());
         }
-        if (!this.classMap.get(classID).containsKey(attributeIndex)) {
+        else if (!this.classMap.get(classID).containsKey(attributeIndex)) {
             this.classMap.get(classID).put(attributeIndex, new HashMap<Float,Float>());
         }
-        if (!this.classMap.get(classID).get(attributeIndex).containsKey(attributeValue)) {
+        else if (!this.classMap.get(classID).get(attributeIndex).containsKey(attributeValue)) {
             throw new Exception("Value already assigned");
         }
         else {
