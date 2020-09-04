@@ -1,32 +1,42 @@
 import java.util.ArrayList;
 
 public class Discretizer {
-    public int numOfThresholds;
+    public int numOfBins;
 
-    public Discretizer(int numOfThresholds) {
-        this.numOfThresholds = numOfThresholds;
+    public Discretizer(int numOfBins) {
+        this.numOfBins = numOfBins;
     }
 
-    public int getSizeOfThreshold(double sampleDataPoint, double min, double max) {
-        double sizeOfThreshold = (max - min) / numOfThresholds;
-        ArrayList thresholds = new ArrayList();
-        double currentThreshold = min;
-        thresholds.add(min);
+    public int getBin(float sampleDataPoint, float min, float max) {
+        float sizeOfBin = (max - min) / numOfBins;
+        ArrayList bins = new ArrayList();
+        float currentBin = min;
+        bins.add(min);
 
-        for(int i = 0; i < this.numOfThresholds; i++) {
-            currentThreshold += sizeOfThreshold;
-            thresholds.add(currentThreshold);
+        for(int i = 0; i < this.numOfBins; i++) {
+            currentBin += sizeOfBin;
+            bins.add(currentBin);
         }
-        System.out.println(thresholds);
+        //System.out.println(sampleDataPoint);
+        //System.out.println(bins);
+
+        if(sampleDataPoint >= (float)(bins.get(bins.size()-1))){
+            //System.out.println(bins.size()-1);
+            return bins.size()-1;
+        }
         
-        int thresholdNum = 1;
+        int binNum = 1;   //first threshold
 
-        for(int i = 0; i<thresholds.size(); i++){
-            if((sampleDataPoint >= (double)(thresholds.get(i))) && (sampleDataPoint <= (double)(thresholds.get(i+1)))){
-                return thresholdNum;
+        //locates threshold of datapoint
+        for(int i = 0; i<bins.size(); i++){
+            if((sampleDataPoint >= (float)(bins.get(i))) && (sampleDataPoint <= (float)(bins.get(i+1)))){
+
+                //System.out.println(binNum);
+                return binNum;
             }
-            thresholdNum += 1;
+            binNum += 1;  //iterates through thresholds
         }
-        return 0;
+        System.out.println("ERROR");
+        return 999;   //if no threshold was found; error in data
     }
 }
