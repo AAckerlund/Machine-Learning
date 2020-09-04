@@ -135,10 +135,10 @@ public class Parser
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			float id = Integer.parseInt(data[0]);
+			float id = Integer.parseInt(data[data.length-1]);
 			
-			float[] dataPoints = new float[data.length-1];
-			for(int i = 1; i < data.length; i++)
+			float[] dataPoints = new float[data.length-2];
+			for(int i = 1; i < data.length-1; i++)
 			{
 				try
 				{
