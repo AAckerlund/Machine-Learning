@@ -17,26 +17,21 @@ public class Discretizer {
             currentBin += sizeOfBin;
             bins.add(currentBin);
         }
-        //System.out.println(sampleDataPoint);
-        //System.out.println(bins);
 
         if(sampleDataPoint >= (float)(bins.get(bins.size()-1))){
-            //System.out.println(bins.size()-1);
             return bins.size()-1;
         }
         
-        int binNum = 1;   //first threshold
+        int binNum = 1;   //first bin
 
         //locates threshold of datapoint
         for(int i = 0; i<bins.size(); i++){
             if((sampleDataPoint >= (float)(bins.get(i))) && (sampleDataPoint <= (float)(bins.get(i+1)))){
-
-                //System.out.println(binNum);
                 return binNum;
             }
-            binNum += 1;  //iterates through thresholds
+            binNum += 1;  //iterates through bins
         }
         System.out.println("ERROR");
-        return 999;   //if no threshold was found; error in data
+        return 999;   //if no bin was found; error in data
     }
 }
