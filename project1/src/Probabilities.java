@@ -37,7 +37,7 @@ public class Probabilities {
         for (int classID : classMap.keySet()) {
             System.out.print("                ");
             for (int attributeValue : classMap.get(classID).get(0).keySet()) {
-                System.out.print("Aj = " + attributeValue + "  ");
+                System.out.print("Aj = " + attributeValue + " ");
             }
             System.out.println();
             for (int attributeIndex : classMap.get(classID).keySet()) {
@@ -45,7 +45,7 @@ public class Probabilities {
                 System.out.print("F(A" + attributeIndex + " | class " + classID + ")");
                 for (int attributeValue : classMap.get(classID).get(attributeIndex).keySet()) {
                     // print probabilities for each attribute value
-                    System.out.print(" " + classMap.get(classID).get(attributeIndex).get(attributeValue));
+                    System.out.print(" " + String.format ("%.4f", classMap.get(classID).get(attributeIndex).get(attributeValue)));
                 }
                 System.out.println();
             }

@@ -7,25 +7,25 @@ public class TrainingSetAlgorithm
     // probably multidimensional. First index = classID, second index = attributeIndex, third index = attributeValue
     ArrayList<Node> trainingSet;    // Contains current training set
     int numAttributes;  // Defines number of attributes per example
-    int[] numValues;      // Defines number of possible values for attributes, denoted by the attribute index
+    int numValues;      // Defines number of possible values for attributes, denoted by the attribute index
     int[] classIDs;        // Stores the different classIDs (Since some classes don't start at 0)
     HashMap<Integer,ArrayList<Node>> classLists;  // Contains training sets divided by class into separate lists
+    int attributeValueLow = 1; // Most attribute values start at 1, but the beans start at 0
 
-    public TrainingSetAlgorithm(ArrayList<Node> trainingSet) {
+    public TrainingSetAlgorithm(ArrayList<Node> trainingSet, int attributeValueLow, int numValues) {
         // initialize probability storage object, divide up classes into their own lists
         this.trainingSet = trainingSet;
         this.numAttributes = trainingSet.get(0).data.length;
-        this.numValues = new int[numAttributes];
-        for (int i = 0; i < numAttributes; i++) {
-            numValues[i] = findNumValues(i);
-        }
+        this.numValues = numValues;
+        this.attributeValueLow = attributeValueLow;
         this.probabilities = new Probabilities();
         this.classLists = new HashMap<Integer, ArrayList<Node>>();
         int numClasses = findNumClasses();
 
         divideClasses(numClasses);
     }
-    private int findNumValues(int attributeIndex) {
+    /*private int findNumValues(int attributeIndex) {
+        // finds the number of possible values for a given attribute
         ArrayList<Integer> values = new ArrayList<Integer>();
         for (Node node: trainingSet) {
             if (!values.contains((int) node.getData()[attributeIndex])) {
@@ -33,7 +33,7 @@ public class TrainingSetAlgorithm
             }
         }
         return values.size();
-    }
+    }*/
     private int findNumClasses() {
         ArrayList<Integer> classes = new ArrayList<Integer>();
         for (Node node : trainingSet) {
@@ -102,7 +102,8 @@ public class TrainingSetAlgorithm
         // Use attributeprobability and classProbability to hopefully populate probabilities table
         for (int classID : classLists.keySet()) {
             for (int attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++) {
-                for (int attributeValue = 0; attributeValue < numValues[attributeIndex]; attributeValue++) {
+                for (int attributeValue = attributeValueLow; attributeValue < (numValues + attributeValueLow); attributeValue++) {
+                    // bin nums start at
                     float p = attributeProbability(attributeValue, attributeIndex, classID);
                     try {
                         probabilities.addAttributeProbability(attributeValue, attributeIndex, classID, p);
@@ -119,27 +120,27 @@ public class TrainingSetAlgorithm
         // F(Aj=ak; C=ci)
     }
 
-    public float classifyExample(float[] data) {
+    public int classifyExample(float[] data) {
         // uses ClassProbability and AttributeProbability to return class with highest calculated value
-        float mostProbableClass = 0;
+        int mostProbableClass = 0;
         float mostProbableClassProbability = 0;
 
         float posteriorProb;
-        for (int classID =0; classID < classLists.size(); classID++) {
-            posteriorProb = (float)classLists.get(classID).size()/classLists.size();    // Calculate prior class probability
+        for (int classIndex =0; classIndex < classLists.size(); classIndex++) {
+            posteriorProb = (float)classLists.get(classIDs[classIndex]).size()/classLists.size();    // Calculate prior class probability
             for (int attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++) {
                 // find F(Aj=ak; C=ci), multiply by running product for probability
+                //System.out.println("Finding attribute probability of " + attributeIndex + " with value " +
+                //        (int)data[attributeIndex] + " in class " + classIDs[classIndex]);
                 posteriorProb = posteriorProb * probabilities.getAttributeProbability((int)data[attributeIndex],
-                        attributeIndex, classID);
+                        attributeIndex, classIDs[classIndex]);
                 }
             if (posteriorProb > mostProbableClassProbability) {
-                mostProbableClass = classID;
+                mostProbableClass = classIDs[classIndex];
                 mostProbableClassProbability = posteriorProb;
             }
         }
 
         return mostProbableClass;
     }
-
-
 }
