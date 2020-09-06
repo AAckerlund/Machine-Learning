@@ -1,3 +1,5 @@
+import MinMax.GlassDataMinMax;
+import MinMax.IrisDataMinMax;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -22,6 +24,19 @@ public class Parser
 			System.out.println("Bad file path. The path given was " + filePath);
 		}
 		return null;
+	}
+
+	public ArrayList<Node> discreteParser(Discretizer discretizer, ArrayList<Node> nodes, double[][] minmax){
+		for(int i = 0; i<nodes.size(); i++){
+			for(int j = 0; j<nodes.get(i).data.length; j++){
+				float min = (float) minmax[j][0];
+				float max = (float) minmax[j][1];
+				float datapoint = nodes.get(i).data[j];
+				int th = discretizer.getBin(datapoint, min, max);
+				nodes.get(i).data[j] = th;
+			}
+		}
+		return nodes;
 	}
 	
 	//The below functions are all slightly different but all parse the data out from their respective files.
@@ -74,6 +89,10 @@ public class Parser
 			}
 			nodes.add(new Node(type, dataPoints));
 		}
+		Discretizer irisDiscretizer = new Discretizer(10);
+		IrisDataMinMax irisstats = new IrisDataMinMax();
+		double [][] minmax = irisstats.GlassMinMaxList;
+		nodes = discreteParser(irisDiscretizer, nodes, minmax);
 		return nodes;
 	}
 	
@@ -99,6 +118,11 @@ public class Parser
 			}
 			nodes.add(new Node(type, dataPoints));
 		}
+
+		Discretizer glassDiscretizer = new Discretizer(10);
+		GlassDataMinMax glassstats = new GlassDataMinMax();
+		double [][] minmax = glassstats.GlassMinMaxList;
+		nodes = discreteParser(glassDiscretizer, nodes, minmax);
 		return nodes;
 	}
 	
@@ -111,10 +135,10 @@ public class Parser
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			float id = Integer.parseInt(data[0]);
+			float id = Integer.parseInt(data[data.length-1]);
 			
-			float[] dataPoints = new float[data.length-1];
-			for(int i = 1; i < data.length; i++)
+			float[] dataPoints = new float[data.length-2];
+			for(int i = 1; i < data.length-1; i++)
 			{
 				try
 				{
@@ -127,6 +151,7 @@ public class Parser
 			}
 			nodes.add(new Node(id, dataPoints));
 		}
+
 		return nodes;
 	}
 	
