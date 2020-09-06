@@ -12,6 +12,7 @@ public class Parser
 	 * @param filePath the path to the file the scanner is attached to.
 	 * @return an initialized scanner, or null if the scanner failed to initialize.
 	 */
+
 	public Scanner initScanner(String filePath)
 	{
 		File file = new File(filePath);

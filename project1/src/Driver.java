@@ -39,19 +39,29 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
-		for (Node node : Objects.requireNonNull(nodes)) {
-			System.out.println(node.getId() + Arrays.toString(node.getData()));
+		TrainingGroups groups = new TrainingGroups(nodes);
+		for (int i = 0; i < 10; i++) {
+			System.out.println("Training set: " + i);
+			ArrayList<Node> trainingSet = groups.getTrainingSet();
+			TrainingSetAlgorithm algo = new TrainingSetAlgorithm(trainingSet);
+			algo.train();
+			groups.iterateTestSet();
 		}
+		//for (Node node : Objects.requireNonNull(nodes)) {
+		//	System.out.println(node.getId() + Arrays.toString(node.getData()));
+		//}
 	}
 
 	public static void main(String[] args) {
 
 		String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
 
-		for (String file : files)//create a new instance of the driver for each of the data sets.
+		/*for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
 			d.start();//Starts a new thread
-		}
+		}*/
+		Driver d = new Driver("breast-cancer-wisconsin");
+		d.start();
 	}
 }
