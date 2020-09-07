@@ -1,3 +1,5 @@
+import LossFunctions.ZeroOneLoss;
+
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
 import java.util.HashMap;
@@ -46,6 +48,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			default -> System.out.println("Bad file path: " + filePath);
 		}
 		TrainingGroups groups = new TrainingGroups(nodes);
+		ZeroOneLoss lossfunction1 = new ZeroOneLoss();
+
+		int correct = 0;
+		int incorrect = 0;
+
 		for (int i = 0; i < 10; i++) {
 			System.out.println("Training set: " + i);
 			ArrayList<Node> trainingSet = groups.getTrainingSet();
@@ -67,12 +74,29 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			TrainingSetAlgorithm algo = new TrainingSetAlgorithm(trainingSet, attrValueLow, numattrValues);
 			algo.train();
 			ArrayList<Node> testSet = groups.getTestSet();
+
 			for (Node example : testSet) {
 				int guess;
 				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
 				guess = algo.classifyExample(example.getData());
 				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess +
 						" Real Class: " + (int)example.getId() + "\n");
+
+				lossfunction1.total += 1;
+				if(guess != (int)example.getId()){
+					lossfunction1.errorCount += 1;
+				}
+				if(guess == (int)example.getId()){
+					correct += 1;
+				}
+				else{
+					incorrect += 1;
+				}
+
+				double pct = lossfunction1.getPercentCorrect();
+				System.out.println(lossfunction1.total - lossfunction1.errorCount + " out of ");
+				System.out.println(lossfunction1.total);
+				System.out.println(pct);
 			}
 			groups.iterateTestSet();
 		}
@@ -83,14 +107,35 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 	public static void main(String[] args) {
 
-		String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
+		//String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
+		String house_votes = "house-votes-84";
+		String breast_cancer_wisconsin = "breast-cancer-wisconsin";
+		String glass = "glass";
+		String iris = "iris";
+		String soybean_small = "soybean-small";
 
-		for (String file : files)//create a new instance of the driver for each of the data sets.
+		/*for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
 			d.start();//Starts a new thread
-		}
+		}*/
 		//Driver d = new Driver("breast-cancer-wisconsin");
 		//d.start();
+		Driver house_votes_driver = new Driver(house_votes);
+		Driver breast_cancer_wisconsin_driver = new Driver(breast_cancer_wisconsin);
+		Driver glass_driver = new Driver(glass);
+		Driver iris_driver = new Driver(iris);
+		Driver soybean_small_driver = new Driver(soybean_small);
+
+		//System.out.println("House Votes Thread: ");
+		//house_votes_driver.start();
+		//System.out.println("Breast Cancer Thread: ");
+		//breast_cancer_wisconsin_driver.start();
+		//System.out.println("Glass Thread: ");
+		//glass_driver.start();
+		//System.out.println("Iris Thread: ");
+		//iris_driver.start();
+		//System.out.println("Soybean Thread: ");
+		//soybean_small_driver.start();
 	}
 }
