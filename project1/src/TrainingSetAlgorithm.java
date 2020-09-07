@@ -44,7 +44,7 @@ public class TrainingSetAlgorithm
         this.classIDs = new int[classes.size()];
         for (int i = 0; i < classes.size(); i++) {
             classIDs[i] = classes.get(i);
-            System.out.println("Assigning: " + classes.get(i) + " to index " + i);
+            //System.out.println("Assigning: " + classes.get(i) + " to index " + i);
         }
         return classes.size();
     }
@@ -57,11 +57,11 @@ public class TrainingSetAlgorithm
             // create a list for each class
             ArrayList<Node> classList = new ArrayList<Node>();
             classLists.put(classIDs[currentClassIndex], classList);
-            System.out.println("ClassIndex: " + currentClassIndex);
+            //System.out.println("ClassIndex: " + currentClassIndex);
             for (int exampleIndex = 0; exampleIndex < trainingSet.size(); exampleIndex++) {
                 // loop through training set and add matching class entries to list
                 Node example = trainingSet.get(exampleIndex);
-                if (example.getId() == classIDs[currentClassIndex]) {
+                if ((int)example.getId() == classIDs[currentClassIndex]) {
                     classList.add(example);
                 }
             }
@@ -92,7 +92,7 @@ public class TrainingSetAlgorithm
         }
         numberWithAttributeValue++; // Add +1 in case there is a 0 term
         probability = (float)numberWithAttributeValue/(classSet.size() + numAttributes);  // divide by the number of elements in that class
-
+        //probability = (float)numberWithAttributeValue/(classSet.size());    // without normalization terms
         // return the probability of that attribute given the class (read from a list or table)
         return probability;
     }
@@ -115,9 +115,17 @@ public class TrainingSetAlgorithm
                 }
             }
         }
-        probabilities.printModel();
+        printModel();
         // No output, but save probability values for each class
         // F(Aj=ak; C=ci)
+    }
+
+    public void printModel() {
+        probabilities.printModel();
+        for (int classIndex = 0; classIndex < classLists.size(); classIndex++) {
+            float cProb = (float)classLists.get(classIDs[classIndex]).size()/trainingSet.size();
+            System.out.println("Class prior probability for class " + classIDs[classIndex] +  ": " + cProb);
+        }
     }
 
     public int classifyExample(float[] data) {
@@ -125,9 +133,10 @@ public class TrainingSetAlgorithm
         int mostProbableClass = 0;
         float mostProbableClassProbability = 0;
 
-        float posteriorProb;
-        for (int classIndex =0; classIndex < classLists.size(); classIndex++) {
-            posteriorProb = (float)classLists.get(classIDs[classIndex]).size()/classLists.size();    // Calculate prior class probability
+        for (int classIndex = 0; classIndex < classLists.size(); classIndex++) {
+            float priorProb = (float)classLists.get(classIDs[classIndex]).size()/trainingSet.size(); // Calculate prior class probability
+            float posteriorProb = priorProb;
+            //posteriorProb = 1;
             for (int attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++) {
                 // find F(Aj=ak; C=ci), multiply by running product for probability
                 //System.out.println("Finding attribute probability of " + attributeIndex + " with value " +
@@ -140,7 +149,7 @@ public class TrainingSetAlgorithm
                 mostProbableClassProbability = posteriorProb;
             }
         }
-
+        System.out.println("Guessing class " + mostProbableClass + " with posterior probability " + mostProbableClassProbability);
         return mostProbableClass;
     }
 }

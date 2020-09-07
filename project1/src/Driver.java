@@ -49,32 +49,48 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		for (int i = 0; i < 10; i++) {
 			System.out.println("Training set: " + i);
 			ArrayList<Node> trainingSet = groups.getTrainingSet();
+
+			// debug function
+			/*int countDems = 0;
+			int countReps = 0;
+			for (Node node : trainingSet) {
+				if ((int)node.getId() == 1) {
+					countDems++;
+				}
+				if ((int)node.getId() == 0) {
+					countReps++;
+				}
+			}
+			System.out.println("Percent Dems: " + (float)countDems/trainingSet.size());
+			System.out.println("Percent Reps: " + (float)countReps/trainingSet.size());*/
+
 			TrainingSetAlgorithm algo = new TrainingSetAlgorithm(trainingSet, attrValueLow, numattrValues);
 			algo.train();
 			ArrayList<Node> testSet = groups.getTestSet();
 			for (Node example : testSet) {
 				int guess;
-				System.out.println("Attempting to classify with attributes: " + Arrays.toString(example.getData()));
+				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
 				guess = algo.classifyExample(example.getData());
-				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess + " Real Class: " + (int)example.getId());
+				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess +
+						" Real Class: " + (int)example.getId() + "\n");
 			}
 			groups.iterateTestSet();
 		}
-		//for (Node node : Objects.requireNonNull(nodes)) {
-		//	System.out.println(node.getId() + Arrays.toString(node.getData()));
-		//}
+		for (Node node : Objects.requireNonNull(nodes)) {
+			System.out.println(node.getId() + Arrays.toString(node.getData()));
+		}
 	}
 
 	public static void main(String[] args) {
 
 		String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
 
-		/*for (String file : files)//create a new instance of the driver for each of the data sets.
+		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
 			d.start();//Starts a new thread
-		}*/
-		Driver d = new Driver("house-votes-84");
-		d.start();
+		}
+		//Driver d = new Driver("breast-cancer-wisconsin");
+		//d.start();
 	}
 }
