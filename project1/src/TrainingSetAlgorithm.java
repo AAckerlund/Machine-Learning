@@ -23,6 +23,8 @@ public class TrainingSetAlgorithm
         int numClasses = findNumClasses();
 
         divideClasses(numClasses);
+
+        System.out.println("Classes: " + numClasses + " | Attributes: " + numAttributes + " | numValues: " + numValues);
     }
     /*private int findNumValues(int attributeIndex) {
         // finds the number of possible values for a given attribute
@@ -78,15 +80,16 @@ public class TrainingSetAlgorithm
         return probability;
     }
 
-    public float attributeProbability(float attributeValue, int attributeIndex, int classID) {
+    public float attributeProbability(int attributeValue, int attributeIndex, int classID) {
         // input an attribute value, attribute (assume attributeIndex is just an integer index), and a class
         float probability;
 
         ArrayList<Node> classSet = classLists.get(classID);
         // loop through classSet and count the total nodes of a given classID that have a certain attribute value
         int numberWithAttributeValue = 0;
-        for (int i = 0; i < classSet.size(); i++) {
-            if ((int)trainingSet.get(i).getData()[attributeIndex] == attributeValue) {
+        for (Node entry : classSet) {
+            if ((int)entry.getData()[attributeIndex] == attributeValue) {
+                // I found the error! It was checking the whole training set instead of just looking in the class
                 numberWithAttributeValue++;
             }
         }

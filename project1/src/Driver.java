@@ -194,14 +194,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Driver soybean_small_driver = new Driver(soybean_small);
 
 		//System.out.println("House Votes Thread: ");
-		house_votes_driver.start();
+		//house_votes_driver.start();
 		//System.out.println("Breast Cancer Thread: ");
 		//breast_cancer_wisconsin_driver.start();
-		System.out.println("Glass Thread: ");
-		glass_driver.start();
+		//System.out.println("Glass Thread: ");
+		//glass_driver.start();
 		//System.out.println("Iris Thread: ");
 		//iris_driver.start();
-		//System.out.println("Soybean Thread: ");
-		//soybean_small_driver.start();
+		System.out.println("Soybean Thread: ");
+		soybean_small_driver.start();
 	}
 }
