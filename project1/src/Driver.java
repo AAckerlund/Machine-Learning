@@ -1,9 +1,6 @@
+import LossFunctions.Precision;
 import LossFunctions.ZeroOneLoss;
-
-import java.util.ArrayList;
-import java.util.Arrays;//used in printing out the parsed data
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
@@ -52,6 +49,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		int correct = 0;
 		int incorrect = 0;
+		ArrayList<Integer[]> results = new ArrayList<Integer[]>();
 
 		for (int i = 0; i < 10; i++) {
 			System.out.println("Training set: " + i);
@@ -77,10 +75,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 			for (Node example : testSet) {
 				int guess;
+				int real = (int)example.getId();
 				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
 				guess = algo.classifyExample(example.getData());
 				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess +
-						" Real Class: " + (int)example.getId() + "\n");
+						" Real Class: " + real + "\n");
+				Integer[] result = {guess, real};
+				results.add(result);
 
 				lossfunction1.total += 1;
 				if(guess != (int)example.getId()){
@@ -97,7 +98,32 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				System.out.println(lossfunction1.total - lossfunction1.errorCount + " out of ");
 				System.out.println(lossfunction1.total);
 				System.out.println(pct);
+
 			}
+			System.out.println(results.get(0)[0]);
+			System.out.println(results.get(0)[1]);
+			for(Integer[] result: results){
+				//System.out.println(result[0]);
+				//System.out.println(result[1]);
+			}
+
+			Precision precision = new Precision(results);
+			ArrayList<Integer> classes = precision.getClasses();
+			for(int classe: classes){
+				System.out.println("classe: ");
+				System.out.println(classe);
+			}
+
+			for(int _class: classes){
+				precision.setTrueAndFalsePositives(classes, _class);
+				int tp = precision.truePositives;
+				int fp = precision.falsePositives;
+				System.out.println("TP AND FP");
+				System.out.println(tp);
+				System.out.println(fp);
+			}
+
+
 			groups.iterateTestSet();
 		}
 		for (Node node : Objects.requireNonNull(nodes)) {
@@ -128,7 +154,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Driver soybean_small_driver = new Driver(soybean_small);
 
 		//System.out.println("House Votes Thread: ");
-		//house_votes_driver.start();
+		house_votes_driver.start();
 		//System.out.println("Breast Cancer Thread: ");
 		//breast_cancer_wisconsin_driver.start();
 		//System.out.println("Glass Thread: ");
