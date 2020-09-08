@@ -47,22 +47,33 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
+		
 		// ***** This run is for the normal data
+		BayesNet(nodes, attrValueLow, numattrValues);
+		assert nodes != null;
+		DataShuffler.shuffleFeatureData(nodes);	// Shuffle data, repeat previous steps again
+		System.out.println("Running shuffled data");
+		// ***** The data is shuffled, and then all the previous steps are run again
+		BayesNet(nodes, attrValueLow, numattrValues);
+	}
+	
+	public void BayesNet(ArrayList<Node> nodes, int attrValueLow, int numattrValues)
+	{
 		TrainingGroups groups = new TrainingGroups(nodes);
 		ZeroOneLoss lossfunction1 = new ZeroOneLoss();
-
+		
 		int correct = 0;
 		int incorrect = 0;
 		ArrayList<Integer[]> results = new ArrayList<Integer[]>();
-
+		
 		for (int i = 0; i < 10; i++) {
 			System.out.println("Training set: " + i);
 			ArrayList<Node> trainingSet = groups.getTrainingSet();
-
+			
 			TrainingSetAlgorithm algo = new TrainingSetAlgorithm(trainingSet, attrValueLow, numattrValues);
 			algo.train();
 			ArrayList<Node> testSet = groups.getTestSet();
-
+			
 			for (Node example : testSet) {
 				int guess;
 				int real = (int)example.getId();
@@ -72,7 +83,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 						" Real Class: " + real + "\n");
 				Integer[] result = {guess, real};
 				results.add(result);
-
+				
 				lossfunction1.total += 1;
 				if(guess != (int)example.getId()){
 					lossfunction1.errorCount += 1;
@@ -83,12 +94,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				else{
 					incorrect += 1;
 				}
-
+				
 				double pct = lossfunction1.getPercentCorrect();
-				System.out.println(lossfunction1.total - lossfunction1.errorCount + " out of ");
-				System.out.println(lossfunction1.total);
-				System.out.println(pct);
-
+				System.out.println(lossfunction1.total - lossfunction1.errorCount + " correct out of " + lossfunction1.total);
+				System.out.println("Accuracy: " + pct);
+				
 			}
 			System.out.println(results.get(0)[0]);
 			System.out.println(results.get(0)[1]);
@@ -96,145 +106,72 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				//System.out.println(result[0]);
 				//System.out.println(result[1]);
 			}
-
+			
 			Precision precision = new Precision(results);
 			ArrayList<Integer> classes = precision.getClasses();
 			/*for(int classe: classes){
 				System.out.println("classe: ");
 				System.out.println(classe);
 			}*/
-
+			
 			for(int _class: classes){
 				precision.setTrueAndFalsePositives(classes, _class);
 				int tp = precision.truePositives;
 				int fp = precision.falsePositives;
 				double pcn = precision.findPrecision();
-				System.out.println("Precision of class " + _class);
-				System.out.println("True Positives: " + tp);
-				System.out.println("False Positives: " + fp);
+				System.out.println("Precision of class " + _class + "\tTrue Positives: " + tp + "\tFalse Positives: " + fp);
 				System.out.println("Precision: " + pcn);
 				System.out.println("");
 			}
-
-
+			
 			groups.iterateTestSet();
 		}
-		for (Node node : Objects.requireNonNull(nodes)) {
+		/*for (Node node : Objects.requireNonNull(nodes)) {
 			System.out.println(node.getId() + Arrays.toString(node.getData()));
-		}
-
-
-		// ***** The data is shuffled, and then all the previous steps are run again
-		DataShuffler.shuffleFeatureData(nodes);	// Shuffle data, repeat previous steps again
-		System.out.println("Running shuffled data");
-
-		groups = new TrainingGroups(nodes);
-		lossfunction1 = new ZeroOneLoss();
-
-		correct = 0;
-		incorrect = 0;
-		results = new ArrayList<Integer[]>();
-
-		for (int i = 0; i < 10; i++) {
-			System.out.println("Training set: " + i);
-			ArrayList<Node> trainingSet = groups.getTrainingSet();
-
-			TrainingSetAlgorithm algo = new TrainingSetAlgorithm(trainingSet, attrValueLow, numattrValues);
-			algo.train();
-			ArrayList<Node> testSet = groups.getTestSet();
-
-			for (Node example : testSet) {
-				int guess;
-				int real = (int)example.getId();
-				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
-				guess = algo.classifyExample(example.getData());
-				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess +
-						" Real Class: " + real + "\n");
-				Integer[] result = {guess, real};
-				results.add(result);
-
-				lossfunction1.total += 1;
-				if(guess != (int)example.getId()){
-					lossfunction1.errorCount += 1;
-				}
-				if(guess == (int)example.getId()){
-					correct += 1;
-				}
-				else{
-					incorrect += 1;
-				}
-
-				double pct = lossfunction1.getPercentCorrect();
-				System.out.println(lossfunction1.total - lossfunction1.errorCount + " out of ");
-				System.out.println(lossfunction1.total);
-				System.out.println(pct);
-
-			}
-			System.out.println(results.get(0)[0]);
-			System.out.println(results.get(0)[1]);
-			for(Integer[] result: results){
-				//System.out.println(result[0]);
-				//System.out.println(result[1]);
-			}
-
-			Precision precision = new Precision(results);
-			ArrayList<Integer> classes = precision.getClasses();
-			/*for(int classe: classes){
-				System.out.println("classe: ");
-				System.out.println(classe);
-			}*/
-
-			for(int _class: classes){
-				precision.setTrueAndFalsePositives(classes, _class);
-				int tp = precision.truePositives;
-				int fp = precision.falsePositives;
-				double pcn = precision.findPrecision();
-				System.out.println("Precision of class " + _class);
-				System.out.println("True Positives: " + tp);
-				System.out.println("False Positives: " + fp);
-				System.out.println("Precision: " + pcn);
-				System.out.println("");
-			}
-
-
-			groups.iterateTestSet();
-		}
-		for (Node node : Objects.requireNonNull(nodes)) {
-			System.out.println(node.getId() + Arrays.toString(node.getData()));
-		}
+		}*/
 	}
 
 	public static void main(String[] args) {
 
-		//String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
+		String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
+		
+		for (String file : files)//create a new instance of the driver for each of the data sets.
+		{
+			Driver d = new Driver(file);
+			d.start();//Starts a new thread
+		}
+		
 		String house_votes = "house-votes-84";
 		String breast_cancer_wisconsin = "breast-cancer-wisconsin";
 		String glass = "glass";
 		String iris = "iris";
 		String soybean_small = "soybean-small";
-
-		/*for (String file : files)//create a new instance of the driver for each of the data sets.
-		{
-			Driver d = new Driver(file);
-			d.start();//Starts a new thread
-		}*/
 		//Driver d = new Driver("breast-cancer-wisconsin");
 		//d.start();
+		/*
 		Driver house_votes_driver = new Driver(house_votes);
+		System.out.println("House Votes Thread: ");
+		house_votes_driver.start();
+		*/
+		/*
 		Driver breast_cancer_wisconsin_driver = new Driver(breast_cancer_wisconsin);
+		System.out.println("Breast Cancer Thread: ");
+		breast_cancer_wisconsin_driver.start();
+		*/
+		
 		Driver glass_driver = new Driver(glass);
+		System.out.println("Glass Thread: ");
+		glass_driver.start();
+		
+		/*
 		Driver iris_driver = new Driver(iris);
+		System.out.println("Iris Thread: ");
+		iris_driver.start();
+		*/
+		/*
 		Driver soybean_small_driver = new Driver(soybean_small);
-
-		//System.out.println("House Votes Thread: ");
-		//house_votes_driver.start();
-		//System.out.println("Breast Cancer Thread: ");
-		//breast_cancer_wisconsin_driver.start();
-		//System.out.println("Glass Thread: ");
-		//glass_driver.start();
-		//System.out.println("Iris Thread: ");
-		//iris_driver.start();
 		System.out.println("Soybean Thread: ");
 		soybean_small_driver.start();
+		 */
 	}
 }

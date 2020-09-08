@@ -137,14 +137,13 @@ public class TrainingSetAlgorithm
         float mostProbableClassProbability = 0;
 
         for (int classIndex = 0; classIndex < classLists.size(); classIndex++) {
-            float priorProb = (float)classLists.get(classIDs[classIndex]).size()/trainingSet.size(); // Calculate prior class probability
-            float posteriorProb = priorProb;
+            float posteriorProb = (float)classLists.get(classIDs[classIndex]).size()/trainingSet.size();
             //posteriorProb = 1;
             for (int attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++) {
                 // find F(Aj=ak; C=ci), multiply by running product for probability
                 //System.out.println("Finding attribute probability of " + attributeIndex + " with value " +
                 //        (int)data[attributeIndex] + " in class " + classIDs[classIndex]);
-                posteriorProb = posteriorProb * probabilities.getAttributeProbability((int)data[attributeIndex],
+                posteriorProb *= probabilities.getAttributeProbability((int)data[attributeIndex],
                         attributeIndex, classIDs[classIndex]);
                 }
             if (posteriorProb > mostProbableClassProbability) {
