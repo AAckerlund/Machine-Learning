@@ -1,5 +1,7 @@
+import LossFunctions.F1Score;
 import LossFunctions.Precision;
-import LossFunctions.ZeroOneLoss;
+import LossFunctions.Recall;
+
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
 import java.util.Objects;
@@ -49,10 +51,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		// ***** This run is for the normal data
 		TrainingGroups groups = new TrainingGroups(nodes);
-		ZeroOneLoss lossfunction1 = new ZeroOneLoss();
 
-		int correct = 0;
-		int incorrect = 0;
 		ArrayList<Integer[]> results = new ArrayList<Integer[]>();
 
 		for (int i = 0; i < 10; i++) {
@@ -65,7 +64,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 			for (Node example : testSet) {
 				int guess;
-				int real = (int)example.getId();
+				int real = (int) example.getId();
 				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
 				guess = algo.classifyExample(example.getData());
 				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess +
@@ -73,47 +72,39 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				Integer[] result = {guess, real};
 				results.add(result);
 
-				lossfunction1.total += 1;
-				if(guess != (int)example.getId()){
-					lossfunction1.errorCount += 1;
-				}
-				if(guess == (int)example.getId()){
-					correct += 1;
-				}
-				else{
-					incorrect += 1;
-				}
-
-				double pct = lossfunction1.getPercentCorrect();
-				System.out.println(lossfunction1.total - lossfunction1.errorCount + " out of ");
-				System.out.println(lossfunction1.total);
-				System.out.println(pct);
-
 			}
-			System.out.println(results.get(0)[0]);
-			System.out.println(results.get(0)[1]);
-			for(Integer[] result: results){
-				//System.out.println(result[0]);
-				//System.out.println(result[1]);
-			}
+
 
 			Precision precision = new Precision(results);
+			Recall recall = new Recall(results);
 			ArrayList<Integer> classes = precision.getClasses();
-			/*for(int classe: classes){
-				System.out.println("classe: ");
-				System.out.println(classe);
-			}*/
 
 			for(int _class: classes){
 				precision.setTrueAndFalsePositives(classes, _class);
-				int tp = precision.truePositives;
-				int fp = precision.falsePositives;
-				double pcn = precision.findPrecision();
+				int ptp = precision.truePositives;
+				int pfp = precision.falsePositives;
+				double precisionResult = precision.findPrecision();
 				System.out.println("Precision of class " + _class);
-				System.out.println("True Positives: " + tp);
-				System.out.println("False Positives: " + fp);
-				System.out.println("Precision: " + pcn);
+				System.out.println("True Positives: " + ptp);
+				System.out.println("False Positives: " + pfp);
+				System.out.println("Precision: " + precisionResult);
 				System.out.println("");
+
+				recall.setTruePositivesAndFalseNegatives(classes, _class);
+				int rtp = recall.truePositives;
+				int rfn = recall.falseNegatives;
+				double recallResult = recall.findRecall();
+				F1Score f1score = new F1Score(precisionResult, recallResult);
+				double f1Score = f1score.getF1Score();
+
+				System.out.println("Recall of class " + _class);
+				System.out.println("True Positives: " + rtp);
+				System.out.println("False Negatives: " + rfn);
+				System.out.println("Recall: " + recallResult);
+				System.out.println("");
+				System.out.println("F1 Score: " + f1Score);
+				System.out.println("");
+
 			}
 
 
@@ -129,10 +120,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Running shuffled data");
 
 		groups = new TrainingGroups(nodes);
-		lossfunction1 = new ZeroOneLoss();
-
-		correct = 0;
-		incorrect = 0;
 		results = new ArrayList<Integer[]>();
 
 		for (int i = 0; i < 10; i++) {
@@ -145,7 +132,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 			for (Node example : testSet) {
 				int guess;
-				int real = (int)example.getId();
+				int real = (int) example.getId();
 				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
 				guess = algo.classifyExample(example.getData());
 				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess +
@@ -153,54 +140,46 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				Integer[] result = {guess, real};
 				results.add(result);
 
-				lossfunction1.total += 1;
-				if(guess != (int)example.getId()){
-					lossfunction1.errorCount += 1;
-				}
-				if(guess == (int)example.getId()){
-					correct += 1;
-				}
-				else{
-					incorrect += 1;
-				}
-
-				double pct = lossfunction1.getPercentCorrect();
-				System.out.println(lossfunction1.total - lossfunction1.errorCount + " out of ");
-				System.out.println(lossfunction1.total);
-				System.out.println(pct);
-
 			}
-			System.out.println(results.get(0)[0]);
-			System.out.println(results.get(0)[1]);
-			for(Integer[] result: results){
-				//System.out.println(result[0]);
-				//System.out.println(result[1]);
-			}
-
 			Precision precision = new Precision(results);
+			Recall recall = new Recall(results);
 			ArrayList<Integer> classes = precision.getClasses();
-			/*for(int classe: classes){
-				System.out.println("classe: ");
-				System.out.println(classe);
-			}*/
 
 			for(int _class: classes){
 				precision.setTrueAndFalsePositives(classes, _class);
 				int tp = precision.truePositives;
 				int fp = precision.falsePositives;
-				double pcn = precision.findPrecision();
-				System.out.println("Precision of class " + _class);
+				double precisionResult = precision.findPrecision();
+				System.out.println("Precision of shuffled class " + _class);
 				System.out.println("True Positives: " + tp);
 				System.out.println("False Positives: " + fp);
-				System.out.println("Precision: " + pcn);
+				System.out.println("Precision: " + precisionResult);
 				System.out.println("");
+
+				recall.setTruePositivesAndFalseNegatives(classes, _class);
+				int rtp = recall.truePositives;
+				int rfn = recall.falseNegatives;
+				double recallResult = recall.findRecall();
+				F1Score f1score = new F1Score(precisionResult, recallResult);
+				double f1Score = f1score.getF1Score();
+
+				System.out.println("Recall of shuffled class " + _class);
+				System.out.println("True Positives: " + rtp);
+				System.out.println("False Negatives: " + rfn);
+				System.out.println("Recall: " + recallResult);
+				System.out.println("");
+				System.out.println("F1 Score: " + f1Score);
+				System.out.println("");
+
+
+
 			}
 
 
 			groups.iterateTestSet();
 		}
 		for (Node node : Objects.requireNonNull(nodes)) {
-			System.out.println(node.getId() + Arrays.toString(node.getData()));
+			//System.out.println(node.getId() + Arrays.toString(node.getData()));
 		}
 	}
 
@@ -227,14 +206,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Driver soybean_small_driver = new Driver(soybean_small);
 
 		//System.out.println("House Votes Thread: ");
-		//house_votes_driver.start();
+		house_votes_driver.start();
 		//System.out.println("Breast Cancer Thread: ");
 		//breast_cancer_wisconsin_driver.start();
 		//System.out.println("Glass Thread: ");
 		//glass_driver.start();
 		//System.out.println("Iris Thread: ");
 		//iris_driver.start();
-		System.out.println("Soybean Thread: ");
-		soybean_small_driver.start();
+		//System.out.println("Soybean Thread: ");
+		//soybean_small_driver.start();
 	}
 }
