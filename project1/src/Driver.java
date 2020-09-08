@@ -109,18 +109,21 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 			Precision precision = new Precision(results);
 			ArrayList<Integer> classes = precision.getClasses();
-			for(int classe: classes){
+			/*for(int classe: classes){
 				System.out.println("classe: ");
 				System.out.println(classe);
-			}
+			}*/
 
 			for(int _class: classes){
 				precision.setTrueAndFalsePositives(classes, _class);
 				int tp = precision.truePositives;
 				int fp = precision.falsePositives;
-				System.out.println("TP AND FP");
-				System.out.println(tp);
-				System.out.println(fp);
+				double pcn = precision.findPrecision();
+				System.out.println("Precision of class " + _class);
+				System.out.println("True Positives: " + tp);
+				System.out.println("False Positives: " + fp);
+				System.out.println("Precision: " + pcn);
+				System.out.println("");
 			}
 
 

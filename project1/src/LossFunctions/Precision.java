@@ -39,6 +39,9 @@ public class Precision {
     }
 
     public double findPrecision(){
+        if(truePositives + falsePositives == 0){
+            return 0;
+        }
         precision = (double) truePositives / (truePositives + falsePositives);
         return precision;
     }
