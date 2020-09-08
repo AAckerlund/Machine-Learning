@@ -1,6 +1,13 @@
 import LossFunctions.Precision;
 import LossFunctions.ZeroOneLoss;
+<<<<<<< HEAD
 import java.util.*;
+=======
+
+import java.util.ArrayList;
+import java.util.Arrays;//used in printing out the parsed data
+import java.util.Objects;
+>>>>>>> e33098d3c10b6105f76ba051c820deda8300722a
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
@@ -55,19 +62,53 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			System.out.println("Training set: " + i);
 			ArrayList<Node> trainingSet = groups.getTrainingSet();
 
-			// debug function
-			/*int countDems = 0;
-			int countReps = 0;
-			for (Node node : trainingSet) {
-				if ((int)node.getId() == 1) {
-					countDems++;
+			TrainingSetAlgorithm algo = new TrainingSetAlgorithm(trainingSet, attrValueLow, numattrValues);
+			algo.train();
+			ArrayList<Node> testSet = groups.getTestSet();
+
+			for (Node example : testSet) {
+				int guess;
+				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
+				guess = algo.classifyExample(example.getData());
+				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess +
+						" Real Class: " + (int)example.getId() + "\n");
+
+				lossfunction1.total += 1;
+				if(guess != (int)example.getId()){
+					lossfunction1.errorCount += 1;
 				}
-				if ((int)node.getId() == 0) {
-					countReps++;
+				if(guess == (int)example.getId()){
+					correct += 1;
 				}
+				else{
+					incorrect += 1;
+				}
+
+				double pct = lossfunction1.getPercentCorrect();
+				System.out.println(lossfunction1.total - lossfunction1.errorCount + " out of ");
+				System.out.println(lossfunction1.total);
+				System.out.println(pct);
 			}
-			System.out.println("Percent Dems: " + (float)countDems/trainingSet.size());
-			System.out.println("Percent Reps: " + (float)countReps/trainingSet.size());*/
+			groups.iterateTestSet();
+		}
+		for (Node node : Objects.requireNonNull(nodes)) {
+			System.out.println(node.getId() + Arrays.toString(node.getData()));
+		}
+
+
+		// ***** The data is shuffled, and then all the previous steps are run again
+		DataShuffler.shuffleFeatureData(nodes);	// Shuffle data, repeat previous steps again
+		System.out.println("Running shuffled data");
+
+		groups = new TrainingGroups(nodes);
+		lossfunction1 = new ZeroOneLoss();
+
+		correct = 0;
+		incorrect = 0;
+
+		for (int i = 0; i < 10; i++) {
+			System.out.println("Training set: " + i);
+			ArrayList<Node> trainingSet = groups.getTrainingSet();
 
 			TrainingSetAlgorithm algo = new TrainingSetAlgorithm(trainingSet, attrValueLow, numattrValues);
 			algo.train();
@@ -160,8 +201,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		house_votes_driver.start();
 		//System.out.println("Breast Cancer Thread: ");
 		//breast_cancer_wisconsin_driver.start();
-		//System.out.println("Glass Thread: ");
-		//glass_driver.start();
+		System.out.println("Glass Thread: ");
+		glass_driver.start();
 		//System.out.println("Iris Thread: ");
 		//iris_driver.start();
 		//System.out.println("Soybean Thread: ");
