@@ -47,6 +47,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
+		// ***** This run is for the normal data
 		TrainingGroups groups = new TrainingGroups(nodes);
 		ZeroOneLoss lossfunction1 = new ZeroOneLoss();
 
@@ -64,10 +65,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 			for (Node example : testSet) {
 				int guess;
+				int real = (int)example.getId();
 				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
 				guess = algo.classifyExample(example.getData());
 				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess +
-						" Real Class: " + (int)example.getId() + "\n");
+						" Real Class: " + real + "\n");
+				Integer[] result = {guess, real};
+				results.add(result);
 
 				lossfunction1.total += 1;
 				if(guess != (int)example.getId()){
@@ -84,7 +88,35 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				System.out.println(lossfunction1.total - lossfunction1.errorCount + " out of ");
 				System.out.println(lossfunction1.total);
 				System.out.println(pct);
+
 			}
+			System.out.println(results.get(0)[0]);
+			System.out.println(results.get(0)[1]);
+			for(Integer[] result: results){
+				//System.out.println(result[0]);
+				//System.out.println(result[1]);
+			}
+
+			Precision precision = new Precision(results);
+			ArrayList<Integer> classes = precision.getClasses();
+			/*for(int classe: classes){
+				System.out.println("classe: ");
+				System.out.println(classe);
+			}*/
+
+			for(int _class: classes){
+				precision.setTrueAndFalsePositives(classes, _class);
+				int tp = precision.truePositives;
+				int fp = precision.falsePositives;
+				double pcn = precision.findPrecision();
+				System.out.println("Precision of class " + _class);
+				System.out.println("True Positives: " + tp);
+				System.out.println("False Positives: " + fp);
+				System.out.println("Precision: " + pcn);
+				System.out.println("");
+			}
+
+
 			groups.iterateTestSet();
 		}
 		for (Node node : Objects.requireNonNull(nodes)) {
@@ -101,6 +133,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		correct = 0;
 		incorrect = 0;
+		results = new ArrayList<Integer[]>();
 
 		for (int i = 0; i < 10; i++) {
 			System.out.println("Training set: " + i);
