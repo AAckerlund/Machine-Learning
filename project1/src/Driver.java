@@ -1,13 +1,9 @@
 import LossFunctions.Precision;
 import LossFunctions.ZeroOneLoss;
-<<<<<<< HEAD
-import java.util.*;
-=======
-
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
 import java.util.Objects;
->>>>>>> e33098d3c10b6105f76ba051c820deda8300722a
+
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
