@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class TrainingSetAlgorithm
 {
     Probabilities probabilities;  // Contains all the conditional probabilities of attribute values given a class,
-    // probably multidimensional. First index = classID, second index = attributeIndex, third index = attributeValue
+    // First index = classID, second index = attributeIndex, third index = attributeValue
     ArrayList<Node> trainingSet;    // Contains current training set
     int numAttributes;  // Defines number of attributes per example
     int numValues;      // Defines number of possible values for attributes, denoted by the attribute index
@@ -26,16 +26,7 @@ public class TrainingSetAlgorithm
 
         System.out.println("Classes: " + numClasses + " | Attributes: " + numAttributes + " | numValues: " + numValues);
     }
-    /*private int findNumValues(int attributeIndex) {
-        // finds the number of possible values for a given attribute
-        ArrayList<Integer> values = new ArrayList<Integer>();
-        for (Node node: trainingSet) {
-            if (!values.contains((int) node.getData()[attributeIndex])) {
-                values.add((int) node.getData()[attributeIndex]);
-            }
-        }
-        return values.size();
-    }*/
+
     private int findNumClasses() {
         ArrayList<Integer> classes = new ArrayList<Integer>();
         for (Node node : trainingSet) {
@@ -50,6 +41,7 @@ public class TrainingSetAlgorithm
         }
         return classes.size();
     }
+
     private void divideClasses(int numClasses) {
         // divides the trainingSet by into multiple arraylists containing the same class
         // These sets are then placed into a map with their class IDs as keys
@@ -68,16 +60,6 @@ public class TrainingSetAlgorithm
                 }
             }
         }
-    }
-
-    public float classProbability(int classID, ArrayList<Node> trainingSet) {
-        // input a class and a training set of nodes
-        // Actually, just use the classlists
-        int numberOfClasses = classLists.get(classID).size();
-        float probability = (float)numberOfClasses/trainingSet.size();
-
-        // return the probability the class occurs in the training set Q(C=ci)
-        return probability;
     }
 
     public float attributeProbability(int attributeValue, int attributeIndex, int classID) {
