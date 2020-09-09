@@ -29,12 +29,12 @@ public class Parser
 
 	public ArrayList<Node> discreteParser(Discretizer discretizer, ArrayList<Node> nodes, double[][] minmax){
 		for(int i = 0; i<nodes.size(); i++){
-			for(int j = 0; j<nodes.get(i).data.length; j++){
+			for(int j = 0; j<nodes.get(i).getData().length; j++){
 				float min = (float) minmax[j][0];
 				float max = (float) minmax[j][1];
-				float datapoint = nodes.get(i).data[j];
+				float datapoint = nodes.get(i).getData()[j];
 				int th = discretizer.getBin(datapoint, min, max);
-				nodes.get(i).data[j] = th;
+				nodes.get(i).getData()[j] = th;
 			}
 		}
 		return nodes;

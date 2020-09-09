@@ -2,13 +2,14 @@ import java.util.HashMap;
 
 public class Probabilities {
     // Storage class for all the conditional probabilities. This is just a hashmap with more readability
-    HashMap<Integer,HashMap<Integer,HashMap<Integer,Float>>> classMap;  // input class id to get map of attributes
-    //HashMap<Integer,HashMap<Integer,Float>> attributeMap; // input attribute index to get map of possible attribute values
-    //HashMap<Integer,Float> attributeValueMap; // input attribute value to get the probability of the value given the class
-    // Attributes are integers representing either a boolean or a number of bins
-
+    HashMap<Integer,HashMap<Integer,HashMap<Integer,Float>>> classMap;// input class id to get map of attributes
+    /*
+    HashMap<Integer,HashMap<Integer,Float>> attributeMap; // input attribute index to get map of possible attribute values
+    HashMap<Integer,Float> attributeValueMap; // input attribute value to get the probability of the value given the class
+    //Attributes are integers representing either a boolean or a number of bins
+    */
     public Probabilities() {
-        this.classMap = new HashMap<Integer,HashMap<Integer,HashMap<Integer,Float>>>();
+        this.classMap = new HashMap<>();
     }
 
     public float getAttributeProbability(int attributeValue, int attributeIndex, int classID) {
@@ -16,16 +17,16 @@ public class Probabilities {
     }
 
     public void addAttributeProbability(int attributeValue, int attributeIndex, int classID, float probability) throws Exception {
-        // automatically adds an attributeValue, index, and class along with the corresponding probability
+        //automatically adds an attributeValue, index, and class along with the corresponding probability
         //System.out.println("Trying to save: " + probability + " to [" + classID + " " + attributeIndex + " " + attributeValue);
         if (!this.classMap.containsKey(classID)) {
-            this.classMap.put(classID, new HashMap<Integer,HashMap<Integer,Float>>());
+            this.classMap.put(classID, new HashMap<>());
         }
         if (!this.classMap.get(classID).containsKey(attributeIndex)) {
-            this.classMap.get(classID).put(attributeIndex, new HashMap<Integer,Float>());
+            this.classMap.get(classID).put(attributeIndex, new HashMap<>());
         }
         if (this.classMap.get(classID).get(attributeIndex).containsKey(attributeValue)) {
-            throw new Exception("Value already assigned");
+            //throw new Exception("Value already assigned");
         }
         else {
             this.classMap.get(classID).get(attributeIndex).put(attributeValue, probability);    // assign probability value
