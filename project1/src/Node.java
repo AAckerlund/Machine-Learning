@@ -1,7 +1,7 @@
 public class Node
 {
-	float id;
-	float[] data;
+	private float id;
+	private float[] data;
 	public Node(float id, float[] data)
 	{
 		this.id = id;

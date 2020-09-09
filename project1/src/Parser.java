@@ -12,6 +12,7 @@ public class Parser
 	 * @param filePath the path to the file the scanner is attached to.
 	 * @return an initialized scanner, or null if the scanner failed to initialize.
 	 */
+
 	public Scanner initScanner(String filePath)
 	{
 		File file = new File(filePath);
@@ -28,12 +29,12 @@ public class Parser
 
 	public ArrayList<Node> discreteParser(Discretizer discretizer, ArrayList<Node> nodes, double[][] minmax){
 		for(int i = 0; i<nodes.size(); i++){
-			for(int j = 0; j<nodes.get(i).data.length; j++){
+			for(int j = 0; j<nodes.get(i).getData().length; j++){
 				float min = (float) minmax[j][0];
 				float max = (float) minmax[j][1];
-				float datapoint = nodes.get(i).data[j];
+				float datapoint = nodes.get(i).getData()[j];
 				int th = discretizer.getBin(datapoint, min, max);
-				nodes.get(i).data[j] = th;
+				nodes.get(i).getData()[j] = th;
 			}
 		}
 		return nodes;
@@ -91,7 +92,7 @@ public class Parser
 		}
 		Discretizer irisDiscretizer = new Discretizer(10);
 		IrisDataMinMax irisstats = new IrisDataMinMax();
-		double [][] minmax = irisstats.GlassMinMaxList;
+		double [][] minmax = irisstats.getGlassMinMaxList();
 		nodes = discreteParser(irisDiscretizer, nodes, minmax);
 		return nodes;
 	}
@@ -121,7 +122,7 @@ public class Parser
 
 		Discretizer glassDiscretizer = new Discretizer(10);
 		GlassDataMinMax glassstats = new GlassDataMinMax();
-		double [][] minmax = glassstats.GlassMinMaxList;
+		double [][] minmax = glassstats.getGlassMinMaxList();
 		nodes = discreteParser(glassDiscretizer, nodes, minmax);
 		return nodes;
 	}
