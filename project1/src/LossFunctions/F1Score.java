@@ -8,11 +8,13 @@ public class F1Score {
         this.recall = recall;
     }
 
+    //uses instances of Precision and Recall to calculate F1 score using equation given in class
     public double getF1Score(){
         double f1Score = 2*((precision*recall)/(precision+recall));
         return(f1Score);
     }
-    
+
+    //getters and setters
     public double getPrecision()
     {
         return precision;
