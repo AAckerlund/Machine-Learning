@@ -9,11 +9,12 @@ public class Discretizer {
         this.numOfBins = numOfBins;
     }
 
+    //places a quantitative datapoint and puts it in a bin
     public int getBin(float sampleDataPoint, float min, float max) {
-        float sizeOfBin = (max - min) / numOfBins;
+        float sizeOfBin = (max - min) / numOfBins;      //determines size of bins by max and min of dataset, evenly divided
         ArrayList<Float> bins = new ArrayList<>();
         float currentBin = min;
-        bins.add(min);
+        bins.add(min);  //sets first bin
 
         for(int i = 0; i < this.numOfBins; i++) {
             currentBin += sizeOfBin;
@@ -21,7 +22,7 @@ public class Discretizer {
         }
 
         if(sampleDataPoint >= (bins.get(bins.size()-1))){
-            return bins.size()-1;
+            return bins.size()-1;       //use case of max datapoint
         }
         
         int binNum = 1;//first bin

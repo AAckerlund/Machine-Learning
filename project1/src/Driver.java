@@ -114,11 +114,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			Driver d = new Driver(file);
 			d.start();//Starts a new thread
 		}*/
-		/*
+
 		Driver house_votes_driver = new Driver("house-votes-84");
 		System.out.println("House Votes Thread: ");
 		house_votes_driver.start();
-		*/
+
 		/*
 		Driver breast_cancer_wisconsin_driver = new Driver("breast-cancer-wisconsin");
 		System.out.println("Breast Cancer Thread: ");
@@ -134,9 +134,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Iris Thread: ");
 		iris_driver.start();
 		*/
-		Driver soybean_small_driver = new Driver("soybean-small");
+		/*Driver soybean_small_driver = new Driver("soybean-small");
 		System.out.println("Soybean Thread: ");
-		soybean_small_driver.start();
+		soybean_small_driver.start();*/
 		
 	}
 }

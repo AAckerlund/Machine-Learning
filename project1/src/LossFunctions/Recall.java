@@ -11,32 +11,31 @@ public class Recall {
         this.results = results;
     }
 
+    //finds true positives and false negatives with respect to a given class
     public void setTruePositivesAndFalseNegatives(int _class){
         truePositives = 0;
         falseNegatives = 0;
         for(Integer[] result: results){
             if(result[0] == _class){
-                if(result[1] == _class){
+                if(result[1] == _class){        //if the guessed class and correct class are the same
                     truePositives += 1;
                 }
             }
-            if(result[0] != _class){
+            if(result[0] != _class){    //if the guessed class is NOT the given class, but the correct class is
                 if(result[1] == _class){
-                    /*System.out.println("FALSE POSITIVE: ");
-                    System.out.println(result[1]);
-                    System.out.println(result[0]);
-                    System.out.println("FALSE POSITIVE: ");*/
                     falseNegatives += 1;
                 }
             }
         }
     }
 
+    //uses equation given in class to find recall
     public double findRecall(){
         recall = (double) truePositives / (truePositives + falseNegatives);
         return recall;
     }
-    
+
+    //getters and setters
     public ArrayList<Integer[]> getResults()
     {
         return results;
