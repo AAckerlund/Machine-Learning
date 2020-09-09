@@ -27,6 +27,7 @@ public class Parser
 		return null;
 	}
 
+	// Special parser that uses the Discretizer class to change the data values into integers representing bins
 	public ArrayList<Node> discreteParser(Discretizer discretizer, ArrayList<Node> nodes, double[][] minmax){
 		for(int i = 0; i<nodes.size(); i++){
 			for(int j = 0; j<nodes.get(i).getData().length; j++){

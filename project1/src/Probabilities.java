@@ -2,6 +2,7 @@ import java.util.HashMap;
 
 public class Probabilities {
     // Storage class for all the conditional probabilities. This is just a hashmap with more readability
+
     HashMap<Integer,HashMap<Integer,HashMap<Integer,Float>>> classMap;// input class id to get map of attributes
     /*
     HashMap<Integer,HashMap<Integer,Float>> attributeMap; // input attribute index to get map of possible attribute values

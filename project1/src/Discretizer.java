@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public class Discretizer {
+    // Converts a float to an integer representing a bin given a min and max float value
+
     public int numOfBins;
 
     public Discretizer(int numOfBins) {

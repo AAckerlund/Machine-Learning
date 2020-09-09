@@ -3,6 +3,9 @@ import java.util.HashMap;
 
 public class TrainingSetAlgorithm
 {
+    // Stores characteristic values of a training set
+    // Contains methods to train a probability model and classify a piece of data using a Naive Bayes Classifier
+
     private Probabilities probabilities;// Contains all the conditional probabilities of attribute values given a class,
     // First index = classID, second index = attributeIndex, third index = attributeValue
     private ArrayList<Node> trainingSet;// Contains current training set
@@ -28,6 +31,7 @@ public class TrainingSetAlgorithm
     }
 
     private int findNumClasses() {
+        // helper method to count the number of classes represented in the stored dataset
         ArrayList<Integer> classes = new ArrayList<>();
         for (Node node : trainingSet) {
             if (!classes.contains((int) node.getId())) {
@@ -105,6 +109,7 @@ public class TrainingSetAlgorithm
     }
 
     public void printModel() {
+        // helper method to print the probability model and the associated prior class probabilities
         probabilities.printModel();
         for (int classIndex = 0; classIndex < classLists.size(); classIndex++) {
             float cProb = (float)classLists.get(classIDs[classIndex]).size()/trainingSet.size();
