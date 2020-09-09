@@ -92,7 +92,7 @@ public class Parser
 		}
 		Discretizer irisDiscretizer = new Discretizer(10);
 		IrisDataMinMax irisstats = new IrisDataMinMax();
-		double [][] minmax = irisstats.GlassMinMaxList;
+		double [][] minmax = irisstats.getGlassMinMaxList();
 		nodes = discreteParser(irisDiscretizer, nodes, minmax);
 		return nodes;
 	}
@@ -122,7 +122,7 @@ public class Parser
 
 		Discretizer glassDiscretizer = new Discretizer(10);
 		GlassDataMinMax glassstats = new GlassDataMinMax();
-		double [][] minmax = glassstats.GlassMinMaxList;
+		double [][] minmax = glassstats.getGlassMinMaxList();
 		nodes = discreteParser(glassDiscretizer, nodes, minmax);
 		return nodes;
 	}

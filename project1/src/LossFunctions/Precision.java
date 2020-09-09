@@ -3,15 +3,13 @@ package LossFunctions;
 import java.util.ArrayList;
 
 public class Precision {
-    public ArrayList<Integer[]> results;
-
+    private ArrayList<Integer[]> results;
+    private int truePositives = 0, falsePositives = 0;
+    private double precision;
+    
     public Precision(ArrayList<Integer[]> results){
         this.results = results;
     }
-
-    public int truePositives = 0;
-    public int falsePositives = 0;
-    public double precision;
 
     public ArrayList<Integer> getClasses(){
         ArrayList<Integer> classes = new ArrayList<>();
@@ -23,7 +21,7 @@ public class Precision {
         return classes;
     }
 
-    public void setTrueAndFalsePositives(ArrayList<Integer> classes, int _class){
+    public void setTrueAndFalsePositives(int _class){
         truePositives = 0;
         falsePositives = 0;
         for(Integer[] result: results){
@@ -44,5 +42,45 @@ public class Precision {
         }
         precision = (double) truePositives / (truePositives + falsePositives);
         return precision;
+    }
+    
+    public ArrayList<Integer[]> getResults()
+    {
+        return results;
+    }
+    
+    public void setResults(ArrayList<Integer[]> results)
+    {
+        this.results = results;
+    }
+    
+    public int getTruePositives()
+    {
+        return truePositives;
+    }
+    
+    public void setTruePositives(int truePositives)
+    {
+        this.truePositives = truePositives;
+    }
+    
+    public int getFalsePositives()
+    {
+        return falsePositives;
+    }
+    
+    public void setFalsePositives(int falsePositives)
+    {
+        this.falsePositives = falsePositives;
+    }
+    
+    public double getPrecision()
+    {
+        return precision;
+    }
+    
+    public void setPrecision(double precision)
+    {
+        this.precision = precision;
     }
 }

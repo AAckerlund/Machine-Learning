@@ -4,7 +4,7 @@ import java.util.Collections;
 public class DataShuffler {
     public static void shuffleFeatureData(ArrayList<Node> nodes) {
         // shuffles data between the nodes. Modifies existing copy. It does not create a new dataset
-        ArrayList<Integer> featuresToShuffle = new ArrayList<Integer>();
+        ArrayList<Integer> featuresToShuffle = new ArrayList<>();
 
         int numFeatures = nodes.get(1).getData().length;    //total number of features
         int numFeaturesToShuffle = numFeatures/10;
@@ -18,7 +18,7 @@ public class DataShuffler {
         for (int featureIndex : featuresToShuffle) {
             // repeat for each feature that has been picked
             System.out.println("Shuffling Feature: " + featureIndex);
-            ArrayList<Float> values = new ArrayList<Float>();
+            ArrayList<Float> values = new ArrayList<>();
             for (Node node : nodes) {
                 // pull out feature values into list
                 float[] data = node.getData();
@@ -30,6 +30,5 @@ public class DataShuffler {
                 data[featureIndex] = values.remove(0); // pop from arraylist, save to node
             }
         }
-        return;
     }
 }
