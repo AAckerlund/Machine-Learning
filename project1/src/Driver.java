@@ -107,18 +107,20 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	}
 
 	public static void main(String[] args) {
-		/*String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
+		String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
 		
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
-			d.start();//Starts a new thread
-		}*/
+			System.out.println("\n********************\n" + file + "\n********************\n");
+			d.run();//Starts a new thread
+		}
 
+		/*
 		Driver house_votes_driver = new Driver("house-votes-84");
 		System.out.println("House Votes Thread: ");
 		house_votes_driver.start();
-
+*/
 		/*
 		Driver breast_cancer_wisconsin_driver = new Driver("breast-cancer-wisconsin");
 		System.out.println("Breast Cancer Thread: ");
