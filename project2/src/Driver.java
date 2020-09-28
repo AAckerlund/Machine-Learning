@@ -28,30 +28,39 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				numattrValues = 2;
 				System.out.println("Done Votes");
 			}
-			case "breast-cancer-wisconsin" -> {
-				nodes = p.cancerParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Cancer");
-			}
 			case "glass" -> {
 				nodes = p.glassParser(fileStart + filePath + fileEnd);
 				System.out.println("Done Glass");
 			}
-			case "iris" -> {
-				nodes = p.irisParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Iris");
+			case "abalone" -> {
+				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Abalone");
 			}
-			case "soybean-small" -> {
-				nodes = p.beanParser(fileStart + filePath + fileEnd);
-				attrValueLow = 0;
-				System.out.println("Done Beans");
+			case "forestfires" -> {
+				nodes = p.firesParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Forest Fires");
+			}
+			case "machine" -> {
+				nodes = p.machineParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Machine");
+			}
+			case "segmentation" -> {
+				nodes = p.segmentationParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Segmentation");
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
 		
+		//print data to verify
+		/*for(Node node : nodes)
+			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+		
+		/*
 		BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
 		DataShuffler.shuffleFeatureData(nodes);	//Shuffle one attribute
 		System.out.println("Running shuffled data");
 		BayesNet(nodes, attrValueLow, numattrValues);//runs on the data that has had one attribute shuffled.
+		 */
 	}
 	
 	public void BayesNet(ArrayList<Node> nodes, int attrValueLow, int numattrValues)
@@ -107,38 +116,18 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	}
 
 	public static void main(String[] args) {
-		String[] files = {"house-votes-84", "breast-cancer-wisconsin", "glass", "iris", "soybean-small"};
+		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
+		//use these if you want to run a single data set
+		//Driver test = new Driver(files[5]);
+		//test.start();
+		
+		//use these if you want to run all the data sets
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
-			System.out.println("\n********************\n" + file + "\n********************\n");
-			d.run();//Starts a new thread
+			//System.out.println("\n********************\n" + file + "\n********************\n");
+			d.start();//Starts a new thread
 		}
-
-		/*
-		Driver house_votes_driver = new Driver("house-votes-84");
-		System.out.println("House Votes Thread: ");
-		house_votes_driver.start();
-*/
-		/*
-		Driver breast_cancer_wisconsin_driver = new Driver("breast-cancer-wisconsin");
-		System.out.println("Breast Cancer Thread: ");
-		breast_cancer_wisconsin_driver.start();
-		*/
-		/*
-		Driver glass_driver = new Driver("glass");
-		System.out.println("Glass Thread: ");
-		glass_driver.start();
-		*/
-		/*
-		Driver iris_driver = new Driver("iris");
-		System.out.println("Iris Thread: ");
-		iris_driver.start();
-		*/
-		/*Driver soybean_small_driver = new Driver("soybean-small");
-		System.out.println("Soybean Thread: ");
-		soybean_small_driver.start();*/
-		
 	}
 }
