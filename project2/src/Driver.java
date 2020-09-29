@@ -1,6 +1,7 @@
 import LossFunctions.F1Score;
 import LossFunctions.Precision;
 import LossFunctions.Recall;
+import NearestNeighborAlgorithms.KNearestNeighbor;
 
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
@@ -16,6 +17,24 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 	public void run()//the method that is called when a Thread starts
 	{
+		//knn examples
+		double[] exdp1 = {1.0, 4.0, 7.0};
+		double[] exdp2 = {2.0, 4.5, 7.5};
+		double[] exdp3 = {1.0, 5.0, 8.0};
+		double[] exdp4 = {2.0, 5.5, 8.5};
+		double[] exdp5 = {1.0, 6.0, 9.0};
+
+		double[] expd = {0.0, 4.0, 3.0};
+
+		double[][] exampleDatapoints = {exdp1, exdp2, exdp3, exdp4, exdp5};
+
+		KNearestNeighbor knn = new KNearestNeighbor("classification", 1, exampleDatapoints, expd);
+
+		double d = knn.getDistance(exdp1, exdp2);
+
+		System.out.println(d);
+
+
 		//parse out the data in the file
 		System.out.println(filePath);
 		Parser p = new Parser();
