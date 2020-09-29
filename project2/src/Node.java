@@ -18,4 +18,8 @@ public class Node
 	{
 		return data;
 	}
+
+	public void setData(float[] data) {
+		this.data = data;
+	}
 }

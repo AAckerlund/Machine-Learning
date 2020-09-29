@@ -50,7 +50,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
-		
+
+		// verify clustering works
+		// construct KMeans, which also computes all the clusters
+		KMeansClustering kMeans = new KMeansClustering(5, nodes);
+		ArrayList<Node> centroids = kMeans.getCentroids();
+		for(Node node : centroids)
+			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+
 		//print data to verify
 		/*for(Node node : nodes)
 			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
@@ -119,15 +126,33 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		//Driver test = new Driver(files[5]);
-		//test.start();
+		Driver test = new Driver(files[5]);
+		test.start();
 		
 		//use these if you want to run all the data sets
-		for (String file : files)//create a new instance of the driver for each of the data sets.
+		/*for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
 			//System.out.println("\n********************\n" + file + "\n********************\n");
 			d.start();//Starts a new thread
-		}
+		}*/
+
+		/* Just testing to make sure references work the way I expect them to
+		ArrayList<ArrayList<Integer>> clusters = new ArrayList<>();
+		clusters.add(new ArrayList<>());
+		clusters.get(0).add(5);
+		ArrayList<ArrayList<Integer>> oldClusters = clusters;
+		clusters = new ArrayList<ArrayList<Integer>>();   // initialize new clusters
+
+		System.out.println("old clusters has values: ");
+		for (ArrayList<Integer> cluster : oldClusters)
+			for (Integer value : cluster) {
+				System.out.println(value);
+			}
+		for (ArrayList<Integer> cluster : clusters) {
+			for (Integer value : cluster) {
+				System.out.println(value);
+			}
+		}*/
 	}
 }
