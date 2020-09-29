@@ -4,6 +4,7 @@ import LossFunctions.Recall;
 
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
+import java.util.Objects;
 
 
 public class Driver extends Thread//extending Thread allows for multithreading
@@ -101,9 +102,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			groups.iterateTestSet();
 		}
-		/*for (Node node : Objects.requireNonNull(nodes)) {
+		for (Node node : Objects.requireNonNull(nodes)) {
 			System.out.println(node.getId() + Arrays.toString(node.getData()));
-		}*/
+		}
 	}
 
 	public static void main(String[] args) {
@@ -129,11 +130,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Glass Thread: ");
 		glass_driver.start();
 		*/
-		/*
-		Driver iris_driver = new Driver("iris");
+
+		/*Driver iris_driver = new Driver("iris");
 		System.out.println("Iris Thread: ");
-		iris_driver.start();
-		*/
+		iris_driver.start();*/
+
 		/*Driver soybean_small_driver = new Driver("soybean-small");
 		System.out.println("Soybean Thread: ");
 		soybean_small_driver.start();*/
