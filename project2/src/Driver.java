@@ -50,20 +50,24 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
+		
+		/*for(Node node : nodes)
+			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+		*/
+		
+		//Testing the stratification is working correctly
+		//new TrainingGroups(nodes);
 
+		/*
 		// verify clustering works
 		// construct KMeans, which also computes all the clusters
 		KMeansClustering kMeans = new KMeansClustering(5, nodes);
 		ArrayList<Node> centroids = kMeans.getCentroids();
 		for(Node node : centroids)
 			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
-
-		//print data to verify
-		/*for(Node node : nodes)
-			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+		*/
 		
-		/*
-		BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
+		/*BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
 		DataShuffler.shuffleFeatureData(nodes);	//Shuffle one attribute
 		System.out.println("Running shuffled data");
 		BayesNet(nodes, attrValueLow, numattrValues);//runs on the data that has had one attribute shuffled.
@@ -126,7 +130,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver(files[5]);
+		Driver test = new Driver(files[2]);
 		test.start();
 		
 		//use these if you want to run all the data sets

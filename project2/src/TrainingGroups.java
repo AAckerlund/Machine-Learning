@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class TrainingGroups {
     // Splits and stores dataset into a predetermined number of partitions
@@ -12,26 +14,62 @@ public class TrainingGroups {
     public TrainingGroups(ArrayList<Node> dataset) {
         this.groups = new ArrayList<>();
         this.fulldataset = new ArrayList<>(dataset);
-        shuffleDataSet();   // randomize order of dataset so each group has a random grouping of entries
+        sortData();
+        //shuffleDataSet();   // randomize order of dataset so each group has a random grouping of entries
         partitionData();    // split data into 'folds' number of groups
         this.testSetIndex = 0;
     }
 
+    private void sortData()
+    {
+        //using a lambda function to override the built in comparator so that we can sort by Node.id
+        fulldataset.sort((n1, n2) -> Float.compare(n1.getId(), n2.getId()));
+    }
+    
     private void shuffleDataSet() {
         Collections.shuffle(fulldataset);
     }
-
-    private void partitionData() {
-        // partition data into a number of folds
-        //System.out.print("Partitioning Data...");
-        for (int i = 0; i < folds; i++) {
-            ArrayList<Node> fold = new ArrayList<>();
-            for (int j = i*fulldataset.size()/folds; j < (i+1)*fulldataset.size()/folds; j++) {
-                fold.add(fulldataset.get(j));
-            }
-            groups.add(fold);
+    
+    // partition data into a number of folds
+    private void partitionData()
+    {
+        for(int i = 0; i < folds; i++)
+        {
+            groups.add(new ArrayList<>());
         }
-        //System.out.println("Done!");
+        for(int i = 0; i < fulldataset.size(); i++)
+        {
+            groups.get(i%folds).add(fulldataset.get(i));
+        }
+        //print the Ids by group. This allows us to verify that stratification is being done correctly.
+        /*for(ArrayList<Node> list : groups)
+        {
+            System.out.println("\nNew Group: " + list.size());
+            for(Node node : list)
+            {
+                System.out.print(node.getId() + " | ");
+            }
+        }*/
+    }
+    
+    public ArrayList<ArrayList<Node>> groupData()
+    {
+        ArrayList<ArrayList<Node>> groups = new ArrayList<>();
+        
+        //add the first element of fulldataset to the first group to prevent errors.
+        groups.add(new ArrayList<>());
+        groups.get(0).add(fulldataset.get(0));
+        
+        //split the data into groups by their id.
+        for(int i = 1; i < fulldataset.size(); i++)
+        {
+            if(groups.get(groups.size() - 1).get(0).getId() != fulldataset.get(i).getId())//found a Id value, so add a new list of nodes
+            {
+                groups.add(new ArrayList<>());
+            }
+            groups.get(groups.size()-1).add(fulldataset.get(i));
+        }
+        return groups;
     }
 
     public ArrayList<Node> getTrainingSet() {
@@ -52,5 +90,23 @@ public class TrainingGroups {
 
     public void iterateTestSet() {
         this.testSetIndex++;
+    }
+    
+    public void printDataSetInfo()
+    {
+        int counter = 1;
+        float currentValue = fulldataset.get(0).getId();
+        for(int i = 1; i < fulldataset.size(); i++)
+        {
+            if(currentValue != fulldataset.get(i).getId())
+            {
+                System.out.println(currentValue + ": " + counter);
+                currentValue = fulldataset.get(i).getId();
+                counter = 1;
+            }
+            else
+                counter++;
+        }
+        System.out.println(currentValue + ": " + counter);
     }
 }
