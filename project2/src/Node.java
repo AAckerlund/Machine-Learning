@@ -14,6 +14,11 @@ public class Node
 		return id;
 	}
 	
+	public void setId(float id)
+	{
+		this.id = id;
+	}
+	
 	public float[] getData()
 	{
 		return data;
