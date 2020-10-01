@@ -20,14 +20,8 @@ public class PAMClustering {
         this.medoids = pickRandomMedoids();             // generate centroids by picking random data points from the dataset
         boolean stopIteration = false;  // Flag to indicate when to stop looping through the assign-shift steps
 
-        // Loop these for a certain number of repetitions based on convergence
-        int count = 0;  // keep track of number of loops
-        while (!stopIteration) {
-            System.out.println("Iteration: " + count);
-            assignClusters();                              // assign clusters based on medoids
-            stopIteration = !changeMedoids();              // shift medoids based on clusters until they don't change
-            count++;
-        }
+        assignClusters();                              // assign clusters based on medoids
+        changeMedoids();              // shift medoids based on clusters until they don't change
     }
 
     private ArrayList<Node> pickRandomMedoids() {
@@ -96,41 +90,45 @@ public class PAMClustering {
         }
     }
 
-    private boolean changeMedoids() {
+    private void changeMedoids() {
         // changes the medoids for each clusters based on the point with minimum distance to the others
         boolean medoidsChanged = false;   // flag to indicate if the medoids have been moved
-        for (int i = 0; i < k; i++) {
-            Node medoid = calculateMedoid(clusters.get(i));
+        float minTotalCost = calculateTotalCost();
 
-            if (!Arrays.equals(medoid.getData(), medoids.get(i).getData())) {
-                // if the calculated medoid's values are not equal to the previous medoid, then it has changed
-                medoidsChanged = true;
+        for (int i = 0; i < k; i++) {
+            for (int j = 0; j < dataset.size(); j++) {
+                // loop through whole dataset, replacing medoid with the point and recalculating costs
+                Node oldMedoid = medoids.get(i);    // store old medoid in case of swap back
+                medoids.set(i, dataset.get(j)); // swap medoid
+                assignClusters();                           // reassign clusters
+                float newTotalCost = calculateTotalCost();  // calculate the total cost from this
+
+                if (!(newTotalCost < minTotalCost)) {
+                    // if the new total cost is not better than the old, swap back
+                    medoids.set(i, oldMedoid);
+                }
+                else {
+                    // else, save the new total cost
+                    minTotalCost = newTotalCost;
+                }
             }
-            medoids.set(i, medoid);
         }
-        return medoidsChanged;
+        assignClusters();   // reassign clusters in case a medoid has been swapped back on the last iteration
     }
 
-    private Node calculateMedoid(ArrayList<Node> cluster) {
-        // calculates the medoids of a given cluster
-        Node medoid = cluster.get(0); // placeholder, should change in next loop
-        // go through each point and calculate the point with the least distance to any other point
-
-        float minSumDist = Float.POSITIVE_INFINITY; // indicates the current minimum sum distance of a point from others
-        for (Node point : cluster) {
-            float sumDist = 0;
-            for (Node otherPoint : cluster) {
-                // sum the distance between point and every other point in cluster. The same point should have distance 0
-                sumDist += dist(point.getData(), otherPoint.getData());
-            }
-            if (sumDist < minSumDist) {
-                // assign lower distance medoid
-                minSumDist = sumDist;
-                medoid = point;
+    private float calculateTotalCost() {
+        // calculates the total cost of all the clusters
+        float totalCost = 0;
+        for (int i = 0; i < k; i++) {
+            // sum together distances for every cluster's points and its medoid
+            Node medoid = medoids.get(i);
+            for (Node point : clusters.get(i)) {
+                // sum the distance between medoid and every other point in cluster. The same point should have distance 0
+                totalCost += dist(point.getData(), medoid.getData());
             }
         }
 
-        return medoid;
+        return totalCost;
     }
 
     private float dist(float[] a1, float[] a2) {
