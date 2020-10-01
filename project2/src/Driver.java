@@ -84,10 +84,54 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		// verify clustering works
 		// construct KMeans, which also computes all the clusters
 		KMeansClustering kMeans = new KMeansClustering(5, nodes);
+
+		//remove this later - loop to keep running until an empty cluster is assigned to test the code that handles it
+		while (!kMeans.emptyClusterCreated) {
+			kMeans = new KMeansClustering(5, nodes);
+		}
+
 		ArrayList<Node> centroids = kMeans.getCentroids();
-		for(Node node : centroids)
+		for(Node node : centroids) {
 			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
-		*/
+		}
+		ArrayList<ArrayList<Node>> clusters = kMeans.getClusters();
+		for (int i = 0; i < clusters.size(); i++) {
+			System.out.println("Cluster " + i + ": ");
+			ArrayList<Node> cluster = clusters.get(i);
+			for (Node node : cluster) {
+				float[] data = node.getData();
+				for (int j = 0; j < data.length; j++) {
+					System.out.print(data[j] + " | ");
+				}
+				System.out.println();
+			}
+		}*/
+
+		// verify clustering works
+		// construct KMeans, which also computes all the clusters
+		PAMClustering pam = new PAMClustering(5, nodes);
+
+		//remove this later - loop to keep running until an empty cluster is assigned to test the code that handles it
+		while (!pam.emptyClusterCreated) {
+			pam = new PAMClustering(5, nodes);
+		}
+
+		ArrayList<Node> medoids = pam.getMedoids();
+		for(Node node : medoids) {
+			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+		}
+		ArrayList<ArrayList<Node>> clusters = pam.getClusters();
+		for (int i = 0; i < clusters.size(); i++) {
+			System.out.println("Cluster " + i + ": ");
+			ArrayList<Node> cluster = clusters.get(i);
+			for (Node node : cluster) {
+				float[] data = node.getData();
+				for (int j = 0; j < data.length; j++) {
+					System.out.print(data[j] + " | ");
+				}
+				System.out.println();
+			}
+		}
 		
 		/*BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
 		DataShuffler.shuffleFeatureData(nodes);	//Shuffle one attribute
@@ -139,7 +183,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 				System.out.println("Recall of class " + _class + "\tTrue Positives: " + rtp + "\tFalse Negatives: " + rfn + "\tRecall: " + recallResult);
 				System.out.println("F1 Score: " + f1Score);
-				System.out.println("");
+				System.out.println();
 			}
 			groups.iterateTestSet();
 		}

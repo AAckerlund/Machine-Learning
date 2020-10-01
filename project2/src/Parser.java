@@ -26,19 +26,62 @@ public class Parser
 		}
 		return null;
 	}
-
-	// Special parser that uses the Discretizer class to change the data values into integers representing bins
-	public ArrayList<Node> discreteParser(Discretizer discretizer, ArrayList<Node> nodes, double[][] minmax){
-		for(int i = 0; i<nodes.size(); i++){
-			for(int j = 0; j<nodes.get(i).getData().length; j++){
-				float min = (float) minmax[j][0];
-				float max = (float) minmax[j][1];
-				float datapoint = nodes.get(i).getData()[j];
-				int th = discretizer.getBin(datapoint, min, max);
-				nodes.get(i).getData()[j] = th;
+	
+	public ArrayList<Node> normData(ArrayList<Node> list)
+	{
+		//initialize variables for normalization
+		float minID = Float.MAX_VALUE, maxID = Float.MIN_NORMAL;
+		float[] minList = new float[list.get(0).getData().length];
+		float[] maxList = new float[list.get(0).getData().length];
+		for(int i = 0; i < list.get(0).getData().length; i++)
+		{
+			minList[i] = Float.MAX_VALUE;
+			maxList[i] = Float.MIN_VALUE;
+		}
+		
+		//find min and max values for each attribute
+		for(Node node : list)
+		{
+			//find mix/max for Id
+			if(minID > node.getId())
+			{
+				minID = node.getId();
+			}
+			if(maxID < node.getId())
+			{
+				maxID = node.getId();
+			}
+			
+			//find min/max for attributes
+			for(int j = 0; j < node.getData().length; j++)
+			{
+				if(minList[j] > node.getData()[j])
+				{
+					minList[j] = node.getData()[j];
+				}
+				if(maxList[j] < node.getData()[j])
+				{
+					maxList[j] = node.getData()[j];
+				}
 			}
 		}
-		return nodes;
+		//scale the values of each attribute to be between 0 and 1
+		for(Node node : list)
+		{
+//			System.out.print("New Element: Old: " + node.getId() + "\t New: ");
+			node.setId((node.getId() - minID)/(maxID - minID));
+//			System.out.println(node.getId());
+			for(int j = 0; j < node.getData().length; j++)
+			{
+//				System.out.print("\tOld: " + node.getData()[j]);
+				
+				node.getData()[j] = (node.getData()[j] - minList[j]) / (maxList[j] - minList[j]);
+				
+//				System.out.println("\tNew: " + node.getData()[j]);
+			}
+		}
+		
+		return list;
 	}
 	
 	//The below functions are all slightly different but all parse the data out from their respective files.
@@ -68,12 +111,8 @@ public class Parser
 			}
 			nodes.add(new Node(type, dataPoints));
 		}
-
-		Discretizer glassDiscretizer = new Discretizer(10);
-		GlassDataMinMax glassstats = new GlassDataMinMax();
-		double [][] minmax = glassstats.getGlassMinMaxList();
-		nodes = discreteParser(glassDiscretizer, nodes, minmax);
-		return nodes;
+		
+		return normData(nodes);
 	}
 	public ArrayList<Node> votesParser(String filePath)
 	{
@@ -102,7 +141,7 @@ public class Parser
 			}
 			nodes.add(new Node(dr, votes));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	public ArrayList<Node> abaloneParser(String filePath)
 	{
@@ -133,7 +172,7 @@ public class Parser
 			
 			nodes.add(new Node(id, attributes));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	public ArrayList<Node> firesParser(String filePath)
 	{
@@ -183,7 +222,7 @@ public class Parser
 			}
 			nodes.add(new Node(0, attributes));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	public ArrayList<Node> machineParser(String filePath)
 	{
@@ -215,7 +254,7 @@ public class Parser
 			
 			nodes.add(new Node(0, attributes));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	public ArrayList<Node> segmentationParser(String filePath)
 	{
@@ -245,6 +284,6 @@ public class Parser
 			}
 			nodes.add(new Node(id, attributes));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 }
