@@ -18,21 +18,24 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	public void run()//the method that is called when a Thread starts
 	{
 		//knn examples
-		double[] exdp1 = {1.0, 4.0, 7.0};
-		double[] exdp2 = {2.0, 4.5, 7.5};
-		double[] exdp3 = {1.0, 5.0, 8.0};
-		double[] exdp4 = {2.0, 5.5, 8.5};
-		double[] exdp5 = {1.0, 6.0, 9.0};
+		double[] exdp1 = {1.0, 5.0, 10.0};
+		double[] exdp2 = {2.0, 2.0, 7.0};
+		double[] exdp3 = {3.0, 4.0, 4.0};
+		double[] exdp4 = {3.0, 1.0, 3.0};
+		double[] exdp5 = {3.0, 9.0, 8.0};
 
-		double[] expd = {0.0, 4.0, 3.0};
+		double[] exdp = {0.0, 5.0, 8.0};
 
 		double[][] exampleDatapoints = {exdp1, exdp2, exdp3, exdp4, exdp5};
 
-		KNearestNeighbor knn = new KNearestNeighbor("classification", 1, exampleDatapoints, expd);
+		KNearestNeighbor knn = new KNearestNeighbor("classification", 1, exampleDatapoints, exdp);
 
 		double d = knn.getDistance(exdp1, exdp2);
 
-		System.out.println(d);
+		double nn = knn.getNearestNeighbors(exdp, exampleDatapoints);
+		System.out.println(nn);
+
+		//System.out.println(d);
 
 
 		//parse out the data in the file
