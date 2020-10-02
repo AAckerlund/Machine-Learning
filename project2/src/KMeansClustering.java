@@ -29,6 +29,9 @@ public class KMeansClustering {
             count++;
         }
     }
+    
+    //Overloading the constructor so that dist can be called for Edited KNN
+    public KMeansClustering(){}
 
     private ArrayList<Node> pickRandomCentroids() {
         // helper method generates new centroids at the beginning of the clustering process from picking random datapoints
@@ -49,7 +52,7 @@ public class KMeansClustering {
                 data[j] = dataset.get(dataIndex).getData()[j];
             }
 
-            Node newNode = new Node(-1, data);    // Create new node to represent centroid with ID -1
+            Node newNode = new Node(-1, data, -1);    // Create new node to represent centroid with ID -1
             newCentroids.add(newNode);  // add new centroid to list of centroids
         }
         return newCentroids;
@@ -137,7 +140,7 @@ public class KMeansClustering {
         return mean;
     }
 
-    private float dist(float[] a1, float[] a2) {
+    public float dist(float[] a1, float[] a2) {
         // helper method to calculate euclidean distance squared between two attribute arrays
         float sum = 0;
         for (int i = 0; i < numAttributes; i++) {
