@@ -50,6 +50,15 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
+		System.out.println("Pre-edited node list length: " + nodes.size());
+		for(Node node : nodes)
+			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+		
+		nodes = new EditedKNN().editSet(nodes);
+		
+		System.out.println("\nPost-edited node list length: " + nodes.size() + "\n");
+		for(Node node : nodes)
+			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
 		/*for(Node node : nodes)
 			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
@@ -85,6 +94,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}*/
 
+		/*
 		// verify clustering works
 		// construct KMeans, which also computes all the clusters
 		PAMClustering pam = new PAMClustering(5, nodes);
@@ -110,7 +120,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				System.out.println();
 			}
 		}
-		
+		*/
 		/*BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
 		DataShuffler.shuffleFeatureData(nodes);	//Shuffle one attribute
 		System.out.println("Running shuffled data");

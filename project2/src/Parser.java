@@ -57,7 +57,7 @@ public class Parser
 			{
 				dataPoints[i-1] = Float.parseFloat(data[i]);
 			}
-			nodes.add(new Node(type, dataPoints));
+			nodes.add(new Node(type, dataPoints, -1));
 		}
 		
 		return nodes;
@@ -87,7 +87,7 @@ public class Parser
 					default -> votes[i - 1] = (int)(Math.random()*2)+1;//randomly generating unknown values
 				}
 			}
-			nodes.add(new Node(dr, votes));
+			nodes.add(new Node(dr, votes, -1));
 		}
 		return nodes;
 	}
@@ -118,7 +118,7 @@ public class Parser
 				attributes[i] = Float.parseFloat(data[i+1]);
 			}
 			
-			nodes.add(new Node(attributes, attributes.length-1));
+			nodes.add(new Node(attributes[attributes.length-1], attributes, attributes.length-1));
 		}
 		return nodes;
 	}
@@ -168,7 +168,7 @@ public class Parser
 			{
 				attributes[i] = Float.parseFloat(data[i]);
 			}
-			nodes.add(new Node(attributes, attributes.length-1));
+			nodes.add(new Node(attributes[attributes.length-1], attributes, attributes.length-1));
 		}
 		return nodes;
 	}
@@ -200,7 +200,7 @@ public class Parser
 			attributes[1] = model.get(data[1]);
 			//System.out.println(attributes[1]);
 			
-			nodes.add(new Node(attributes, attributes.length-2));
+			nodes.add(new Node(attributes[attributes.length-2], attributes, attributes.length-2));
 		}
 		return nodes;
 	}
@@ -230,7 +230,7 @@ public class Parser
 			{
 				attributes[i-1] = Float.parseFloat(data[i]);
 			}
-			nodes.add(new Node(id, attributes));
+			nodes.add(new Node(id, attributes, -1));
 		}
 		return nodes;
 	}
