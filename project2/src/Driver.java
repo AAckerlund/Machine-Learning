@@ -64,7 +64,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		ArrayList<Node> newNodes = new ArrayList<>(nodes);
 		newNodes = new EditedKNN().editSet(newNodes);
 		
-		visualize(newNodes, "edited");
+		//visualize(newNodes, "edited");
 		System.out.println("\nPost-edited node list length: " + newNodes.size() + "\n");
 		//for(Node node : nodes)
 		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
@@ -139,7 +139,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	
 	public void visualize(ArrayList<Node> nodes1, String title)
 	{
-		VisualizeData vd1 = new VisualizeData(nodes1, 10);
+		VisualizeData vd1 = new VisualizeData(nodes1);
 		JFrame f1 = new JFrame(title);
 		f1.add(vd1);
 		f1.setSize(600, 600);

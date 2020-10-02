@@ -1,28 +1,32 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class VisualizeData extends Canvas
 {
 	ArrayList<Node> graph;
-	int scale;
+	float[] minAttrValue, maxAttrValue;
+	float minIDValue, maxIDValue;
 	
 	static HashMap<Integer, Color> colorMap = new HashMap<>();
 	
-	public VisualizeData(ArrayList<Node> graph, int scale)
+	public VisualizeData(ArrayList<Node> graph)
 	{
 		this.graph = graph;
-		this.scale = scale;
+		minAttrValue = new float[2];
+		maxAttrValue = new float[2];
+		findMinMax(graph);
+		System.out.println(minAttrValue[0] + " " + maxAttrValue[0]);
+		System.out.println(minAttrValue[1] + " " + maxAttrValue[1]);
 	}
 	
 	public void paint(Graphics g)//This method just knows when it is needed and calls itself. Currently it gets called once the graph has been completely generated
 	{
-		int r = 10;//sets a radius for the nodes
+		int r = 5;//sets a radius for the nodes
 		//System.out.println("Size of data set: " + graph.size());
-		for(float i = 0; i < (int)(getWidth()/scale); i += (float)1/scale)
+		for(float i = 0; i < (maxAttrValue[0] - minAttrValue[0]) + 20; i += (maxAttrValue[0] - minAttrValue[0])/getWidth())
 		{
-			for(float j = 0; j < (int)(getHeight()/scale); j += (float)1/scale)
+			for(float j = 0; j < (maxAttrValue[1] - minAttrValue[1]) + 20; j += (maxAttrValue[1] - minAttrValue[1])/getHeight())
 			{
 				if(colorMap.get((int) closestNode(i, j).getId()) == null)
 				{
@@ -32,37 +36,19 @@ public class VisualizeData extends Canvas
 					colorMap.put((int) closestNode(i, j).getId(), new Color(red, green, blue));
 				}
 				g.setColor(colorMap.get((int) closestNode(i, j).getId()));
-				
-				/*switch((int) closestNode(i, j).getId())
-				{
-					case 0 -> g.setColor(Color.yellow);
-					case 1 -> g.setColor(Color.red);
-					case 2 -> g.setColor(Color.green);
-					case 3 -> g.setColor(Color.blue);
-					//should something go wrong a magenta colored node will appear
-					default -> g.setColor(Color.magenta);
-				}*/
-				g.fillRect((int)(i * scale), (int)(j * scale), 1, 1);//paint each pixel
-				
+				int x = (int)((i - minAttrValue[0])/(maxAttrValue[0] - minAttrValue[0]) * getWidth());
+				int y = (int)((j - minAttrValue[1])/(maxAttrValue[1] - minAttrValue[1]) * getHeight());
+				System.out.println(y);
+				g.fillRect(x, y, 1, 1);//paint each pixel
 			}
-			
 		}
 		for(Node n : graph)
 		{
 			//scale the nodes location by [scale] to make it more easily viewable
-			int vX = (int) (n.getData()[0] * scale);
-			int vY = (int) (n.getData()[1] * scale);
+			int vX = (int)((n.getData()[0] - minAttrValue[0])/(maxAttrValue[0] - minAttrValue[0]) * getWidth());
+			int vY = (int)((n.getData()[1] - minAttrValue[1])/(maxAttrValue[1] - minAttrValue[1]) * getHeight());
 			
 			//change the color of the node based on its given color
-			//System.out.println(n.getId());
-			/*switch((int) n.getId())
-			{
-				case 1 -> g.setColor(Color.red);
-				case 2 -> g.setColor(Color.green);
-				case 3 -> g.setColor(Color.blue);
-				//should something go wrong a magenta colored node will appear
-				default -> g.setColor(Color.magenta);
-			}*/
 			g.setColor(colorMap.get((int) n.getId()));
 			g.fillOval(vX-(r/2), vY-(r/2), r, r);//draws the nodes
 			g.setColor(Color.black);
@@ -85,5 +71,34 @@ public class VisualizeData extends Canvas
 			}
 		}
 		return closest;
+	}
+	
+	//finds min and max values so the data can be better displayed
+	public void findMinMax(ArrayList<Node> data)
+	{
+		minIDValue = Float.MAX_VALUE;
+		maxIDValue = Float.MIN_VALUE;
+		
+		for(int i = 0; i < 2; i++)
+		{
+			minAttrValue[i] = Float.MAX_VALUE;
+			maxAttrValue[i] = Float.MIN_VALUE;
+		}
+		
+		for(Node datum : data)
+		{
+			if(datum.getId() < minIDValue)
+				minIDValue = datum.getId();
+			if(datum.getId() > maxIDValue)
+				maxIDValue = datum.getId();
+			
+			for(int j = 0; j < 2; j++)
+			{
+				if(datum.getData()[j] < minAttrValue[j])
+					minAttrValue[j] = datum.getData()[j];
+				if(datum.getData()[j] > maxAttrValue[j])
+					maxAttrValue[j] = datum.getData()[j];
+			}
+		}
 	}
 }
