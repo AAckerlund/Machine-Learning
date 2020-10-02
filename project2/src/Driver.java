@@ -61,7 +61,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//for(Node node : nodes)
 		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
-		ArrayList<Node> newNodes = (ArrayList<Node>) nodes.clone();
+		ArrayList<Node> newNodes = new ArrayList<>(nodes);
 		newNodes = new EditedKNN().editSet(newNodes);
 		
 		visualize(newNodes, "edited");
@@ -203,7 +203,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver("simpleData");
+		Driver test = new Driver("simpleData");//simpleData
 		test.start();
 		
 		//use these if you want to run all the data sets

@@ -4,7 +4,7 @@ import java.util.Collections;
 
 public class EditedKNN
 {
-	public ArrayList<Node> editSet(ArrayList<Node> data)
+	public ArrayList<Node> editSet(ArrayList<Node> data)//TODO: make this work with k nearest neighbors, not just 1 nearest neighbor
 	{
 		boolean dataNotChanged = false;
 		while(!dataNotChanged)
