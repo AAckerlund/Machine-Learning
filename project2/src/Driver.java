@@ -2,6 +2,8 @@ import LossFunctions.F1Score;
 import LossFunctions.Precision;
 import LossFunctions.Recall;
 
+import javax.swing.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
 
@@ -48,17 +50,24 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				nodes = p.segmentationParser(fileStart + filePath + fileEnd);
 				System.out.println("Done Segmentation");
 			}
+			case "simpleData" -> {
+				nodes = p.simpleParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Simple");
+			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
+		visualize(nodes, "base");
 		System.out.println("Pre-edited node list length: " + nodes.size());
-		for(Node node : nodes)
-			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+		//for(Node node : nodes)
+		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
-		nodes = new EditedKNN().editSet(nodes);
+		ArrayList<Node> newNodes = (ArrayList<Node>) nodes.clone();
+		newNodes = new EditedKNN().editSet(newNodes);
 		
-		System.out.println("\nPost-edited node list length: " + nodes.size() + "\n");
-		for(Node node : nodes)
-			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+		visualize(newNodes, "edited");
+		System.out.println("\nPost-edited node list length: " + newNodes.size() + "\n");
+		//for(Node node : nodes)
+		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
 		/*for(Node node : nodes)
 			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
@@ -128,6 +137,16 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		 */
 	}
 	
+	public void visualize(ArrayList<Node> nodes1, String title)
+	{
+		VisualizeData vd1 = new VisualizeData(nodes1, 10);
+		JFrame f1 = new JFrame(title);
+		f1.add(vd1);
+		f1.setSize(600, 600);
+		f1.setLocationRelativeTo(null);
+		f1.setVisible(true);
+	}
+	
 	public void BayesNet(ArrayList<Node> nodes, int attrValueLow, int numattrValues)
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
@@ -184,7 +203,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver(files[2]);
+		Driver test = new Driver("simpleData");
 		test.start();
 		
 		//use these if you want to run all the data sets
