@@ -24,9 +24,9 @@ public class EditedKNN
 				{
 					if(i == j)
 						continue;
-					if(calc.dist(data.get(i).getData(), data.get(j).getData()) < minDist)//if we found a closer data point to the one we are looking at
+					if(Calc.dist(data.get(i).getData(), data.get(j).getData()) < minDist)//if we found a closer data point to the one we are looking at
 					{
-						minDist = calc.dist(data.get(i).getData(), data.get(j).getData());
+						minDist = Calc.dist(data.get(i).getData(), data.get(j).getData());
 						nearest = data.get(j);
 					}
 				}

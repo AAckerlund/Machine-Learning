@@ -73,7 +73,7 @@ public class KMeansClustering {
             float minDistance = Float.POSITIVE_INFINITY;    // first distance should be infinite
             int minClusterIndex = -1; //initialize variable to save cluster index. Will be assigned a positive index
             for (int i = 0; i < centroids.size(); i++) {
-                float d = dist(point.getData(), centroids.get(i).getData());    // calculate Euclidean distance
+                float d = Calc.dist(point.getData(), centroids.get(i).getData());    // calculate Euclidean distance
                 if (d < minDistance) {
                     // check if the distance between point and centroid is less than with other centroids calculated
                     minDistance = d;
@@ -96,7 +96,7 @@ public class KMeansClustering {
                 Node centroid = centroids.get(i);               // stores centroid to test distance against
                 for (Node point : dataset) {
                     // iterate through all points, store the closest point
-                    float d = dist(point.getData(), centroid.getData());
+                    float d = Calc.dist(point.getData(), centroid.getData());
                     if (d < minDistance) {
                         minDistance = d;
                         closestPoint = point;
@@ -138,15 +138,6 @@ public class KMeansClustering {
         }
 
         return mean;
-    }
-
-    public float dist(float[] a1, float[] a2) {
-        // helper method to calculate euclidean distance squared between two attribute arrays
-        float sum = 0;
-        for (int i = 0; i < a1.length; i++) {
-            sum += Math.pow((a1[i] - a2[i]), 2);
-        }
-        return sum;
     }
 
     public ArrayList<Node> getCentroids() {

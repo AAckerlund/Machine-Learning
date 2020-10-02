@@ -64,10 +64,10 @@ public class VisualizeData extends Canvas
 		
 		for(Node n : graph)
 		{
-			if(calc.dist(new float[] {x, y}, n.getData()) < minDist)
+			if(Calc.dist(new float[] {x, y}, n.getData()) < minDist)
 			{
 				closest = n;
-				minDist = calc.dist(new float[] {x, y}, n.getData());
+				minDist = Calc.dist(new float[] {x, y}, n.getData());
 			}
 		}
 		return closest;
