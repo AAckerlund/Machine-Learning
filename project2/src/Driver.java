@@ -1,10 +1,8 @@
 import LossFunctions.F1Score;
 import LossFunctions.Precision;
 import LossFunctions.Recall;
-import NearestNeighborAlgorithms.KNearestNeighbor;
 
 import javax.swing.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
 
@@ -20,7 +18,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	public void run()//the method that is called when a Thread starts
 	{
 		//knn examples
-		double[] exdp1 = {1.0, 5.0, 10.0};
+		/*double[] exdp1 = {1.0, 5.0, 10.0};
 		double[] exdp2 = {2.0, 2.0, 7.0};
 		double[] exdp3 = {3.0, 4.0, 4.0};
 		double[] exdp4 = {3.0, 1.0, 3.0};
@@ -28,16 +26,43 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		double[] exdp = {0.0, 5.0, 8.0};
 
-		double[][] exampleDatapoints = {exdp1, exdp2, exdp3, exdp4, exdp5};
+		double[][] exampleDatapoints = {exdp1, exdp2, exdp3, exdp4, exdp5};*/
 
-		KNearestNeighbor knn = new KNearestNeighbor("classification", 2, exampleDatapoints, exdp);
+		float[] data1 = {5, 4};
+		float[] data2 = {7, 4};
+		float[] data3 = {7, 4};
+		float[] data4 = {5, 4};
+		float[] data5 = {7, 4};
+		float[] data6 = {5, 4};
 
-		double d = knn.getDistance(exdp1, exdp2);
+		float[] datax = {8, 4};
 
-		double nn = knn.getNearestNeighbors(exdp, exampleDatapoints);
+		Node node1 = new Node(1, data1, 0);
+		Node node2 = new Node(2, data2, 0);
+		Node node3 = new Node(2, data3, 0);
+		Node node4 = new Node(4, data4, 0);
+		Node node5 = new Node(5, data5, 0);
+		Node node6 = new Node(6, data6, 0);
+
+		Node nodex = new Node(0, datax, 0);
+
+		ArrayList<Node> exnodes = new ArrayList<>();
+		exnodes.add(node1);
+		exnodes.add(node2);
+		exnodes.add(node3);
+		exnodes.add(node4);
+		exnodes.add(node5);
+		exnodes.add(node6);
+
+
+		KNearestNeighbor knn = new KNearestNeighbor("classification", 6, exnodes, nodex);
+
+		//double d = knn.getDistance(node1, node2);
+		//System.out.println(d);
+
+		double nn = knn.getNearestNeighbors(nodex, exnodes);
 		System.out.println(nn);
 
-		//System.out.println(d);
 
 
 		//parse out the data in the file
@@ -78,16 +103,23 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
-		visualize(nodes, "base");
+
+		//visualize(nodes, "base");
+
 		System.out.println("Pre-edited node list length: " + nodes.size());
 		//for(Node node : nodes)
 		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
 		ArrayList<Node> newNodes = new ArrayList<>(nodes);
 		newNodes = new EditedKNN().editSet(newNodes);
+		System.out.println("REAL CLASS");
+		System.out.println(newNodes.get(0).getId());
+
+		knn.getNearestNeighbors(newNodes.get(0), newNodes);
 		
 		//visualize(newNodes, "edited");
 		System.out.println("\nPost-edited node list length: " + newNodes.size() + "\n");
+
 		//for(Node node : nodes)
 		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
