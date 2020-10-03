@@ -28,7 +28,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		double[][] exampleDatapoints = {exdp1, exdp2, exdp3, exdp4, exdp5};
 
-		KNearestNeighbor knn = new KNearestNeighbor("classification", 1, exampleDatapoints, exdp);
+		KNearestNeighbor knn = new KNearestNeighbor("classification", 2, exampleDatapoints, exdp);
 
 		double d = knn.getDistance(exdp1, exdp2);
 
