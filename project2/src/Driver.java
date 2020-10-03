@@ -3,6 +3,8 @@ import LossFunctions.Precision;
 import LossFunctions.Recall;
 import NearestNeighborAlgorithms.KNearestNeighbor;
 
+import javax.swing.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
 
@@ -70,8 +72,24 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				nodes = p.segmentationParser(fileStart + filePath + fileEnd);
 				System.out.println("Done Segmentation");
 			}
+			case "simpleData" -> {
+				nodes = p.simpleParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Simple");
+			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
+		visualize(nodes, "base");
+		System.out.println("Pre-edited node list length: " + nodes.size());
+		//for(Node node : nodes)
+		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
+		
+		ArrayList<Node> newNodes = new ArrayList<>(nodes);
+		newNodes = new EditedKNN().editSet(newNodes);
+		
+		//visualize(newNodes, "edited");
+		System.out.println("\nPost-edited node list length: " + newNodes.size() + "\n");
+		//for(Node node : nodes)
+		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
 		/*for(Node node : nodes)
 			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
@@ -107,6 +125,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}*/
 
+		/*
 		// verify clustering works
 		// construct KMeans, which also computes all the clusters
 		PAMClustering pam = new PAMClustering(5, nodes);
@@ -132,12 +151,22 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				System.out.println();
 			}
 		}
-		
+		*/
 		/*BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
 		DataShuffler.shuffleFeatureData(nodes);	//Shuffle one attribute
 		System.out.println("Running shuffled data");
 		BayesNet(nodes, attrValueLow, numattrValues);//runs on the data that has had one attribute shuffled.
 		 */
+	}
+	
+	public void visualize(ArrayList<Node> nodes1, String title)
+	{
+		VisualizeData vd1 = new VisualizeData(nodes1);
+		JFrame f1 = new JFrame(title);
+		f1.add(vd1);
+		f1.setSize(600, 600);
+		f1.setLocationRelativeTo(null);
+		f1.setVisible(true);
 	}
 	
 	public void BayesNet(ArrayList<Node> nodes, int attrValueLow, int numattrValues)
@@ -196,7 +225,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver(files[2]);
+		Driver test = new Driver("simpleData");//simpleData
 		test.start();
 		
 		//use these if you want to run all the data sets

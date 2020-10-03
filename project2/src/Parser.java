@@ -6,10 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/*
+cross validation
+tuning
+k-nearest edited, condensed
+ */
 public class Parser
 {
 	/**
 	 * initializes a scanner for the given file
+	 *
 	 * @param filePath the path to the file the scanner is attached to.
 	 * @return an initialized scanner, or null if the scanner failed to initialize.
 	 */
@@ -27,63 +33,6 @@ public class Parser
 		return null;
 	}
 	
-	public ArrayList<Node> normData(ArrayList<Node> list)
-	{
-		//initialize variables for normalization
-		float minID = Float.MAX_VALUE, maxID = Float.MIN_NORMAL;
-		float[] minList = new float[list.get(0).getData().length];
-		float[] maxList = new float[list.get(0).getData().length];
-		for(int i = 0; i < list.get(0).getData().length; i++)
-		{
-			minList[i] = Float.MAX_VALUE;
-			maxList[i] = Float.MIN_VALUE;
-		}
-		
-		//find min and max values for each attribute
-		for(Node node : list)
-		{
-			//find mix/max for Id
-			if(minID > node.getId())
-			{
-				minID = node.getId();
-			}
-			if(maxID < node.getId())
-			{
-				maxID = node.getId();
-			}
-			
-			//find min/max for attributes
-			for(int j = 0; j < node.getData().length; j++)
-			{
-				if(minList[j] > node.getData()[j])
-				{
-					minList[j] = node.getData()[j];
-				}
-				if(maxList[j] < node.getData()[j])
-				{
-					maxList[j] = node.getData()[j];
-				}
-			}
-		}
-		//scale the values of each attribute to be between 0 and 1
-		for(Node node : list)
-		{
-//			System.out.print("New Element: Old: " + node.getId() + "\t New: ");
-			node.setId((node.getId() - minID)/(maxID - minID));
-//			System.out.println(node.getId());
-			for(int j = 0; j < node.getData().length; j++)
-			{
-//				System.out.print("\tOld: " + node.getData()[j]);
-				
-				node.getData()[j] = (node.getData()[j] - minList[j]) / (maxList[j] - minList[j]);
-				
-//				System.out.println("\tNew: " + node.getData()[j]);
-			}
-		}
-		
-		return list;
-	}
-	
 	//The below functions are all slightly different but all parse the data out from their respective files.
 	public ArrayList<Node> glassParser(String filePath)
 	{
@@ -99,21 +48,24 @@ public class Parser
 			float type = 0;
 			try
 			{
-				type = Integer.parseInt(data[data.length-1]);
+				type = Integer.parseInt(data[data.length - 1]);
 			}
-			catch(NumberFormatException ignored){}
-			
-			
-			float[] dataPoints = new float[data.length-2];
-			for(int i = 1; i < data.length-1; i++)
+			catch(NumberFormatException ignored)
 			{
-				dataPoints[i-1] = Float.parseFloat(data[i]);
 			}
-			nodes.add(new Node(type, dataPoints));
+			
+			
+			float[] dataPoints = new float[data.length - 2];
+			for(int i = 1; i < data.length - 1; i++)
+			{
+				dataPoints[i - 1] = Float.parseFloat(data[i]);
+			}
+			nodes.add(new Node(type, dataPoints, -1));
 		}
 		
-		return normData(nodes);
+		return nodes;
 	}
+	
 	public ArrayList<Node> votesParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
@@ -129,20 +81,21 @@ public class Parser
 			if(data[0].equals("democrat"))
 				dr = 1;
 			
-			float[] votes = new float[data.length-1];
+			float[] votes = new float[data.length - 1];
 			for(int i = 1; i < data.length; i++)
 			{
 				switch(data[i])//attempt to set a value for each vote. If not possible, randomize the value
 				{
 					case ("y") -> votes[i - 1] = 1;
 					case ("n") -> votes[i - 1] = 2;
-					default -> votes[i - 1] = (int)(Math.random()*2)+1;//randomly generating unknown values
+					default -> votes[i - 1] = (int) (Math.random() * 2) + 1;//randomly generating unknown values
 				}
 			}
-			nodes.add(new Node(dr, votes));
+			nodes.add(new Node(dr, votes, -1));
 		}
-		return normData(nodes);
+		return nodes;
 	}
+	
 	public ArrayList<Node> abaloneParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
@@ -164,16 +117,17 @@ public class Parser
 			else//data[0].equals("I")
 				id = 2;
 			
-			float[] attributes = new float[data.length-1];
+			float[] attributes = new float[data.length - 1];
 			for(int i = 0; i < attributes.length; i++)
 			{
-				attributes[i] = Float.parseFloat(data[i+1]);
+				attributes[i] = Float.parseFloat(data[i + 1]);
 			}
 			
-			nodes.add(new Node(id, attributes));
+			nodes.add(new Node(attributes[attributes.length - 1], attributes, attributes.length - 1));
 		}
-		return normData(nodes);
+		return nodes;
 	}
+	
 	public ArrayList<Node> firesParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
@@ -220,10 +174,11 @@ public class Parser
 			{
 				attributes[i] = Float.parseFloat(data[i]);
 			}
-			nodes.add(new Node(0, attributes));
+			nodes.add(new Node(attributes[attributes.length - 1], attributes, attributes.length - 1));
 		}
-		return normData(nodes);
+		return nodes;
 	}
+	
 	public ArrayList<Node> machineParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
@@ -252,10 +207,11 @@ public class Parser
 			attributes[1] = model.get(data[1]);
 			//System.out.println(attributes[1]);
 			
-			nodes.add(new Node(0, attributes));
+			nodes.add(new Node(attributes[attributes.length - 2], attributes, attributes.length - 2));
 		}
-		return normData(nodes);
+		return nodes;
 	}
+	
 	public ArrayList<Node> segmentationParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
@@ -272,7 +228,7 @@ public class Parser
 			String line = in.next();
 			String[] data = line.split(",");
 			float id;
-			float[] attributes = new float[data.length-1];
+			float[] attributes = new float[data.length - 1];
 			
 			if(classes.get(data[0]) == null)
 				classes.put(data[0], classes.size());
@@ -280,10 +236,28 @@ public class Parser
 			
 			for(int i = 1; i < data.length; i++)
 			{
-				attributes[i-1] = Float.parseFloat(data[i]);
+				attributes[i - 1] = Float.parseFloat(data[i]);
 			}
-			nodes.add(new Node(id, attributes));
+			nodes.add(new Node(id, attributes, -1));
 		}
-		return normData(nodes);
+		return nodes;
+	}
+	
+	public ArrayList<Node> simpleParser(String filePath)
+	{
+		Scanner in = initScanner(filePath);
+		ArrayList<Node> nodes = new ArrayList<>();
+		while(in.hasNext())
+		{
+			String line = in.next();
+			String[] data = line.split(",");
+			float[] attr = new float[data.length];
+			for(int i = 0; i < data.length; i++)
+			{
+				attr[i] = Float.parseFloat(data[i]);
+			}
+			nodes.add(new Node(Float.parseFloat(data[2]), attr, -1));
+		}
+		return nodes;
 	}
 }
