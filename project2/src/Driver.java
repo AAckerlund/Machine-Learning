@@ -275,6 +275,15 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			CondensedKNN CKNN = new CondensedKNN();
 			ArrayList<Node> condensedTrainingSet = CKNN.condenseSet(trainingSet);
 			testFold(condensedTrainingSet, testSet, k);
+			int kCluster = condensedTrainingSet.size();	// set number of clusters to number of points returned from condensing
+			// Clustering
+			System.out.println("Testing KNN with Centroids as training set...");
+			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
+			testFold(kmc.getCentroids(), testSet, k);	// test fold using centroids as training set
+
+			System.out.println("Testing KNN with Centroids as training set...");
+			PAMClustering pam = new PAMClustering(kCluster, nodes);
+			testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set
 
 			groups.iterateTestSet();
 		}
