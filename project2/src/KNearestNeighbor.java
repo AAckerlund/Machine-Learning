@@ -3,18 +3,6 @@ import java.lang.Double;
 import java.util.Random;
 
 public class KNearestNeighbor {
-    String type;
-    int k;
-    ArrayList<Node> datapoints;
-    Node datapoint;
-
-    public KNearestNeighbor(String type, int k, ArrayList<Node> datapoints, Node datapoint){
-        this.type = type;
-        this.k = k;
-        this.datapoints = datapoints;
-        this.datapoint = datapoint;
-    }
-
     //finds distance between two data points from attribute values
     public double getDistance(Node dp1, Node dp2){
         double distance;
@@ -28,16 +16,12 @@ public class KNearestNeighbor {
         return distance;
     }
 
-    public double getNearestNeighbors(Node datapoint, ArrayList<Node> datapoints){
-        /*for(int i = 0; i<datapoints.length; i++) {
-            System.out.println(datapoints[i][0]);
-        }*/
+    public int getNearestNeighbors(Node datapoint, ArrayList<Node> datapoints, int k){
         ArrayList<Double> distances = new ArrayList<Double>();
-        //double[] distances = {};
+
         for(int i = 0; i<datapoints.size(); i++){
             double distance = getDistance(datapoint, datapoints.get(i));
             distances.add(distance);
-            //distances[i] = distance;
         }
 
         if(k > distances.size()){
@@ -63,23 +47,19 @@ public class KNearestNeighbor {
                     lowestDistance = distances.get(j);
                     lowestDistanceIndex = j;
                     classOfLowestDistance = knodes.get(j).getId();
-                    System.out.println("class is: ");
-                    System.out.println(knodes.get(j).getId());
-                    //classOfKLowestDistances.add(datapoints[j][0]);
                 }
             }
             System.out.println("lowest class: ");
             System.out.println(classOfLowestDistance);
             classOfKLowestDistances.add(classOfLowestDistance);
+
             kLowestDistances.add(lowestDistance);
             System.out.println("lowest distance: ");
             System.out.println(lowestDistance);
+
             distances.remove(distances.get(lowestDistanceIndex));
             knodes.remove(knodes.get(lowestDistanceIndex));
-            System.out.println("knodes");
-            for(int g = 0; g<knodes.size(); g++){
-                System.out.println(knodes.get(g).getId());
-            }
+
             System.out.println("distances");
             for(int g = 0; g<distances.size(); g++){
                 System.out.println(distances.get(g));
@@ -89,15 +69,9 @@ public class KNearestNeighbor {
             for(int g = 0; g<classOfKLowestDistances.size(); g++) {
                 System.out.println(classOfKLowestDistances.get(g));
             }
-            System.out.println("DONE");
+            System.out.println("");
 
         }
-
-        /*for(int i = 0; i<classOfKLowestDistances.size(); i++) {
-            System.out.println(classOfKLowestDistances.get(i));
-        }*/
-
-        //return 5;
 
         int highestOccurence = 0;
         ArrayList<Double> classesWithHighestOccurence = new ArrayList<>();
@@ -108,12 +82,6 @@ public class KNearestNeighbor {
                 if(Double.compare(classOfKLowestDistances.get(j), classOfKLowestDistances.get(i)) == 0){
                     count += 1;
                 }
-                else{
-                    /*System.out.println(classOfKLowestDistances.get(j));
-                    System.out.println("is not equal to");
-                    System.out.println(classOfKLowestDistances.get(i));*/
-                }
-
 
             }
             if(count >= highestOccurence) {
@@ -127,16 +95,22 @@ public class KNearestNeighbor {
         for(int i = 0; i<classesWithHighestOccurence.size(); i++) {
             System.out.println(classesWithHighestOccurence);
         }
-        //return kLowestDistances;
+
         Random rand = new Random();
         int classIndex = rand.nextInt(classesWithHighestOccurence.size());
-        double chosenClass = classesWithHighestOccurence.get(classIndex);
+        int chosenClass = (int)(double)classesWithHighestOccurence.get(classIndex);
 
-        System.out.println("CLASS: ");
+        System.out.println("CHOSEN CLASS: ");
         System.out.println(chosenClass);
+        System.out.println("REAL CLASS ");
+        System.out.println((int)datapoint.getId());
         return chosenClass;
     }
 
-    //pubic getClassFromNearestNeighbors(ArrayList<Double> nearestNeighbors)
+
+
+    /*public double getNearestNeighborsRegression(Node datapoint, ArrayList<Node> datapoints, int k, String type){
+
+    }*/
 
 }
