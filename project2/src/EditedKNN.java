@@ -4,12 +4,14 @@ import java.util.Collections;
 
 public class EditedKNN
 {
-	public ArrayList<Node> editSet(ArrayList<Node> data, int k)
+	public ArrayList<Node> editSet(ArrayList<Node> dataInput, int k)
 	{
 		boolean dataNotChanged = false;
+		ArrayList<Node> data = new ArrayList<>(dataInput);	// copy input so original isn't modified
 		while(!dataNotChanged)
 		{
 			dataNotChanged = true;
+
 			Collections.shuffle(data);
 			ArrayList<Node> nearest;
 			
@@ -20,10 +22,10 @@ public class EditedKNN
 				{
 					if(i == j)//don't want to check a node against itself
 						continue;
-					
+
 					if(nearest.size() == 0)//since we can't calculate the distance to a null value we must have something in the nearest list
 						nearest.add(data.get(j));
-					
+
 					if(nearest.size() > k)//error checking
 					{
 						System.out.println("nearest too big");
@@ -32,7 +34,7 @@ public class EditedKNN
 					//if the distance between the current node and one we are checking against is less than the distance between the current node and its current furthest neighbor
 					if(Calc.dist(data.get(i).getData(), data.get(j).getData()) < Calc.dist(data.get(i).getData(), biggestDist(data.get(i), nearest).getData()))
 					{
-						
+
 						nearest.add(data.get(j));
 						if(nearest.size() > k)//error checking
 						{
@@ -71,7 +73,7 @@ public class EditedKNN
 		}
 		return data.get(toRemove);
 	}
-	
+
 	public boolean sameValue(Node guess, ArrayList<Node> known)
 	{
 		ArrayList<Float> id = new ArrayList<>();//a list of all the ids in known
@@ -94,14 +96,14 @@ public class EditedKNN
 				}
 			}
 		}
-		
+
 		int greatestFrequency = 0;//find the id(s) with the greatest frequency
 		for(Integer integer : frequency)
 		{
 			if(integer > greatestFrequency)
 				greatestFrequency = integer;
 		}
-		
+
 		for(int i = 0; i < id.size(); i++)
 		{
 			if(frequency.get(i) == greatestFrequency)//this id has the greatest frequency

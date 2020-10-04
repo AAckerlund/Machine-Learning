@@ -100,10 +100,10 @@ public class KNearestNeighbor {
         int classIndex = rand.nextInt(classesWithHighestOccurence.size());
         int chosenClass = (int)(double)classesWithHighestOccurence.get(classIndex);
 
-        System.out.println("CHOSEN CLASS: ");
-        System.out.println(chosenClass);
-        System.out.println("REAL CLASS ");
-        System.out.println((int)datapoint.getId());
+        //System.out.println("CHOSEN CLASS: ");
+        //System.out.println(chosenClass);
+        //System.out.println("REAL CLASS ");
+        //System.out.println((int)datapoint.getId());
         return chosenClass;
     }
 
