@@ -16,14 +16,11 @@ public class VisualizeData extends Canvas
 		minAttrValue = new float[2];
 		maxAttrValue = new float[2];
 		findMinMax(graph);
-		System.out.println(minAttrValue[0] + " " + maxAttrValue[0]);
-		System.out.println(minAttrValue[1] + " " + maxAttrValue[1]);
 	}
 	
 	public void paint(Graphics g)//This method just knows when it is needed and calls itself. Currently it gets called once the graph has been completely generated
 	{
 		int r = 5;//sets a radius for the nodes
-		//System.out.println("Size of data set: " + graph.size());
 		for(float i = 0; i < (maxAttrValue[0] - minAttrValue[0]) + 20; i += (maxAttrValue[0] - minAttrValue[0])/getWidth())
 		{
 			for(float j = 0; j < (maxAttrValue[1] - minAttrValue[1]) + 20; j += (maxAttrValue[1] - minAttrValue[1])/getHeight())
@@ -38,7 +35,6 @@ public class VisualizeData extends Canvas
 				g.setColor(colorMap.get((int) closestNode(i, j).getId()));
 				int x = (int)((i - minAttrValue[0])/(maxAttrValue[0] - minAttrValue[0]) * getWidth());
 				int y = (int)((j - minAttrValue[1])/(maxAttrValue[1] - minAttrValue[1]) * getHeight());
-				System.out.println(y);
 				g.fillRect(x, y, 1, 1);//paint each pixel
 			}
 		}
@@ -60,14 +56,13 @@ public class VisualizeData extends Canvas
 	{
 		Node closest = null;
 		float minDist = Float.MAX_VALUE;
-		KMeansClustering calc = new KMeansClustering();
 		
 		for(Node n : graph)
 		{
-			if(calc.dist(new float[] {x, y}, n.getData()) < minDist)
+			if(Calc.dist(new float[] {x, y}, n.getData()) < minDist)
 			{
 				closest = n;
-				minDist = calc.dist(new float[] {x, y}, n.getData());
+				minDist = Calc.dist(new float[] {x, y}, n.getData());
 			}
 		}
 		return closest;

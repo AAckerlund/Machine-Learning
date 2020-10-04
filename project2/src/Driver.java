@@ -18,7 +18,17 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	public void run()//the method that is called when a Thread starts
 	{
 		//knn examples
-		/*float[] data1 = {5, 4};
+		/*double[] exdp1 = {1.0, 5.0, 10.0};
+		double[] exdp2 = {2.0, 2.0, 7.0};
+		double[] exdp3 = {3.0, 4.0, 4.0};
+		double[] exdp4 = {3.0, 1.0, 3.0};
+		double[] exdp5 = {3.0, 9.0, 8.0};
+
+		double[] exdp = {0.0, 5.0, 8.0};
+
+		double[][] exampleDatapoints = {exdp1, exdp2, exdp3, exdp4, exdp5};
+
+		float[] data1 = {5, 4};
 		float[] data2 = {7, 4};
 		float[] data3 = {7, 4};
 		float[] data4 = {5, 4};
@@ -42,25 +52,21 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		exnodes.add(node3);
 		exnodes.add(node4);
 		exnodes.add(node5);
-		exnodes.add(node6);*/
+		exnodes.add(node6);
 
 
-		KNearestNeighbor knn = new KNearestNeighbor();
+		KNearestNeighbor knn = new KNearestNeighbor("classification", 6, exnodes, nodex);
 
+		double nn = knn.getNearestNeighbors(nodex, exnodes);
+		System.out.println(nn);*/
+		
 		//parse out the data in the file
 		System.out.println(filePath);
 		Parser p = new Parser();
 		ArrayList<Node> nodes = null;
-		int attrValueLow = 1;
-		int numattrValues = 10;	// most datasets have 10 attribute values or 10 bins
 		switch (filePath) {
 			case "house-votes-84" -> {
 				nodes = p.votesParser(fileStart + filePath + fileEnd);
-				//knn example, removes datapoint so nn isn't datapoint itself
-				nodes.remove(0);
-				knn.getNearestNeighbors(nodes.get(0), nodes, 5);
-
-				numattrValues = 2;
 				System.out.println("Done Votes");
 			}
 			case "glass" -> {
@@ -73,9 +79,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			case "forestfires" -> {
 				nodes = p.firesParser(fileStart + filePath + fileEnd);
-
-				//knn.getNearestNeighbors(nodes.get(5), nodes, 5, "regression");
-
 				System.out.println("Done Forest Fires");
 			}
 			case "machine" -> {
@@ -92,34 +95,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
-
-		//visualize(nodes, "base");
-
-		System.out.println("Pre-edited node list length: " + nodes.size());
-		//for(Node node : nodes)
-		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
-		ArrayList<Node> newNodes = new ArrayList<>(nodes);
-		//newNodes = new EditedKNN().editSet(newNodes);
-
 		//System.out.println("REAL CLASS");
 		//System.out.println(newNodes.get(0).getId());
 
-		//knn.getNearestNeighbors(newNodes.get(0), newNodes, 5, "classification");
-		
-		//visualize(newNodes, "edited");
-
-		System.out.println("\nPost-edited node list length: " + newNodes.size() + "\n");
-
-		//for(Node node : nodes)
-		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
-		
-		/*for(Node node : nodes)
-			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
-		*/
-		
-		//Testing the stratification is working correctly
-		//new TrainingGroups(nodes);
+		//knn.getNearestNeighbors(newNodes.get(0), newNodes);
 
 		/*
 		// verify clustering works
@@ -175,6 +155,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}
 		*/
+		
 		/*BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
 		DataShuffler.shuffleFeatureData(nodes);	//Shuffle one attribute
 		System.out.println("Running shuffled data");
@@ -248,12 +229,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-
-		/*Driver test = new Driver("simpleData");//simpleData
-		test.start();*/
-
-		Driver test2 = new Driver("house-votes-84");//simpleData
-		test2.start();
+		Driver test = new Driver("simpleData");//simpleData
+		test.start();
 		
 		//use these if you want to run all the data sets
 		/*for (String file : files)//create a new instance of the driver for each of the data sets.
@@ -261,24 +238,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			Driver d = new Driver(file);
 			//System.out.println("\n********************\n" + file + "\n********************\n");
 			d.start();//Starts a new thread
-		}*/
-
-		/* Just testing to make sure references work the way I expect them to
-		ArrayList<ArrayList<Integer>> clusters = new ArrayList<>();
-		clusters.add(new ArrayList<>());
-		clusters.get(0).add(5);
-		ArrayList<ArrayList<Integer>> oldClusters = clusters;
-		clusters = new ArrayList<ArrayList<Integer>>();   // initialize new clusters
-
-		System.out.println("old clusters has values: ");
-		for (ArrayList<Integer> cluster : oldClusters)
-			for (Integer value : cluster) {
-				System.out.println(value);
-			}
-		for (ArrayList<Integer> cluster : clusters) {
-			for (Integer value : cluster) {
-				System.out.println(value);
-			}
 		}*/
 	}
 }
