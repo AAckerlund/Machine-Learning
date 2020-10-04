@@ -26,7 +26,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		double[] exdp = {0.0, 5.0, 8.0};
 
-		double[][] exampleDatapoints = {exdp1, exdp2, exdp3, exdp4, exdp5};*/
+		double[][] exampleDatapoints = {exdp1, exdp2, exdp3, exdp4, exdp5};
 
 		float[] data1 = {5, 4};
 		float[] data2 = {7, 4};
@@ -57,24 +57,16 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		KNearestNeighbor knn = new KNearestNeighbor("classification", 6, exnodes, nodex);
 
-		//double d = knn.getDistance(node1, node2);
-		//System.out.println(d);
-
 		double nn = knn.getNearestNeighbors(nodex, exnodes);
-		System.out.println(nn);
-
-
-
+		System.out.println(nn);*/
+		
 		//parse out the data in the file
 		System.out.println(filePath);
 		Parser p = new Parser();
 		ArrayList<Node> nodes = null;
-		int attrValueLow = 1;
-		int numattrValues = 10;	// most datasets have 10 attribute values or 10 bins
 		switch (filePath) {
 			case "house-votes-84" -> {
 				nodes = p.votesParser(fileStart + filePath + fileEnd);
-				numattrValues = 2;
 				System.out.println("Done Votes");
 			}
 			case "glass" -> {
@@ -103,32 +95,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
-
-		//visualize(nodes, "base");
-
-		System.out.println("Pre-edited node list length: " + nodes.size());
-		//for(Node node : nodes)
-		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
 		
-		ArrayList<Node> newNodes = new ArrayList<>(nodes);
-		newNodes = new EditedKNN().editSet(newNodes);
-		System.out.println("REAL CLASS");
-		System.out.println(newNodes.get(0).getId());
+		//System.out.println("REAL CLASS");
+		//System.out.println(newNodes.get(0).getId());
 
-		knn.getNearestNeighbors(newNodes.get(0), newNodes);
-		
-		//visualize(newNodes, "edited");
-		System.out.println("\nPost-edited node list length: " + newNodes.size() + "\n");
-
-		//for(Node node : nodes)
-		//	System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
-		
-		/*for(Node node : nodes)
-			System.out.println(node.getId() + " " + Arrays.toString(node.getData()));
-		*/
-		
-		//Testing the stratification is working correctly
-		//new TrainingGroups(nodes);
+		//knn.getNearestNeighbors(newNodes.get(0), newNodes);
 
 		/*
 		// verify clustering works
@@ -184,6 +155,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}
 		*/
+		
 		/*BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
 		DataShuffler.shuffleFeatureData(nodes);	//Shuffle one attribute
 		System.out.println("Running shuffled data");
@@ -266,24 +238,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			Driver d = new Driver(file);
 			//System.out.println("\n********************\n" + file + "\n********************\n");
 			d.start();//Starts a new thread
-		}*/
-
-		/* Just testing to make sure references work the way I expect them to
-		ArrayList<ArrayList<Integer>> clusters = new ArrayList<>();
-		clusters.add(new ArrayList<>());
-		clusters.get(0).add(5);
-		ArrayList<ArrayList<Integer>> oldClusters = clusters;
-		clusters = new ArrayList<ArrayList<Integer>>();   // initialize new clusters
-
-		System.out.println("old clusters has values: ");
-		for (ArrayList<Integer> cluster : oldClusters)
-			for (Integer value : cluster) {
-				System.out.println(value);
-			}
-		for (ArrayList<Integer> cluster : clusters) {
-			for (Integer value : cluster) {
-				System.out.println(value);
-			}
 		}*/
 	}
 }
