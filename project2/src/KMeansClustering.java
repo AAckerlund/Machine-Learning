@@ -29,9 +29,6 @@ public class KMeansClustering {
             count++;
         }
     }
-    
-    //Overloading the constructor so that dist can be called for Edited KNN
-    public KMeansClustering(){}
 
     private ArrayList<Node> pickRandomCentroids() {
         // helper method generates new centroids at the beginning of the clustering process from picking random datapoints
