@@ -60,7 +60,6 @@ public class VisualizeData extends Canvas
 	{
 		Node closest = null;
 		float minDist = Float.MAX_VALUE;
-		KMeansClustering calc = new KMeansClustering();
 		
 		for(Node n : graph)
 		{
