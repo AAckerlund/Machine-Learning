@@ -109,8 +109,12 @@ public class KNearestNeighbor {
 
 
 
-    /*public double getNearestNeighborsRegression(Node datapoint, ArrayList<Node> datapoints, int k, String type){
+    public double getNearestNeighborsRegression(Node datapoint, ArrayList<Node> datapoints, int k){
+        return 2;
+    }
 
-    }*/
+    public double gaussian(double sigma, ){
+
+    }
 
 }
