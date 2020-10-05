@@ -1,5 +1,3 @@
-import MinMax.GlassDataMinMax;
-import MinMax.IrisDataMinMax;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ k-nearest edited, condensed
  */
 public class Parser
 {
+	private float minID, maxID;
 	/**
 	 * initializes a scanner for the given file
 	 *
@@ -31,6 +30,66 @@ public class Parser
 			System.out.println("Bad file path. The path given was " + filePath);
 		}
 		return null;
+	}
+	
+	public ArrayList<Node> normData(ArrayList<Node> list)
+	{
+		//initialize variables for normalization
+		minID = Float.MAX_VALUE;
+		maxID = Float.MIN_NORMAL;
+		float[] minList = new float[list.get(0).getData().length];
+		float[] maxList = new float[list.get(0).getData().length];
+		for(int i = 0; i < list.get(0).getData().length; i++)
+		{
+			minList[i] = Float.MAX_VALUE;
+			maxList[i] = Float.MIN_VALUE;
+		}
+		
+		//find min and max values for each attribute
+		for(Node node : list)
+		{
+			//find mix/max for Id
+			if(minID > node.getId())
+			{
+				minID = node.getId();
+			}
+			if(maxID < node.getId())
+			{
+				maxID = node.getId();
+			}
+			
+			//find min/max for attributes
+			for(int j = 0; j < node.getData().length; j++)
+			{
+				if(minList[j] > node.getData()[j])
+				{
+					minList[j] = node.getData()[j];
+				}
+				if(maxList[j] < node.getData()[j])
+				{
+					maxList[j] = node.getData()[j];
+				}
+			}
+		}
+		//scale the values of each attribute to be between 0 and 1
+		for(Node node : list)
+		{
+			node.setId((node.getId() - minID)/(maxID - minID));
+			for(int j = 0; j < node.getData().length; j++)
+			{
+				node.getData()[j] = (node.getData()[j] - minList[j]) / (maxList[j] - minList[j]);
+			}
+		}
+		return list;
+	}
+	
+	public ArrayList<Node> deNormID(ArrayList<Node> list)
+	{
+		for(Node node : list)
+		{
+			node.setId(node.getId() * (maxID - minID) + minID);
+		}
+		return list;
 	}
 	
 	//The below functions are all slightly different but all parse the data out from their respective files.
@@ -63,7 +122,7 @@ public class Parser
 			nodes.add(new Node(type, dataPoints, -1));
 		}
 		
-		return nodes;
+		return normData(nodes);
 	}
 	
 	public ArrayList<Node> votesParser(String filePath)
@@ -93,7 +152,7 @@ public class Parser
 			}
 			nodes.add(new Node(dr, votes, -1));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	
 	public ArrayList<Node> abaloneParser(String filePath)
@@ -125,7 +184,7 @@ public class Parser
 			
 			nodes.add(new Node(attributes[attributes.length - 1], attributes, attributes.length - 1));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	
 	public ArrayList<Node> firesParser(String filePath)
@@ -176,7 +235,7 @@ public class Parser
 			}
 			nodes.add(new Node(attributes[attributes.length - 1], attributes, attributes.length - 1));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	
 	public ArrayList<Node> machineParser(String filePath)
@@ -209,7 +268,7 @@ public class Parser
 			
 			nodes.add(new Node(attributes[attributes.length - 2], attributes, attributes.length - 2));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	
 	public ArrayList<Node> segmentationParser(String filePath)
@@ -240,7 +299,7 @@ public class Parser
 			}
 			nodes.add(new Node(id, attributes, -1));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 	
 	public ArrayList<Node> simpleParser(String filePath)
@@ -258,6 +317,6 @@ public class Parser
 			}
 			nodes.add(new Node(Float.parseFloat(data[2]), attr, -1));
 		}
-		return nodes;
+		return normData(nodes);
 	}
 }
