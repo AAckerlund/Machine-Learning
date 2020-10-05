@@ -58,7 +58,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		KNearestNeighbor knn = new KNearestNeighbor("classification", 6, exnodes, nodex);
 
 		double nn = knn.getNearestNeighbors(nodex, exnodes);
-		System.out.println(nn);*/
+		System.out.println(nn);
 
 		float[] data1 = {5, 4, 1};
 		float[] data2 = {7, 4, 6};
@@ -87,7 +87,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		enodes.add(node6);
 
 		KNearestNeighbor knnreg = new KNearestNeighbor();
-		knnreg.nearestNeighborsRegression(nodex, enodes, 2, 5, 0.1);
+		knnreg.nearestNeighborsRegression(nodex, enodes, 2, 5, 0.1);*/
 
 		
 		//parse out the data in the file
@@ -117,7 +117,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			case "forestfires" -> {
 				nodes = p.firesParser(fileStart + filePath + fileEnd);
-				int n = 4;
+				int n = 213;
 				Node datapoint = nodes.get(n);
 				nodes.remove(n);
 
@@ -129,7 +129,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			case "machine" -> {
 				nodes = p.machineParser(fileStart + filePath + fileEnd);
-				int n = 40;
+				int n = 13;
 				Node datapoint = nodes.get(n);
 				nodes.remove(n);
 
@@ -350,7 +350,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver("abalone");//simpleData
+		Driver test = new Driver("forestfires");//simpleData
 		test.start();
 		
 		//use these if you want to run all the data sets

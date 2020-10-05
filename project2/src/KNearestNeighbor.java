@@ -217,19 +217,22 @@ public class KNearestNeighbor {
             /*System.out.println("Neighbor Target Value: " + neighborTargetValue);
             System.out.println("nearest neighbor distance:" + nearestNeighbors.get(i));
             System.out.println("numerator: " + ((-(nearestNeighbors.get(i) * nearestNeighbors.get(i)))));*/
-            numerator += (Math.exp((-(nearestNeighbors.get(i) * nearestNeighbors.get(i))) / sigma)) * neighborTargetValue;
-            denominator += (Math.exp((-(nearestNeighbors.get(i) * nearestNeighbors.get(i))) / sigma));
+            double nnVal = nearestNeighbors.get(i);
+            numerator += (Math.exp((-(nnVal * nnVal)) / sigma)) * neighborTargetValue;
+            denominator += (Math.exp((-(nnVal * nnVal)) / sigma));
             index += 1;
+
+            if(Double.isNaN(numerator/denominator)){
+                nnVal = nnVal / 10000;
+                numerator += (Math.exp((-(nnVal * nnVal)) / sigma)) * neighborTargetValue;
+                denominator += (Math.exp((-(nnVal * nnVal)) / sigma));
+            }
         }
 
-        System.out.println(numerator);
-        System.out.println(denominator);
+        //System.out.println(numerator);
+        //System.out.println(denominator);
 
         double predictedValue = numerator / denominator;
-        if(Double.isNaN(predictedValue)){
-            System.out.println("DISTANCES ARE TOO LARGE FOR JAVA TO FIND VALUE");
-            return -1;
-        }
         return predictedValue;
     }
 
