@@ -142,6 +142,26 @@ public class KMeansClustering {
         return centroids;
     }
 
+    public ArrayList<Node> getNearestToCentroids() {
+        // returns list of points that are the closest to the centroids
+        ArrayList<Node> nearestNodes = new ArrayList<>();
+        for (Node centroid : centroids) {
+            Node closestNode = dataset.get(0);
+            float closestDistance = Float.POSITIVE_INFINITY;
+            for (Node node : dataset) {
+                float dist = Calc.dist(node.getData(), centroid.getData());
+                if (dist < closestDistance) {
+                    // if node is closer to centroid, assign it as such
+                    closestNode = node;
+                    closestDistance = dist;
+                }
+            }
+            nearestNodes.add(closestNode);  // save closest node for each centroid
+        }
+
+        return nearestNodes;
+    }
+
     public ArrayList<ArrayList<Node>> getClusters() {
         // returns list of clusters containing datapoints
         return clusters;

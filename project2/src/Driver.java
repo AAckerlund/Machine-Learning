@@ -333,7 +333,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			// Clustering
 			System.out.println("Testing KNN with Centroids as training set...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
-			testFold(kmc.getCentroids(), testSet, k);	// test fold using centroids as training set
+			testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
 
 			System.out.println("Testing KNN with Medoids as training set...");
 			PAMClustering pam = new PAMClustering(kCluster, nodes);
