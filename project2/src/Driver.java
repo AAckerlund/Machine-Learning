@@ -182,15 +182,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}*/
 
-		/*
-		// verify clustering works
-		// construct KMeans, which also computes all the clusters
-		PAMClustering pam = new PAMClustering(5, nodes);
 
-		//remove this later - loop to keep running until an empty cluster is assigned to test the code that handles it
-		while (!pam.emptyClusterCreated) {
-			pam = new PAMClustering(5, nodes);
-		}
+		// verify clustering works
+		// construct KMedoids, which also computes all the clusters
+		System.out.println("PAMClustering...");
+		PAMClustering pam = new PAMClustering(10, nodes);
+		System.out.println("Testing KNN with Medoids as training set...");
+		//testFold(pam.getMedoids(), testSet, 10);	// test fold using medoids as training set
 
 		ArrayList<Node> medoids = pam.getMedoids();
 		for(Node node : medoids) {
@@ -208,8 +206,19 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				System.out.println();
 			}
 		}
-		*/
-		
+
+		// Testing condensed KNN
+		/*CondensedKNN CKNN = new CondensedKNN();
+		ArrayList<Node> condensedSet = CKNN.condenseSet(nodes);
+		System.out.println("Number of nodes in original set: " + nodes.size());
+		for (Node node : nodes) {
+			System.out.println(node.getId() + Arrays.toString(node.getData()));
+		}
+		System.out.println("Number of nodes in condensed set: " + condensedSet.size());
+		for (Node node : condensedSet) {
+			System.out.println(node.getId() + Arrays.toString(node.getData()));
+		}*/
+
 		//crossValidation(nodes);//runs on the data as it appears in the .data files.
 	}
 	
@@ -331,12 +340,15 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			testFold(condensedTrainingSet, testSet, k);
 			int kCluster = condensedTrainingSet.size();	// set number of clusters to number of points returned from condensing
 			// Clustering
-			System.out.println("Testing KNN with Centroids as training set...");
+			System.out.println("KMeansClustering...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
+			System.out.println("Testing KNN with Centroids as training set...");
 			testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
 
-			System.out.println("Testing KNN with Medoids as training set...");
+			System.out.println("PAMClustering...");
+			System.out.println("Number of clusters chosen: " + kCluster);
 			PAMClustering pam = new PAMClustering(kCluster, nodes);
+			System.out.println("Testing KNN with Medoids as training set...");
 			testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set
 
 			groups.iterateTestSet();
