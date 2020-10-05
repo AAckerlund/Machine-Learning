@@ -87,7 +87,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		enodes.add(node6);
 
 		KNearestNeighbor knnreg = new KNearestNeighbor();
-		knnreg.nearestNeighborsRegression(nodex, enodes, 2, 5);
+		knnreg.nearestNeighborsRegression(nodex, enodes, 2, 5, 0.1);
 
 		
 		//parse out the data in the file
@@ -105,34 +105,37 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			case "abalone" -> {
 				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
-				Node datapoint = nodes.get(12);
-				nodes.remove(12);
+				int n = 14;
+				Node datapoint = nodes.get(n);
+				nodes.remove(n);
 
 				//testing knn regression
 				KNearestNeighbor knnre = new KNearestNeighbor();
-				knnre.nearestNeighborsRegression(datapoint, nodes, 7, 20);
+				knnre.nearestNeighborsRegression(datapoint, nodes, 7, 20, 0.1);
 
 				System.out.println("Done Abalone");
 			}
 			case "forestfires" -> {
 				nodes = p.firesParser(fileStart + filePath + fileEnd);
-				Node datapoint = nodes.get(0);
-				nodes.remove(0);
+				int n = 4;
+				Node datapoint = nodes.get(n);
+				nodes.remove(n);
 
 				//testing knn regression
 				KNearestNeighbor knnr = new KNearestNeighbor();
-				knnr.nearestNeighborsRegression(datapoint, nodes, 12, 5);
+				knnr.nearestNeighborsRegression(datapoint, nodes, 12, 5, 0.1);
 
 				System.out.println("Done Forest Fires");
 			}
 			case "machine" -> {
 				nodes = p.machineParser(fileStart + filePath + fileEnd);
-				Node datapoint = nodes.get(0);
-				nodes.remove(0);
+				int n = 40;
+				Node datapoint = nodes.get(n);
+				nodes.remove(n);
 
 				//testing knn regression
 				KNearestNeighbor knnrr = new KNearestNeighbor();
-				knnrr.nearestNeighborsRegression(datapoint, nodes, 9, 5);
+				knnrr.nearestNeighborsRegression(datapoint, nodes, 9, 5, 0.1);
 
 				System.out.println("Done Machine");
 			}

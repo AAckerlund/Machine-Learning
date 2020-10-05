@@ -9,9 +9,6 @@ public class KNearestNeighbor {
         double distance;
         double sum = 0;
 
-        //System.out.println("LENGTH OF 1");
-        //System.out.println(dp1.getData().length);
-
         for(int i = 0; i<dp1.getData().length; i++){
             double s =  ((dp1.getData()[i] - dp2.getData()[i]) * (dp1.getData()[i] - dp2.getData()[i]));
             sum += s;
@@ -113,12 +110,7 @@ public class KNearestNeighbor {
 
 
 
-    public double nearestNeighborsRegression(Node datapoint, ArrayList<Node> datapoints, int ignoredAttr, int k){
-        //ArrayList<Double> distances = new ArrayList<Double>();
-        //ArrayList<Node> dpCopy = new ArrayList<>();
-        //ArrayList<Float> datal = new ArrayList<>();
-        //float[][] dataWithoutTarget = {};
-
+    public double nearestNeighborsRegression(Node datapoint, ArrayList<Node> datapoints, int ignoredAttr, int k, double sigma){
         ArrayList<Float> modifiedData = new ArrayList<>();
         for(int i = 0; i<datapoint.getData().length; i++){
             modifiedData.add(datapoint.getData()[i]);
@@ -132,33 +124,7 @@ public class KNearestNeighbor {
         }
 
         Node dpNode = new Node(0, modifiedDatapoint, 0);
-
-        /*for(int i = 0; i<dpNode.getData().length; i++){
-            System.out.println(dpNode.getData()[i]);
-        }*/
-
         ArrayList<ArrayList<Float>> dataWithoutTarget = new ArrayList<>();
-
-        /*ArrayList<Integer> ints = new ArrayList<>();
-        ArrayList<Integer> ints2 = (ArrayList<Integer>)ints.clone();
-
-        ints.add(3);
-        ints2.add(1);
-
-        for(int i = 0; i<ints2.size(); i++){
-            System.out.println(ints2.get(i));
-        }*/
-
-        /*for(int i = 0; i<datapoints.size(); i++){
-            dpCopy.add(datapoints.get(i));
-        }*/
-
-        //System.out.println("LENGTH");
-        //System.out.println(datapoint.getData().length);
-
-        /*for(int i = 0; i<dpCopy.size(); i++){
-            System.out.println(dpCopy.get(i).getData()[12]);
-        }*/
 
         for(int i = 0; i<datapoints.size(); i++){
             ArrayList<Float> datal = new ArrayList<>();
@@ -170,22 +136,14 @@ public class KNearestNeighbor {
             dataWithoutTarget.add(datal);
         }
 
-        //verifies deleteing of ignored attribute was done correctly
-        /*for(int i = 0; i<dataWithoutTarget.size(); i++){
-            for(int j = 0; j<dataWithoutTarget.get(i).size(); j++) {
-                System.out.print(dataWithoutTarget.get(i).get(j) + ", ");
-            }
-            System.out.println("");
-        }*/
-
         float[][] newdata = new float[dataWithoutTarget.size()][dataWithoutTarget.get(0).size()];
         for(int i = 0; i<dataWithoutTarget.size(); i++){
             for(int j = 0; j<dataWithoutTarget.get(i).size(); j++) {
                 float datapiece = dataWithoutTarget.get(i).get(j);
                 newdata[i][j] = datapiece;
-                System.out.print(datapiece + ", ");
+                //System.out.print(datapiece + ", ");
             }
-            System.out.println("");
+            //System.out.println("");
         }
 
 
@@ -204,9 +162,9 @@ public class KNearestNeighbor {
             distances.add(distance);
         }
 
-        for(int i = 0; i<distances.size(); i++){
+        /*for(int i = 0; i<distances.size(); i++){
             System.out.println(distances.get(i));
-        }
+        }*/
 
         HashMap indexToDistance = new HashMap<Integer, Double>();
 
@@ -234,24 +192,18 @@ public class KNearestNeighbor {
 
         }
 
+        /*for(int i = 0; i<nearestNeighbors.size(); i++){
+            System.out.println(nearestNeighbors.get(i));
+        }*/
 
-        /*double neighborTargetValue = datapoints.get(18).getData()[ignoredAttr];
-        System.out.println(neighborTargetValue);
-
-        System.out.println(nearestNeighborIndexes.size());
-        System.out.println(nearestNeighbors.size());
-        System.out.println(distances.size());
-        System.out.println(datapoints.size());*/
-
-
-        double pv = gaussianEquation(0.1, nearestNeighbors, nearestNeighborIndexes, datapoints);
+        double predictedValue = gaussianEquation(0.1, nearestNeighbors, nearestNeighborIndexes, datapoints);
         System.out.println("PREDICTED VALUE: ");
-        System.out.println(pv);
+        System.out.println(predictedValue);
         System.out.println("REAL VALUE: ");
         System.out.println(datapoint.getData()[ignoredAttr]);
 
 
-        return 2;
+        return predictedValue;
     }
 
     public double gaussianEquation(double sigma, ArrayList<Double> nearestNeighbors, ArrayList<Integer> nearestNeighborIndexes, ArrayList<Node> datapoints){
@@ -259,24 +211,25 @@ public class KNearestNeighbor {
         double denominator = 0;
         int index = 0;
 
-        /*for(int i = 0; i<nearestNeighborIndexes.size(); i++){
-            int ignoredAttr = datapoints.get(i).getIgnoredAttr();
-            double a = datapoints.get(nearestNeighborIndexes.get(index)).getData()[ignoredAttr];
-            System.out.println(nearestNeighborIndexes.get(index));
-            System.out.println(a);
-        }*/
-
         for(int i = 0; i<nearestNeighbors.size(); i++){
             int ignoredAttr = datapoints.get(i).getIgnoredAttr();
             double neighborTargetValue = datapoints.get(nearestNeighborIndexes.get(index)).getData()[ignoredAttr];
-            System.out.println("NTV" + neighborTargetValue);
+            /*System.out.println("Neighbor Target Value: " + neighborTargetValue);
+            System.out.println("nearest neighbor distance:" + nearestNeighbors.get(i));
+            System.out.println("numerator: " + ((-(nearestNeighbors.get(i) * nearestNeighbors.get(i)))));*/
             numerator += (Math.exp((-(nearestNeighbors.get(i) * nearestNeighbors.get(i))) / sigma)) * neighborTargetValue;
             denominator += (Math.exp((-(nearestNeighbors.get(i) * nearestNeighbors.get(i))) / sigma));
             index += 1;
         }
 
+        System.out.println(numerator);
+        System.out.println(denominator);
+
         double predictedValue = numerator / denominator;
-        System.out.println(predictedValue);
+        if(Double.isNaN(predictedValue)){
+            System.out.println("DISTANCES ARE TOO LARGE FOR JAVA TO FIND VALUE");
+            return -1;
+        }
         return predictedValue;
     }
 
