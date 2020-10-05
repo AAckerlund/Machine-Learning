@@ -59,6 +59,36 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		double nn = knn.getNearestNeighbors(nodex, exnodes);
 		System.out.println(nn);*/
+
+		float[] data1 = {5, 4, 1};
+		float[] data2 = {7, 4, 6};
+		float[] data3 = {7, 4, 2};
+		float[] data4 = {5, 4, 6};
+		float[] data5 = {7, 4, 4};
+		float[] data6 = {5, 4, 4};
+
+		float[] datax = {8, 4, 6};
+
+		Node node1 = new Node(0, data1, 2);
+		Node node2 = new Node(0, data2, 2);
+		Node node3 = new Node(0, data3, 2);
+		Node node4 = new Node(0, data4, 2);
+		Node node5 = new Node(0, data5, 2);
+		Node node6 = new Node(0, data6, 2);
+
+		Node nodex = new Node(0, datax, 0);
+
+		ArrayList<Node> enodes = new ArrayList<>();
+		enodes.add(node1);
+		enodes.add(node2);
+		enodes.add(node3);
+		enodes.add(node4);
+		enodes.add(node5);
+		enodes.add(node6);
+
+		KNearestNeighbor knnreg = new KNearestNeighbor();
+		knnreg.nearestNeighborsRegression(nodex, enodes, 2, 5, 0.1);
+
 		
 		//parse out the data in the file
 		System.out.println(filePath);
@@ -75,14 +105,38 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			case "abalone" -> {
 				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
+				int n = 14;
+				Node datapoint = nodes.get(n);
+				nodes.remove(n);
+
+				//testing knn regression
+				KNearestNeighbor knnre = new KNearestNeighbor();
+				knnre.nearestNeighborsRegression(datapoint, nodes, 7, 20, 0.1);
+
 				System.out.println("Done Abalone");
 			}
 			case "forestfires" -> {
 				nodes = p.firesParser(fileStart + filePath + fileEnd);
+				int n = 4;
+				Node datapoint = nodes.get(n);
+				nodes.remove(n);
+
+				//testing knn regression
+				KNearestNeighbor knnr = new KNearestNeighbor();
+				knnr.nearestNeighborsRegression(datapoint, nodes, 12, 5, 0.1);
+
 				System.out.println("Done Forest Fires");
 			}
 			case "machine" -> {
 				nodes = p.machineParser(fileStart + filePath + fileEnd);
+				int n = 40;
+				Node datapoint = nodes.get(n);
+				nodes.remove(n);
+
+				//testing knn regression
+				KNearestNeighbor knnrr = new KNearestNeighbor();
+				knnrr.nearestNeighborsRegression(datapoint, nodes, 9, 5, 0.1);
+
 				System.out.println("Done Machine");
 			}
 			case "segmentation" -> {
@@ -156,7 +210,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		*/
 		
-		crossValidation(nodes);//runs on the data as it appears in the .data files.
+		//crossValidation(nodes);//runs on the data as it appears in the .data files.
 	}
 	
 	public void visualize(ArrayList<Node> nodes1, String title)
@@ -183,7 +237,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			for (Node example : tuningSet) {
 				int real = (int) example.getId();
 				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
-				int guess = knn.getNearestNeighbors(example, trainingSet, k);
+				int guess = knn.nearestNeighborClassification(example, trainingSet, k);
 				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess + " Real Class: " + real + "\n");
 				Integer[] result = {guess, real};
 				results.add(result);
@@ -221,7 +275,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			int guess;
 			int real = (int) example.getId();
 			//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
-			guess = (int)knn.getNearestNeighbors(example, trainingSet, k);
+			guess = (int)knn.nearestNeighborClassification(example, trainingSet, k);
 			System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess + " Real Class: " + real + "\n");
 			Integer[] result = {guess, real};
 			results.add(result);
@@ -296,7 +350,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver("simpleData");//simpleData
+		Driver test = new Driver("abalone");//simpleData
 		test.start();
 		
 		//use these if you want to run all the data sets
