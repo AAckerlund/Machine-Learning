@@ -184,8 +184,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		// verify clustering works
 		// construct KMedoids, which also computes all the clusters
-		System.out.println("PAMClustering...");
-		PAMClustering pam = new PAMClustering(10, nodes);
+		/*System.out.println("PAMClustering...");
+		PAMClustering pam = new PAMClustering(202, nodes);
 		System.out.println("Testing KNN with Medoids as training set...");
 		//testFold(pam.getMedoids(), testSet, 10);	// test fold using medoids as training set
 
@@ -204,7 +204,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 				System.out.println();
 			}
-		}
+		}*/
 
 		// Testing condensed KNN
 		/*CondensedKNN CKNN = new CondensedKNN();
@@ -283,7 +283,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			int guess;
 			int real = (int) example.getId();
 			//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
-			guess = (int)knn.nearestNeighborClassification(example, trainingSet, k);
+			guess = knn.nearestNeighborClassification(example, trainingSet, k);
 			System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess + " Real Class: " + real + "\n");
 			Integer[] result = {guess, real};
 			results.add(result);
@@ -332,12 +332,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			EditedKNN EKNN = new EditedKNN();
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
 			testFold(editedTrainingSet, testSet, k);
+			System.out.println("Edited KNN set size: " + editedTrainingSet.size());
 
 			System.out.println("Testing Condensed KNN...");
 			CondensedKNN CKNN = new CondensedKNN();
 			ArrayList<Node> condensedTrainingSet = CKNN.condenseSet(trainingSet);
 			testFold(condensedTrainingSet, testSet, k);
-			int kCluster = condensedTrainingSet.size();	// set number of clusters to number of points returned from condensing
+			int kCluster = editedTrainingSet.size();	// set number of clusters to number of points returned from condensing
+			System.out.println("Condensed KNN set: " + condensedTrainingSet.size());
 			// Clustering
 			System.out.println("KMeansClustering...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
