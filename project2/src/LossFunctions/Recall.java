@@ -51,28 +51,8 @@ public class Recall {
         return truePositives;
     }
     
-    public void setTruePositives(int truePositives)
-    {
-        this.truePositives = truePositives;
-    }
-    
     public int getFalseNegatives()
     {
         return falseNegatives;
-    }
-    
-    public void setFalseNegatives(int falseNegatives)
-    {
-        this.falseNegatives = falseNegatives;
-    }
-    
-    public double getRecall()
-    {
-        return recall;
-    }
-    
-    public void setRecall(double recall)
-    {
-        this.recall = recall;
     }
 }

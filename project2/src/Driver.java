@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
 
-
 public class Driver extends Thread//extending Thread allows for multithreading
 {
 	String fileStart = "dataSets/", fileEnd = ".data", filePath;

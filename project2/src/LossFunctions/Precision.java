@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Precision {
     private ArrayList<Integer[]> results;
     private int truePositives = 0, falsePositives = 0;
-    private double precision;
     
     public Precision(ArrayList<Integer[]> results){
         this.results = results;
@@ -43,10 +42,9 @@ public class Precision {
         if(truePositives + falsePositives == 0){
             return 0;
         }
-        precision = (double) truePositives / (truePositives + falsePositives);
-        return precision;
+        return (double) truePositives / (truePositives + falsePositives);
     }
-
+    
     //getters and setters
     public ArrayList<Integer[]> getResults()
     {
@@ -63,28 +61,8 @@ public class Precision {
         return truePositives;
     }
     
-    public void setTruePositives(int truePositives)
-    {
-        this.truePositives = truePositives;
-    }
-    
     public int getFalsePositives()
     {
         return falsePositives;
-    }
-    
-    public void setFalsePositives(int falsePositives)
-    {
-        this.falsePositives = falsePositives;
-    }
-    
-    public double getPrecision()
-    {
-        return precision;
-    }
-    
-    public void setPrecision(double precision)
-    {
-        this.precision = precision;
     }
 }

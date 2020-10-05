@@ -37,7 +37,6 @@ public class CondensedKNN {
                 }
             }
         }
-
         return data;
     }
 

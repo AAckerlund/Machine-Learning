@@ -13,25 +13,4 @@ public class F1Score {
         double f1Score = 2*((precision*recall)/(precision+recall));
         return(f1Score);
     }
-
-    //getters and setters
-    public double getPrecision()
-    {
-        return precision;
-    }
-    
-    public void setPrecision(double precision)
-    {
-        this.precision = precision;
-    }
-    
-    public double getRecall()
-    {
-        return recall;
-    }
-    
-    public void setRecall(double recall)
-    {
-        this.recall = recall;
-    }
 }
