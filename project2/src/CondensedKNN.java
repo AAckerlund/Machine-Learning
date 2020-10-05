@@ -37,7 +37,7 @@ public class CondensedKNN {
                 }
             }
         }
-        return data;
+        return condensedSet;
     }
 
     private Node findMinimumDistancePoint(ArrayList<Node> condensedSet, Node point) {
