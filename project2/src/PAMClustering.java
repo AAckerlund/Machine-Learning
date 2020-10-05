@@ -67,9 +67,8 @@ public class PAMClustering {
             clusters.get(minClusterIndex).add(point);   // assign point to cluster
         }
         for (int i = 0; i < medoids.size(); i++) {
-            // It should not be possible for a medoid to be empty since each medoid is within the dataset
             if (clusters.get(i).size() == 0) {
-                System.out.println("Empty cluster found. Re-adding nearest point");
+                //System.out.println("Empty cluster found. Re-adding nearest point");
                 emptyClusterCreated = true;
 
                 float minDistance = Float.POSITIVE_INFINITY;    // infinite distance

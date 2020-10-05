@@ -156,11 +156,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		*/
 		
-		/*BayesNet(nodes, attrValueLow, numattrValues);//runs on the data as it appears in the .data files.
-		DataShuffler.shuffleFeatureData(nodes);	//Shuffle one attribute
-		System.out.println("Running shuffled data");
-		BayesNet(nodes, attrValueLow, numattrValues);//runs on the data that has had one attribute shuffled.
-		 */
+		crossValidation(nodes);//runs on the data as it appears in the .data files.
 	}
 	
 	public void visualize(ArrayList<Node> nodes1, String title)
@@ -172,52 +168,123 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		f1.setLocationRelativeTo(null);
 		f1.setVisible(true);
 	}
-	
-	public void BayesNet(ArrayList<Node> nodes, int attrValueLow, int numattrValues)
-	{
-		TrainingGroups groups = new TrainingGroups(nodes);
+
+	public int tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet) {
+		// outputs a k that is tuned for precision based on a training and tuning set
+		System.out.println("Tuning k...");
+		int bestk = 0;
+		double bestPrecision = 0;
 		ArrayList<Integer[]> results = new ArrayList<>();
 
-		for (int i = 0; i < 10; i++) {
-			//System.out.println("Training set: " + i);
-			ArrayList<Node> trainingSet = groups.getTrainingSet();
-
-			TrainingSetAlgorithm algo = new TrainingSetAlgorithm(trainingSet, attrValueLow, numattrValues);
-			algo.train();
-			ArrayList<Node> testSet = groups.getTestSet();
-
-			for (Node example : testSet) {
-				int guess;
+		KNearestNeighbor knn = new KNearestNeighbor();
+		for (int k = (int)Math.sqrt(trainingSet.size()) - 2; k <= (int)Math.sqrt(trainingSet.size()) + 2; k++) {
+			//loop through 5 values of k centered around sqrt of the training set size
+			System.out.println("Test k value: " + k);
+			for (Node example : tuningSet) {
 				int real = (int) example.getId();
 				//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
-				guess = algo.classifyExample(example.getData());
+				int guess = knn.getNearestNeighbors(example, trainingSet, k);
 				System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess + " Real Class: " + real + "\n");
 				Integer[] result = {guess, real};
 				results.add(result);
 			}
-			
+
 			Precision precision = new Precision(results);
-			Recall recall = new Recall(results);
 			ArrayList<Integer> classes = precision.getClasses();
 
-			for(int _class: classes){
+			double avgPrecision = 0;
+			for(int _class: classes) {
+				// finds precisions of each class and averages them
 				precision.setTrueAndFalsePositives(_class);
-				int ptp = precision.getTruePositives();
-				int pfp = precision.getFalsePositives();
 				double precisionResult = precision.findPrecision();
-				System.out.println("Precision of class " + _class + "\tTrue Positives: " + ptp + "\tFalse Positives: " + pfp + "\tPrecision: " + precisionResult);
-				
-				recall.setTruePositivesAndFalseNegatives(_class);
-				int rtp = recall.getTruePositives();
-				int rfn = recall.getFalseNegatives();
-				double recallResult = recall.findRecall();
-				F1Score f1score = new F1Score(precisionResult, recallResult);
-				double f1Score = f1score.getF1Score();
+				avgPrecision += precisionResult;
 
-				System.out.println("Recall of class " + _class + "\tTrue Positives: " + rtp + "\tFalse Negatives: " + rfn + "\tRecall: " + recallResult);
-				System.out.println("F1 Score: " + f1Score);
-				System.out.println();
 			}
+			avgPrecision = avgPrecision/classes.size();	// take average
+			System.out.println("Avg Precision with k value " + k + ": " + avgPrecision);
+			if (avgPrecision > bestPrecision) {
+				// save best values for k and average precision
+				bestPrecision = avgPrecision;
+				bestk = k;
+			}
+		}
+		System.out.println("Chosen k: " + bestk);
+		return bestk;
+	}
+
+	public void testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k) {
+		System.out.println("Conducting test on testSet...");
+
+		KNearestNeighbor knn = new KNearestNeighbor();
+		ArrayList<Integer[]> results = new ArrayList<>();
+		for (Node example : testSet) {
+			int guess;
+			int real = (int) example.getId();
+			//System.out.println("\nAttempting to classify with attributes: " + Arrays.toString(example.getData()));
+			guess = (int)knn.getNearestNeighbors(example, trainingSet, k);
+			System.out.println("For attributes: " + Arrays.toString(example.getData()) + " Guess: " + guess + " Real Class: " + real + "\n");
+			Integer[] result = {guess, real};
+			results.add(result);
+		}
+
+		Precision precision = new Precision(results);
+		Recall recall = new Recall(results);
+		ArrayList<Integer> classes = precision.getClasses();
+
+		for(int _class: classes){
+			precision.setTrueAndFalsePositives(_class);
+			int ptp = precision.getTruePositives();
+			int pfp = precision.getFalsePositives();
+			double precisionResult = precision.findPrecision();
+			System.out.println("Precision of class " + _class + "\tTrue Positives: " + ptp + "\tFalse Positives: "
+					+ pfp + "\tPrecision: " + precisionResult);
+
+			recall.setTruePositivesAndFalseNegatives(_class);
+			int rtp = recall.getTruePositives();
+			int rfn = recall.getFalseNegatives();
+			double recallResult = recall.findRecall();
+			F1Score f1score = new F1Score(precisionResult, recallResult);
+			double f1Score = f1score.getF1Score();
+
+			System.out.println("Recall of class " + _class + "\tTrue Positives: " + rtp + "\tFalse Negatives: " + rfn + "\tRecall: " + recallResult);
+			System.out.println("F1 Score: " + f1Score);
+			System.out.println();
+		}
+	}
+	public void crossValidation(ArrayList<Node> nodes)
+	{
+		TrainingGroups groups = new TrainingGroups(nodes);
+
+		for (int i = 0; i < 10; i++) {
+			System.out.println("Training set: " + i);
+			ArrayList<Node> trainingSet = groups.getTrainingSet();
+			ArrayList<Node> testSet = groups.getTestSet();
+			ArrayList<Node> tuningSet = groups.getTuningSet();
+
+			int k = tune(trainingSet, tuningSet);	// find best k for given training and tuning set
+
+			System.out.println("Testing KNN...");
+			testFold(trainingSet, testSet, k);		// test a single fold
+
+			System.out.println("Testing Edited KNN...");
+			EditedKNN EKNN = new EditedKNN();
+			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
+			testFold(editedTrainingSet, testSet, k);
+
+			System.out.println("Testing Condensed KNN...");
+			CondensedKNN CKNN = new CondensedKNN();
+			ArrayList<Node> condensedTrainingSet = CKNN.condenseSet(trainingSet);
+			testFold(condensedTrainingSet, testSet, k);
+			int kCluster = condensedTrainingSet.size();	// set number of clusters to number of points returned from condensing
+			// Clustering
+			System.out.println("Testing KNN with Centroids as training set...");
+			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
+			testFold(kmc.getCentroids(), testSet, k);	// test fold using centroids as training set
+
+			System.out.println("Testing KNN with Medoids as training set...");
+			PAMClustering pam = new PAMClustering(kCluster, nodes);
+			testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set
+
 			groups.iterateTestSet();
 		}
 		/*for (Node node : Objects.requireNonNull(nodes)) {

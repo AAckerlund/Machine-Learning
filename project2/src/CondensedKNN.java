@@ -4,8 +4,7 @@ import java.util.Collections;
 public class CondensedKNN {
     public ArrayList<Node> condenseSet(ArrayList<Node> data) {
         // returns a condensed copy of the inputted set
-        ArrayList<Node> shuffledSet = new ArrayList<>();
-        Collections.copy(shuffledSet, data);    // copy so original array doesn't get modified
+        ArrayList<Node> shuffledSet = new ArrayList<>(data);    // copy input so original isn't modified
         Collections.shuffle(shuffledSet);       // randomize order
 
         ArrayList<Node> condensedSet = new ArrayList<>(); // set to add condensed points to
