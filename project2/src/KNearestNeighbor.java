@@ -93,7 +93,6 @@ public class KNearestNeighbor {
                 datal.add(value.getData()[j]);
             }
             datal.remove(ignoredAttr);
-        
             dataWithoutTarget.add(datal);
         }
 
@@ -113,11 +112,9 @@ public class KNearestNeighbor {
         }
 
         ArrayList<Double> distances = new ArrayList<>();
-    
         for(Node node : modifiedDatapoints)
         {
-            double distance = getDistance(dpNode, node);
-            distances.add(distance);
+            distances.add(getDistance(dpNode, node));
         }
 
         ArrayList<Double> nearestNeighbors = new ArrayList<>();
@@ -137,14 +134,7 @@ public class KNearestNeighbor {
             nearestNeighborIndexes.add(nearestNeighborIndex);
             nearestNeighbors.add(lowestDistance);
         }
-        double predictedValue = gaussianEquation(sigma, nearestNeighbors, nearestNeighborIndexes, datapoints);
-        /*System.out.println("PREDICTED VALUE: ");
-        System.out.println(predictedValue);
-        System.out.println("REAL VALUE: ");
-        System.out.println(datapoint.getData()[ignoredAttr]);*/
-
-
-        return predictedValue;
+        return gaussianEquation(sigma, nearestNeighbors, nearestNeighborIndexes, datapoints);
     }
 
     public double gaussianEquation(double sigma, ArrayList<Double> nearestNeighbors, ArrayList<Integer> nearestNeighborIndexes, ArrayList<Node> datapoints){
@@ -156,20 +146,11 @@ public class KNearestNeighbor {
             int ignoredAttr = datapoints.get(i).getIgnoredAttr();
             double neighborTargetValue = datapoints.get(nearestNeighborIndexes.get(index)).getData()[ignoredAttr];
             double nnVal = nearestNeighbors.get(i);
-            numerator += (Math.exp((-(nnVal * nnVal)) / sigma)) * neighborTargetValue;
-            denominator += (Math.exp((-(nnVal * nnVal)) / sigma));
+            double exp = Math.exp((-(nnVal * nnVal)) / sigma);
+            numerator += exp * neighborTargetValue;
+            denominator += exp;
             index += 1;
-
-            /*if(Double.isNaN(numerator/denominator)){
-                nnVal = nnVal / 10000;
-                numerator += (Math.exp((-(nnVal * nnVal)) / sigma)) * neighborTargetValue;
-                denominator += (Math.exp((-(nnVal * nnVal)) / sigma));
-            }*/
         }
-
-        //System.out.println(numerator);
-        //System.out.println(denominator);
-    
         return numerator / denominator;
     }
 

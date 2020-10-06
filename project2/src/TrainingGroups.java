@@ -1,15 +1,12 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class TrainingGroups {
     // Splits and stores dataset into a predetermined number of partitions
     // These partitions can be grouped into a training set and a test set depending on which fold is being tested
-    private ArrayList<ArrayList<Node>> groups;
+    private final ArrayList<ArrayList<Node>> groups;
     private ArrayList<Node> tuningSet;
-    private ArrayList<Node> fulldataset;
-    private int folds = 10;    // Do 10-fold cross-validation
+    private final ArrayList<Node> fulldataset;
+    private final int folds = 10;    // Do 10-fold cross-validation
     private int testSetIndex;   // Indicates which fold to select as the test data
 
     public TrainingGroups(ArrayList<Node> dataset) {
@@ -40,7 +37,8 @@ public class TrainingGroups {
                 // add the first 10 (i=0 to 9) entries to folds
                 groups.get(i % (folds + 1)).add(fulldataset.get(i));
             }
-            else if (i%(folds+1) == folds) {
+            else
+            {
                 // add every 11th (i=10) entry to the tuning set
                 tuningSet.add(fulldataset.get(i));
             }
