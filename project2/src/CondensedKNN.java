@@ -2,6 +2,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CondensedKNN {
+    private boolean isRegression;
+    private float threshold;
+    public CondensedKNN(float threshold) {
+        isRegression = !(threshold <= 0);
+        this.threshold = threshold;
+    }
     public ArrayList<Node> condenseSet(ArrayList<Node> data) {
         // returns a condensed copy of the inputted set
         ArrayList<Node> shuffledSet = new ArrayList<>(data);    // copy input so original isn't modified
@@ -29,11 +35,23 @@ public class CondensedKNN {
                 Node currentPoint = shuffledSet.get(i);
                 Node nearestPoint = findMinimumDistancePoint(condensedSet, currentPoint);
 
-                if (currentPoint.getId() != nearestPoint.getId()) {
-                    // add to condensed set if points don't match
-                    condensedSet.add(currentPoint);
-                    checkedIndices.add(i);
-                    ZChanged = true;
+                if (!isRegression) {
+                    if (currentPoint.getId() != nearestPoint.getId()) {
+                        // add to condensed set if points don't match
+                        condensedSet.add(currentPoint);
+                        checkedIndices.add(i);
+                        ZChanged = true;
+                    }
+                }
+                else {
+                    float min = currentPoint.getId() - threshold;
+                    float max = currentPoint.getId() + threshold;
+                    if(min <= nearestPoint.getId() && nearestPoint.getId() <= max)// If nearest point is within the threshold
+                    {
+                        condensedSet.add(currentPoint);
+                        checkedIndices.add(i);
+                        ZChanged = true;
+                    }
                 }
             }
         }
