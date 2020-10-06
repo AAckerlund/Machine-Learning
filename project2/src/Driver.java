@@ -114,8 +114,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				KNearestNeighbor knnre = new KNearestNeighbor();
 				double value = knnre.nearestNeighborsRegression(datapoint, nodes, 7, 20, 0.1);
 				
-				System.out.println(p.minList[7]);
-				System.out.println(p.maxList[7]);
+				System.out.println(p.deNormAttr((float) value, 7));
 
 				System.out.println("Done Abalone");
 			}
@@ -136,11 +135,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				int n = 13;
 				Node datapoint = nodes.get(n);
 				nodes.remove(n);
-
+				
+				System.out.println(p.deNormAttr(datapoint.getData()[9], 9));
 				//testing knn regression
 				KNearestNeighbor knnrr = new KNearestNeighbor();
-				knnrr.nearestNeighborsRegression(datapoint, nodes, 9, 5, 0.1);
-
+				double value = knnrr.nearestNeighborsRegression(datapoint, nodes, 9, 5, 0.1);
+				
+				System.out.println(p.deNormAttr((float)value, 9));
 				System.out.println("Done Machine");
 			}
 			case "segmentation" -> {
@@ -369,7 +370,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver("abalone");//simpleData
+		Driver test = new Driver("machine");//simpleData
 		test.start();
 		
 		//use these if you want to run all the data sets

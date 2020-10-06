@@ -197,11 +197,11 @@ public class KNearestNeighbor {
             denominator += (Math.exp((-(nnVal * nnVal)) / sigma));
             index += 1;
 
-            if(Double.isNaN(numerator/denominator)){
+            /*if(Double.isNaN(numerator/denominator)){
                 nnVal = nnVal / 10000;
                 numerator += (Math.exp((-(nnVal * nnVal)) / sigma)) * neighborTargetValue;
                 denominator += (Math.exp((-(nnVal * nnVal)) / sigma));
-            }
+            }*/
         }
 
         //System.out.println(numerator);

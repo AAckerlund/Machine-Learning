@@ -65,10 +65,15 @@ public class Parser
 		return list;
 	}
 	
-	public Node deNormID(Node node, int attr)
+	public Node deNormNode(Node node, int attr)
 	{
 		node.setId(node.getData()[attr] * (maxList[attr] - minList[attr]) + minList[attr]);
 		return node;
+	}
+	
+	public float deNormAttr(float value, int attr)
+	{
+		return value*(maxList[attr] - minList[attr]) + minList[attr];
 	}
 	
 	//The below functions are all slightly different but all parse the data out from their respective files.
