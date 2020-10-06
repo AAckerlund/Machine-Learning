@@ -143,6 +143,10 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	public void testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k) {
 		System.out.println("Conducting test on testSet...");
 		System.out.println("testSet size: " + testSet.size());
+		if (trainingSet.size() < k) {
+			System.out.println("training set less than k. Reducing k...");
+			k = (int)Math.sqrt(trainingSet.size());
+		}
 		KNearestNeighbor knn = new KNearestNeighbor();
 		ArrayList<Integer[]> results = new ArrayList<>();
 		
@@ -179,7 +183,12 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 	public void testFoldRegression(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k, float sigma, float threshold) {
 		System.out.println("Conducting test on testSet...");
+		System.out.println("trainingSet size: " + trainingSet.size());
 		System.out.println("testSet size: " + testSet.size());
+		if (trainingSet.size() < k) {
+			System.out.println("training set less than k. Reducing k...");
+			k = testSet.size();
+		}
 		KNearestNeighbor knn = new KNearestNeighbor();
 		ArrayList<double[]> results = new ArrayList<>();
 		
@@ -256,32 +265,32 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			float[] tunedParameters = tuneRegression(trainingSet, tuningSet, threshold);	// find best k for given training and tuning set
 
 			int k = (int)tunedParameters[0];
-			float sigma = (int)tunedParameters[1];
+			float sigma = tunedParameters[1];
 
 			//TODO: implement methods with regression enabled
-			/*System.out.println("Testing KNN...");
-			testFold(trainingSet, testSet, k);		// test a single fold
+			System.out.println("\nTesting KNN...");
+			testFoldRegression(trainingSet, testSet, k, sigma, threshold);		// test a single fold
 
-			System.out.println("Testing Edited KNN...");
+			System.out.println("\nTesting Edited KNN...");
 			EditedKNN EKNN = new EditedKNN(threshold);
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
-			testFold(editedTrainingSet, testSet, k);
-			System.out.println("Edited KNN set size: " + editedTrainingSet.size());
-*/
-			System.out.println("Testing Condensed KNN...");
+			testFoldRegression(editedTrainingSet, testSet, k, sigma, threshold);
+			System.out.println("Edited KNN training set size: " + editedTrainingSet.size());
+
+			System.out.println("\nTesting Condensed KNN...");
 			CondensedKNN CKNN = new CondensedKNN(threshold);
 			ArrayList<Node> condensedTrainingSet = CKNN.condenseSet(trainingSet);
 			testFoldRegression(condensedTrainingSet, testSet, k, sigma, threshold);
-			System.out.println("Condensed KNN set: " + condensedTrainingSet.size());
+			System.out.println("Condensed KNN training set size: " + condensedTrainingSet.size());
 
 			// Clustering
-			/*int kCluster = editedTrainingSet.size(); // set number of clusters to number of points returned from editing
-			System.out.println("KMeansClustering...");
+			int kCluster = editedTrainingSet.size(); // set number of clusters to number of points returned from editing
+			System.out.println("\nKMeansClustering...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Centroids as training set...");
 			testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
 
-			System.out.println("PAMClustering...");
+			System.out.println("\nPAMClustering...");
 			System.out.println("Number of clusters chosen: " + kCluster);
 			PAMClustering pam = new PAMClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Medoids as training set...");
