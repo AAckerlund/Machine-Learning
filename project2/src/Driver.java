@@ -5,6 +5,7 @@ import LossFunctions.Recall;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
+import java.util.Collection;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
@@ -107,10 +108,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				int n = 14;
 				Node datapoint = nodes.get(n);
 				nodes.remove(n);
-
+				
+				System.out.println(datapoint.getData()[7]);
 				//testing knn regression
 				KNearestNeighbor knnre = new KNearestNeighbor();
-				knnre.nearestNeighborsRegression(datapoint, nodes, 7, 20, 0.1);
+				double value = knnre.nearestNeighborsRegression(datapoint, nodes, 7, 20, 0.1);
+				
+				System.out.println(p.minList[7]);
+				System.out.println(p.maxList[7]);
 
 				System.out.println("Done Abalone");
 			}
@@ -148,7 +153,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
-		
 		//System.out.println("REAL CLASS");
 		//System.out.println(newNodes.get(0).getId());
 
@@ -181,6 +185,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}*/
 
+/*
 
 		// verify clustering works
 		// construct KMedoids, which also computes all the clusters
@@ -205,6 +210,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				System.out.println();
 			}
 		}
+*/
 
 		// Testing condensed KNN
 		/*CondensedKNN CKNN = new CondensedKNN();
@@ -361,7 +367,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver("forestfires");//simpleData
+		Driver test = new Driver("abalone");//simpleData
 		test.start();
 		
 		//use these if you want to run all the data sets

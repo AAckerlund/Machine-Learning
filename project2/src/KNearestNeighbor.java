@@ -18,10 +18,11 @@ public class KNearestNeighbor {
     }
 
     public int nearestNeighborClassification(Node datapoint, ArrayList<Node> datapoints, int k){
-        ArrayList<Double> distances = new ArrayList<Double>();
-
-        for(int i = 0; i<datapoints.size(); i++){
-            double distance = getDistance(datapoint, datapoints.get(i));
+        ArrayList<Double> distances = new ArrayList<>();
+    
+        for(Node node : datapoints)
+        {
+            double distance = getDistance(datapoint, node);
             distances.add(distance);
         }
 
@@ -29,16 +30,11 @@ public class KNearestNeighbor {
             throw new IllegalArgumentException("k can not be bigger than size of dataset");
         }
 
-        ArrayList<Double> kLowestDistances = new ArrayList<>();
         ArrayList<Double> classOfKLowestDistances = new ArrayList<>();
         double classOfLowestDistance = 0;
         int lowestDistanceIndex = 999;
-
-        ArrayList<Node> knodes = new ArrayList<>();
-
-        for(int i = 0; i<datapoints.size(); i++){
-            knodes.add(datapoints.get(i));
-        }
+    
+        ArrayList<Node> knodes = new ArrayList<>(datapoints);
 
         for(int i = 0; i<k; i++) {
             System.out.println(distances);
@@ -54,7 +50,6 @@ public class KNearestNeighbor {
             System.out.println(classOfLowestDistance);
             classOfKLowestDistances.add(classOfLowestDistance);
 
-            kLowestDistances.add(lowestDistance);
             System.out.println("lowest distance: ");
             System.out.println(lowestDistance);
 
@@ -62,15 +57,17 @@ public class KNearestNeighbor {
             knodes.remove(knodes.get(lowestDistanceIndex));
 
             System.out.println("distances");
-            for(int g = 0; g<distances.size(); g++){
-                System.out.println(distances.get(g));
+            for(Double distance : distances)
+            {
+                System.out.println(distance);
             }
 
             System.out.println("classes: ");
-            for(int g = 0; g<classOfKLowestDistances.size(); g++) {
-                System.out.println(classOfKLowestDistances.get(g));
+            for(Double classOfKLowestDistance : classOfKLowestDistances)
+            {
+                System.out.println(classOfKLowestDistance);
             }
-            System.out.println("");
+            System.out.println();
 
         }
 
@@ -79,11 +76,13 @@ public class KNearestNeighbor {
 
         for(int i = 0; i<classOfKLowestDistances.size(); i++){
             int count = 0;
-            for(int j = 0; j<classOfKLowestDistances.size(); j++){
-                if(Double.compare(classOfKLowestDistances.get(j), classOfKLowestDistances.get(i)) == 0){
+            for(Double classOfKLowestDistance : classOfKLowestDistances)
+            {
+                if(Double.compare(classOfKLowestDistance, classOfKLowestDistances.get(i)) == 0)
+                {
                     count += 1;
                 }
-
+        
             }
             if(count >= highestOccurence) {
                 highestOccurence = count;
@@ -99,17 +98,14 @@ public class KNearestNeighbor {
 
         Random rand = new Random();
         int classIndex = rand.nextInt(classesWithHighestOccurence.size());
-        int chosenClass = (int)(double)classesWithHighestOccurence.get(classIndex);
-
+    
         //System.out.println("CHOSEN CLASS: ");
         //System.out.println(chosenClass);
         //System.out.println("REAL CLASS ");
         //System.out.println((int)datapoint.getId());
-        return chosenClass;
+        return (int)(double)classesWithHighestOccurence.get(classIndex);
     }
-
-
-
+    
     public double nearestNeighborsRegression(Node datapoint, ArrayList<Node> datapoints, int ignoredAttr, int k, double sigma){
         ArrayList<Float> modifiedData = new ArrayList<>();
         for(int i = 0; i<datapoint.getData().length; i++){
@@ -125,14 +121,16 @@ public class KNearestNeighbor {
 
         Node dpNode = new Node(0, modifiedDatapoint, 0);
         ArrayList<ArrayList<Float>> dataWithoutTarget = new ArrayList<>();
-
-        for(int i = 0; i<datapoints.size(); i++){
+    
+        for(Node value : datapoints)
+        {
             ArrayList<Float> datal = new ArrayList<>();
-            for(int j = 0; j<datapoints.get(i).getData().length; j++){
-                datal.add(datapoints.get(i).getData()[j]);
+            for(int j = 0; j < value.getData().length; j++)
+            {
+                datal.add(value.getData()[j]);
             }
             datal.remove(ignoredAttr);
-
+        
             dataWithoutTarget.add(datal);
         }
 
@@ -141,13 +139,9 @@ public class KNearestNeighbor {
             for(int j = 0; j<dataWithoutTarget.get(i).size(); j++) {
                 float datapiece = dataWithoutTarget.get(i).get(j);
                 newdata[i][j] = datapiece;
-                //System.out.print(datapiece + ", ");
             }
-            //System.out.println("");
         }
-
-
-
+        
         ArrayList<Node> modifiedDatapoints = new ArrayList<>();
 
         for(int i = 0; i<dataWithoutTarget.size(); i++){
@@ -155,21 +149,12 @@ public class KNearestNeighbor {
             modifiedDatapoints.add(node);
         }
 
-        ArrayList<Double> distances = new ArrayList<Double>();
-
-        for(int i = 0; i<modifiedDatapoints.size(); i++){
-            double distance = getDistance(dpNode, modifiedDatapoints.get(i));
+        ArrayList<Double> distances = new ArrayList<>();
+    
+        for(Node node : modifiedDatapoints)
+        {
+            double distance = getDistance(dpNode, node);
             distances.add(distance);
-        }
-
-        /*for(int i = 0; i<distances.size(); i++){
-            System.out.println(distances.get(i));
-        }*/
-
-        HashMap indexToDistance = new HashMap<Integer, Double>();
-
-        for(int i = 0; i<distances.size(); i++){
-            indexToDistance.put(i, distances.get(i));
         }
 
         ArrayList<Double> nearestNeighbors = new ArrayList<>();
@@ -188,15 +173,8 @@ public class KNearestNeighbor {
             }
             nearestNeighborIndexes.add(nearestNeighborIndex);
             nearestNeighbors.add(lowestDistance);
-
-
         }
-
-        /*for(int i = 0; i<nearestNeighbors.size(); i++){
-            System.out.println(nearestNeighbors.get(i));
-        }*/
-
-        double predictedValue = gaussianEquation(0.1, nearestNeighbors, nearestNeighborIndexes, datapoints);
+        double predictedValue = gaussianEquation(.1, nearestNeighbors, nearestNeighborIndexes, datapoints);
         System.out.println("PREDICTED VALUE: ");
         System.out.println(predictedValue);
         System.out.println("REAL VALUE: ");
@@ -214,9 +192,6 @@ public class KNearestNeighbor {
         for(int i = 0; i<nearestNeighbors.size(); i++){
             int ignoredAttr = datapoints.get(i).getIgnoredAttr();
             double neighborTargetValue = datapoints.get(nearestNeighborIndexes.get(index)).getData()[ignoredAttr];
-            /*System.out.println("Neighbor Target Value: " + neighborTargetValue);
-            System.out.println("nearest neighbor distance:" + nearestNeighbors.get(i));
-            System.out.println("numerator: " + ((-(nearestNeighbors.get(i) * nearestNeighbors.get(i)))));*/
             double nnVal = nearestNeighbors.get(i);
             numerator += (Math.exp((-(nnVal * nnVal)) / sigma)) * neighborTargetValue;
             denominator += (Math.exp((-(nnVal * nnVal)) / sigma));
@@ -231,9 +206,8 @@ public class KNearestNeighbor {
 
         //System.out.println(numerator);
         //System.out.println(denominator);
-
-        double predictedValue = numerator / denominator;
-        return predictedValue;
+    
+        return numerator / denominator;
     }
 
 }

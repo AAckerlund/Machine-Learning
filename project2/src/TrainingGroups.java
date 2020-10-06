@@ -16,7 +16,6 @@ public class TrainingGroups {
         this.groups = new ArrayList<>();
         this.fulldataset = new ArrayList<>(dataset);
         sortData();
-        //shuffleDataSet();   // randomize order of dataset so each group has a random grouping of entries
         partitionData();    // split data into 'folds' number of groups
         this.testSetIndex = 0;
     }
@@ -25,10 +24,6 @@ public class TrainingGroups {
     {
         //using a lambda function to override the built in comparator so that we can sort by Node.id
         fulldataset.sort((n1, n2) -> Float.compare(n1.getId(), n2.getId()));
-    }
-    
-    private void shuffleDataSet() {
-        Collections.shuffle(fulldataset);
     }
     
     // partition data into a number of folds and a tuning set
@@ -50,20 +45,6 @@ public class TrainingGroups {
                 tuningSet.add(fulldataset.get(i));
             }
         }
-        //print the Ids by group. This allows us to verify that stratification is being done correctly.
-        /*for(ArrayList<Node> list : groups)
-        {
-            System.out.println("\nNew Group: " + list.size());
-            for(Node node : list)
-            {
-                System.out.print(node.getId() + " | ");
-            }
-        }
-        System.out.println("\nTuning Set: " + tuningSet.size());
-        for(Node node : tuningSet)
-        {
-            System.out.print(node.getId() + " | ");
-        }*/
     }
 
     public ArrayList<Node> getTrainingSet() {
@@ -89,23 +70,5 @@ public class TrainingGroups {
 
     public void iterateTestSet() {
         this.testSetIndex++;
-    }
-    
-    public void printDataSetInfo()
-    {
-        int counter = 1;
-        float currentValue = fulldataset.get(0).getId();
-        for(int i = 1; i < fulldataset.size(); i++)
-        {
-            if(currentValue != fulldataset.get(i).getId())
-            {
-                System.out.println(currentValue + ": " + counter);
-                currentValue = fulldataset.get(i).getId();
-                counter = 1;
-            }
-            else
-                counter++;
-        }
-        System.out.println(currentValue + ": " + counter);
     }
 }

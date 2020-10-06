@@ -93,24 +93,27 @@ public class PAMClustering {
 
     private void changeMedoids() {
         // changes the medoids for each clusters based on the point with minimum distance to the others
-        boolean medoidsChanged = false;   // flag to indicate if the medoids have been moved
+        // flag to indicate if the medoids have been moved
         float minTotalCost = calculateTotalCost();
 
 
         for (int i = 0; i < k; i++) {
             System.out.println("Iteration: " + i);
-            for (int j = 0; j < dataset.size(); j++) {
+            for(Node node : dataset)
+            {
                 // loop through whole dataset, replacing medoid with the point and recalculating costs
                 Node oldMedoid = medoids.get(i);    // store old medoid in case of swap back
-                medoids.set(i, dataset.get(j)); // swap medoid
+                medoids.set(i, node); // swap medoid
                 assignClusters();                           // reassign clusters
                 float newTotalCost = calculateTotalCost();  // calculate the total cost from this
-
-                if (!(newTotalCost < minTotalCost)) {
+        
+                if(!(newTotalCost < minTotalCost))
+                {
                     // if the new total cost is not better than the old, swap back
                     medoids.set(i, oldMedoid);
                 }
-                else {
+                else
+                {
                     // else, save the new total cost
                     minTotalCost = newTotalCost;
                 }

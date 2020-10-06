@@ -4,14 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-/*
-cross validation
-tuning
-k-nearest edited, condensed
- */
 public class Parser
 {
-	private float minID, maxID;
+	float[] minList, maxList;
 	/**
 	 * initializes a scanner for the given file
 	 *
@@ -35,10 +30,8 @@ public class Parser
 	public ArrayList<Node> normData(ArrayList<Node> list)
 	{
 		//initialize variables for normalization
-		minID = Float.MAX_VALUE;
-		maxID = Float.MIN_NORMAL;
-		float[] minList = new float[list.get(0).getData().length];
-		float[] maxList = new float[list.get(0).getData().length];
+		minList = new float[list.get(0).getData().length];
+		maxList = new float[list.get(0).getData().length];
 		for(int i = 0; i < list.get(0).getData().length; i++)
 		{
 			minList[i] = Float.MAX_VALUE;
@@ -48,16 +41,6 @@ public class Parser
 		//find min and max values for each attribute
 		for(Node node : list)
 		{
-			//find mix/max for Id
-			if(minID > node.getId())
-			{
-				minID = node.getId();
-			}
-			if(maxID < node.getId())
-			{
-				maxID = node.getId();
-			}
-			
 			//find min/max for attributes
 			for(int j = 0; j < node.getData().length; j++)
 			{
@@ -74,7 +57,6 @@ public class Parser
 		//scale the values of each attribute to be between 0 and 1
 		for(Node node : list)
 		{
-			node.setId((node.getId() - minID)/(maxID - minID));
 			for(int j = 0; j < node.getData().length; j++)
 			{
 				node.getData()[j] = (node.getData()[j] - minList[j]) / (maxList[j] - minList[j]);
@@ -83,13 +65,10 @@ public class Parser
 		return list;
 	}
 	
-	public ArrayList<Node> deNormID(ArrayList<Node> list)
+	public Node deNormID(Node node, int attr)
 	{
-		for(Node node : list)
-		{
-			node.setId(node.getId() * (maxID - minID) + minID);
-		}
-		return list;
+		node.setId(node.getData()[attr] * (maxList[attr] - minList[attr]) + minList[attr]);
+		return node;
 	}
 	
 	//The below functions are all slightly different but all parse the data out from their respective files.
