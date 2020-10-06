@@ -204,8 +204,8 @@ public class KNearestNeighbor {
             }*/
         }
 
-        //System.out.println(numerator);
-        //System.out.println(denominator);
+        //System.out.println("numerator: " + numerator);
+        //System.out.println("denominator: " + denominator);
     
         return numerator / denominator;
     }
