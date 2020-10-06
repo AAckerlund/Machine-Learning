@@ -175,10 +175,10 @@ public class KNearestNeighbor {
             nearestNeighbors.add(lowestDistance);
         }
         double predictedValue = gaussianEquation(.1, nearestNeighbors, nearestNeighborIndexes, datapoints);
-        System.out.println("PREDICTED VALUE: ");
-        System.out.println(predictedValue);
-        System.out.println("REAL VALUE: ");
-        System.out.println(datapoint.getData()[ignoredAttr]);
+        //System.out.println("PREDICTED VALUE: ");
+        //System.out.println(predictedValue);
+        //System.out.println("REAL VALUE: ");
+        //System.out.println(datapoint.getData()[ignoredAttr]);
 
 
         return predictedValue;
