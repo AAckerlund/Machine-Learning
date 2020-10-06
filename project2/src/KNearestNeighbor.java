@@ -46,29 +46,29 @@ public class KNearestNeighbor {
                     classOfLowestDistance = knodes.get(j).getId();
                 }
             }
-            System.out.println("lowest class: ");
-            System.out.println(classOfLowestDistance);
+            //System.out.println("lowest class: ");
+            //System.out.println(classOfLowestDistance);
             classOfKLowestDistances.add(classOfLowestDistance);
 
-            System.out.println("lowest distance: ");
-            System.out.println(lowestDistance);
+            //System.out.println("lowest distance: ");
+            //System.out.println(lowestDistance);
 
             distances.remove(distances.get(lowestDistanceIndex));
             knodes.remove(knodes.get(lowestDistanceIndex));
 
-            System.out.println("distances");
-            for(Double distance : distances)
-            {
-                System.out.println(distance);
-            }
+            //System.out.println("distances");
+            //for(Double distance : distances)
+            //{
+            //    System.out.println(distance);
+            //}
 
-            System.out.println("classes: ");
+            /*System.out.println("classes: ");
             for(Double classOfKLowestDistance : classOfKLowestDistances)
             {
                 System.out.println(classOfKLowestDistance);
             }
             System.out.println();
-
+            */
         }
 
         int highestOccurence = 0;
@@ -174,11 +174,11 @@ public class KNearestNeighbor {
             nearestNeighborIndexes.add(nearestNeighborIndex);
             nearestNeighbors.add(lowestDistance);
         }
-        double predictedValue = gaussianEquation(.1, nearestNeighbors, nearestNeighborIndexes, datapoints);
-        //System.out.println("PREDICTED VALUE: ");
-        //System.out.println(predictedValue);
-        //System.out.println("REAL VALUE: ");
-        //System.out.println(datapoint.getData()[ignoredAttr]);
+        double predictedValue = gaussianEquation(sigma, nearestNeighbors, nearestNeighborIndexes, datapoints);
+        /*System.out.println("PREDICTED VALUE: ");
+        System.out.println(predictedValue);
+        System.out.println("REAL VALUE: ");
+        System.out.println(datapoint.getData()[ignoredAttr]);*/
 
 
         return predictedValue;
