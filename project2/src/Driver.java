@@ -259,7 +259,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("testSet size: " + testSet.size());
 		if (trainingSet.size() < k) {
 			System.out.println("training set less than k. Reducing k...");
-			k = testSet.size();
+			k = (int)Math.sqrt(trainingSet.size());
 		}
 		KNearestNeighbor knn = new KNearestNeighbor();
 		ArrayList<double[]> results = new ArrayList<>();
@@ -391,6 +391,10 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 			System.out.println("\nPAMClustering...");
 			System.out.println("Number of clusters chosen: " + kCluster);
+			if (kCluster > 50) {
+				System.out.println("Too high, changing number of clusters to 50");
+				kCluster = 50;
+			}
 			PAMClustering pam = new PAMClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Medoids as training set...");
 			accPAM += testFoldRegression(pam.getMedoids(), testSet, k, sigma, threshold);	// test fold using medoids as training set*/

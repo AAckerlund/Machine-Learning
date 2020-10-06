@@ -27,7 +27,6 @@ public class CondensedKNN {
             // loop through, comparing points and adding points until no points are added anymore
             ZChanged = false;
 
-            //TODO: add functionality for regression, where values will not be exactly equal
             for (int i = 1; i < shuffledSet.size(); i++) {
                 // Loop calculate nearest condensed point to each point, adding the point to the condensed set if class don't match
                 if (checkedIndices.contains(i)) {
