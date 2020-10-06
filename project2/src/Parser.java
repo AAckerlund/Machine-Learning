@@ -7,13 +7,18 @@ import java.util.Scanner;
 public class Parser
 {
 	float[] minList, maxList;
+	Driver d;
+	public Parser(Driver d)
+	{
+		this.d = d;
+	}
 	/**
 	 * initializes a scanner for the given file
 	 *
 	 * @param filePath the path to the file the scanner is attached to.
 	 * @return an initialized scanner, or null if the scanner failed to initialize.
 	 */
-	public Scanner initScanner(String filePath)
+	public Scanner initScanner(String filePath) throws FileNotFoundException
 	{
 		File file = new File(filePath);
 		try
@@ -22,7 +27,7 @@ public class Parser
 		}
 		catch(FileNotFoundException ex)
 		{
-			System.out.println("Bad file path. The path given was " + filePath);
+			d.safePrintln("Bad file path. The path given was " + filePath);
 		}
 		return null;
 	}
@@ -71,7 +76,7 @@ public class Parser
 	}
 	
 	//The below functions are all slightly different but all parse the data out from their respective files.
-	public ArrayList<Node> glassParser(String filePath)
+	public ArrayList<Node> glassParser(String filePath) throws FileNotFoundException
 	{
 		Scanner in = initScanner(filePath);
 		ArrayList<Node> nodes = new ArrayList<>();
@@ -100,7 +105,7 @@ public class Parser
 		return normData(nodes);
 	}
 	
-	public ArrayList<Node> votesParser(String filePath)
+	public ArrayList<Node> votesParser(String filePath)  throws FileNotFoundException
 	{
 		Scanner in = initScanner(filePath);
 		ArrayList<Node> nodes = new ArrayList<>();
@@ -130,7 +135,7 @@ public class Parser
 		return normData(nodes);
 	}
 	
-	public ArrayList<Node> abaloneParser(String filePath)
+	public ArrayList<Node> abaloneParser(String filePath) throws FileNotFoundException
 	{
 		Scanner in = initScanner(filePath);
 		ArrayList<Node> nodes = new ArrayList<>();
@@ -150,7 +155,7 @@ public class Parser
 		return normData(nodes);
 	}
 	
-	public ArrayList<Node> firesParser(String filePath)
+	public ArrayList<Node> firesParser(String filePath) throws FileNotFoundException
 	{
 		Scanner in = initScanner(filePath);
 		ArrayList<Node> nodes = new ArrayList<>();
@@ -201,7 +206,7 @@ public class Parser
 		return normData(nodes);
 	}
 	
-	public ArrayList<Node> machineParser(String filePath)
+	public ArrayList<Node> machineParser(String filePath) throws FileNotFoundException
 	{
 		Scanner in = initScanner(filePath);
 		ArrayList<Node> nodes = new ArrayList<>();
@@ -232,7 +237,7 @@ public class Parser
 		return normData(nodes);
 	}
 	
-	public ArrayList<Node> segmentationParser(String filePath)
+	public ArrayList<Node> segmentationParser(String filePath) throws FileNotFoundException
 	{
 		Scanner in = initScanner(filePath);
 		ArrayList<Node> nodes = new ArrayList<>();

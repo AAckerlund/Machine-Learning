@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -6,13 +7,15 @@ public class EditedKNN
 {
 	private final boolean isRegression;
 	private final float threshold;
-	public EditedKNN(float threshold)
+	Driver d;
+	public EditedKNN(float threshold, Driver d)
 	{
+		this.d = d;
 		isRegression = !(threshold <= 0);
 		this.threshold = threshold;
 	}
 	
-	public ArrayList<Node> editSet(ArrayList<Node> dataInput, int k)
+	public ArrayList<Node> editSet(ArrayList<Node> dataInput, int k)  throws FileNotFoundException
 	{
 		boolean dataNotChanged = false;
 		ArrayList<Node> data = new ArrayList<>(dataInput);	// copy input so original isn't modified
@@ -36,7 +39,7 @@ public class EditedKNN
 
 					if(nearest.size() > k)//error checking
 					{
-						System.out.println("nearest too big");
+						d.safePrintln("nearest too big");
 						nearest.remove(biggestDist(data.get(i), nearest));
 					}
 					//if the distance between the current node and one we are checking against is less than the distance between the current node and its current furthest neighbor
@@ -61,7 +64,7 @@ public class EditedKNN
 					{
 						System.out.print("| " + n.getId());
 					}
-					System.out.println();*/
+					safePrintln();*/
 					data.remove(i);//remove the point
 					i--;//subtract 1 from the iterator variable so we don't skip a data point.
 					dataNotChanged = false;

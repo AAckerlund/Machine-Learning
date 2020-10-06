@@ -2,63 +2,184 @@ import LossFunctions.F1Score;
 import LossFunctions.Precision;
 import LossFunctions.Recall;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
 	String fileStart = "dataSets/", fileEnd = ".data", filePath;
 
+	public Driver(String path, int num) throws FileNotFoundException
+	{
+		safePrintln("" + num);
+	}
 	public Driver(String filePath) {
 		this.filePath = filePath;
 	}
 
-	public void run()//the method that is called when a Thread starts
+	public void run() //the method that is called when a Thread starts
 	{
 		//parse out the data in the file
-		System.out.println(filePath);
-		Parser p = new Parser();
+		try
+		{
+			safePrintln(filePath);
+		}
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		Parser p = new Parser(this);
 		ArrayList<Node> nodes = null;
 		boolean isRegression = false;
 		switch (filePath) {//since each dataset is different it needs its own parse function
 			case "house-votes-84" -> {
-				nodes = p.votesParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Votes");
+				try
+				{
+					nodes = p.votesParser(fileStart + filePath + fileEnd);
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				try
+				{
+					safePrintln("Done Votes");
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			}
 			case "glass" -> {
-				nodes = p.glassParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Glass");
+				try
+				{
+					nodes = p.glassParser(fileStart + filePath + fileEnd);
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				try
+				{
+					safePrintln("Done Glass");
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			}
 			case "abalone" -> {
-				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
+				try
+				{
+					nodes = p.abaloneParser(fileStart + filePath + fileEnd);
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 				isRegression = true;
-				System.out.println("Done Abalone");
+				try
+				{
+					safePrintln("Done Abalone");
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			}
 			case "forestfires" -> {
-				nodes = p.firesParser(fileStart + filePath + fileEnd);
+				try
+				{
+					nodes = p.firesParser(fileStart + filePath + fileEnd);
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 				isRegression = true;
-				System.out.println("Done Forest Fires");
+				try
+				{
+					safePrintln("Done Forest Fires");
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			}
 			case "machine" -> {
-				nodes = p.machineParser(fileStart + filePath + fileEnd);
+				try
+				{
+					nodes = p.machineParser(fileStart + filePath + fileEnd);
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 				isRegression = true;
-				System.out.println("Done Machine");
+				try
+				{
+					safePrintln("Done Machine");
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			}
 			case "segmentation" -> {
-				nodes = p.segmentationParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Segmentation");
+				try
+				{
+					nodes = p.segmentationParser(fileStart + filePath + fileEnd);
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				try
+				{
+					safePrintln("Done Segmentation");
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			}
-			default -> System.out.println("Bad file path: " + filePath);
+			default -> {
+				try
+				{
+					safePrintln("Bad file path: " + filePath);
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 		if (isRegression) {
-			crossValidationRegression(nodes);
+			try
+			{
+				crossValidationRegression(nodes);
+			}
+			catch(FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		else {
-			crossValidation(nodes);
+			try
+			{
+				crossValidation(nodes);
+			}
+			catch(FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public float[] tuneRegression(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet, double threshold) {
-		System.out.println("Tuning k and sigma...");
+	public float[] tuneRegression(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet, double threshold) throws FileNotFoundException {
+		safePrintln("Tuning k and sigma...");
 		double[] sigmas = {0.1f, 0.01f, 0.001f, 0.0001f, 0.00001f};
 
 		int bestk = 0;
@@ -94,15 +215,15 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 			}
 		}
-		System.out.println("Chosen k: " + bestk + " Chosen sigma: " + bestSigma);
-		System.out.println("with accuracy: " + bestAccuracy);
+		safePrintln("Chosen k: " + bestk + " Chosen sigma: " + bestSigma);
+		safePrintln("with accuracy: " + bestAccuracy);
 
 		return new float[] {bestk, (float)bestSigma};
 	}
 
-	public int tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet) {
+	public int tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet) throws FileNotFoundException {
 		// outputs a k that is tuned for precision based on a training and tuning set
-		System.out.println("Tuning k...");
+		safePrintln("Tuning k...");
 		int bestk = 0;
 		double bestPrecision = 0;
 		ArrayList<Integer[]> results = new ArrayList<>();
@@ -129,23 +250,23 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 			}
 			avgPrecision = avgPrecision/classes.size();	// take average
-			System.out.println("Avg Precision with k value " + k + ": " + avgPrecision);
+			safePrintln("Avg Precision with k value " + k + ": " + avgPrecision);
 			if (avgPrecision > bestPrecision) {
 				// save best values for k and average precision
 				bestPrecision = avgPrecision;
 				bestk = k;
 			}
 		}
-		System.out.println("Chosen k: " + bestk);
+		safePrintln("Chosen k: " + bestk);
 		return bestk;
 	}
 
-	public float testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k) {
+	public float testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k) throws FileNotFoundException {
 		// tests a fold, returns the average F1 score across all classes
-		System.out.println("Conducting test on testSet...");
-		System.out.println("testSet size: " + testSet.size());
+		safePrintln("Conducting test on testSet...");
+		safePrintln("testSet size: " + testSet.size());
 		if (trainingSet.size() < k) {
-			System.out.println("training set less than k. Reducing k...");
+			safePrintln("training set less than k. Reducing k...");
 			k = (int)Math.sqrt(trainingSet.size());
 		}
 		KNearestNeighbor knn = new KNearestNeighbor();
@@ -168,7 +289,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			int ptp = precision.getTruePositives();
 			int pfp = precision.getFalsePositives();
 			double precisionResult = precision.findPrecision();
-			System.out.println("Precision of class " + _class + "\tTrue Positives: " + ptp + "\tFalse Positives: " + pfp + "\tPrecision: " + precisionResult);
+			safePrintln("Precision of class " + _class + "\tTrue Positives: " + ptp + "\tFalse Positives: " + pfp + "\tPrecision: " + precisionResult);
 
 			recall.setTruePositivesAndFalseNegatives(_class);
 			int rtp = recall.getTruePositives();
@@ -177,9 +298,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			F1Score f1score = new F1Score(precisionResult, recallResult);
 			double f1Score = f1score.getF1Score();
 
-			System.out.println("Recall of class " + _class + "\tTrue Positives: " + rtp + "\tFalse Negatives: " + rfn + "\tRecall: " + recallResult);
-			System.out.println("F1 Score: " + f1Score);
-			System.out.println();
+			safePrintln("Recall of class " + _class + "\tTrue Positives: " + rtp + "\tFalse Negatives: " + rfn + "\tRecall: " + recallResult);
+			safePrintln("F1 Score: " + f1Score);
+			safePrintln("");
 
 			avgF1 += f1Score;
 		}
@@ -187,13 +308,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return avgF1;
 	}
 
-	public float testFoldRegression(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k, float sigma, float threshold) {
+	public float testFoldRegression(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k, float sigma, float threshold) throws FileNotFoundException {
 		// test a fold using KNN for regression, return accuracy
-		System.out.println("Conducting test on testSet...");
-		System.out.println("trainingSet size: " + trainingSet.size());
-		System.out.println("testSet size: " + testSet.size());
+		safePrintln("Conducting test on testSet...");
+		safePrintln("trainingSet size: " + trainingSet.size());
+		safePrintln("testSet size: " + testSet.size());
 		if (trainingSet.size() < k) {
-			System.out.println("training set less than k. Reducing k...");
+			safePrintln("training set less than k. Reducing k...");
 			k = testSet.size();
 		}
 		KNearestNeighbor knn = new KNearestNeighbor();
@@ -212,11 +333,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}
 		float accuracy = (float)correct/results.size();
-		System.out.println("Accuracy of Fold:" + accuracy);
+		safePrintln("Accuracy of Fold:" + accuracy);
 		return accuracy;
 	}
 
-	public void crossValidation(ArrayList<Node> nodes)
+	public void crossValidation(ArrayList<Node> nodes) throws FileNotFoundException
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
 
@@ -228,22 +349,22 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		float F1PAM = 0;
 
 		for (int i = 0; i < 10; i++) {
-			System.out.println("Training set: " + i);
+			safePrintln("Training set: " + i);
 			ArrayList<Node> trainingSet = groups.getTrainingSet();
 			ArrayList<Node> testSet = groups.getTestSet();
 			ArrayList<Node> tuningSet = groups.getTuningSet();
 
 			int k = tune(trainingSet, tuningSet);	// find best k for given training and tuning set
 
-			System.out.println("Testing KNN...");
+			safePrintln("Testing KNN...");
 			F1KNN += testFold(trainingSet, testSet, k);		// test a single fold
 
-			System.out.println("Testing Edited KNN...");
-			EditedKNN EKNN = new EditedKNN(-1);	// -1 is for classification
+			safePrintln("Testing Edited KNN...");
+			EditedKNN EKNN = new EditedKNN(-1, this);	// -1 is for classification
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
 			F1EKNN += testFold(editedTrainingSet, testSet, k);
 
-			System.out.println("Testing Condensed KNN...");
+			safePrintln("Testing Condensed KNN...");
 			CondensedKNN CKNN = new CondensedKNN(-1);	// -1 is for classification
 			ArrayList<Node> condensedTrainingSet = CKNN.condenseSet(trainingSet);
 			F1CKNN = testFold(condensedTrainingSet, testSet, k);
@@ -251,15 +372,15 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 
 			// Clustering
-			System.out.println("KMeansClustering...");
+			safePrintln("KMeansClustering...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
-			System.out.println("Testing KNN with Centroids as training set...");
+			safePrintln("Testing KNN with Centroids as training set...");
 			F1KMEANS += testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
 
-			System.out.println("PAMClustering...");
-			System.out.println("Number of clusters chosen: " + kCluster);
-			PAMClustering pam = new PAMClustering(kCluster, nodes);
-			System.out.println("Testing KNN with Medoids as training set...");
+			safePrintln("PAMClustering...");
+			safePrintln("Number of clusters chosen: " + kCluster);
+			PAMClustering pam = new PAMClustering(kCluster, nodes, this);
+			safePrintln("Testing KNN with Medoids as training set...");
 			F1PAM += testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set
 
 			groups.iterateTestSet();
@@ -271,24 +392,24 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		F1KMEANS = F1KMEANS / 10;
 		F1PAM = F1PAM / 10;
 
-		System.out.println("Total Results:");
-		System.out.println("KNN Average F1 Score: " + F1KNN);
-		System.out.println("EKNN Average F1 Score: " + F1EKNN);
-		System.out.println("CKNN Average F1 Score: " + F1CKNN);
-		System.out.println("KMEANS + KNN Average F1 Score: " + F1KMEANS);
-		System.out.println("PAM + KNN Average F1 Score: " + F1PAM);
+		safePrintln("Total Results:");
+		safePrintln("KNN Average F1 Score: " + F1KNN);
+		safePrintln("EKNN Average F1 Score: " + F1EKNN);
+		safePrintln("CKNN Average F1 Score: " + F1CKNN);
+		safePrintln("KMEANS + KNN Average F1 Score: " + F1KMEANS);
+		safePrintln("PAM + KNN Average F1 Score: " + F1PAM);
 		/*for (Node node : Objects.requireNonNull(nodes)) {
-			System.out.println(node.getId() + Arrays.toString(node.getData()));
+			safePrintln(node.getId() + Arrays.toString(node.getData()));
 		}*/
 	}
 
-	public void crossValidationRegression(ArrayList<Node> nodes)
+	public void crossValidationRegression(ArrayList<Node> nodes) throws FileNotFoundException
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
 		float threshold = 0.08f;//chosen based on multiple tests
 
 		for (int i = 0; i < 10; i++) {
-			System.out.println("Training set: " + i);
+			safePrintln("Training set: " + i);
 			ArrayList<Node> trainingSet = groups.getTrainingSet();
 			ArrayList<Node> testSet = groups.getTestSet();
 			ArrayList<Node> tuningSet = groups.getTuningSet();
@@ -298,50 +419,58 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			int k = (int)tunedParameters[0];
 			float sigma = tunedParameters[1];
 
-			System.out.println("\nTesting KNN...");
+			safePrintln("\nTesting KNN...");
 			testFoldRegression(trainingSet, testSet, k, sigma, threshold);		// test a single fold
 
-			System.out.println("\nTesting Edited KNN...");
-			EditedKNN EKNN = new EditedKNN(threshold);
+			safePrintln("\nTesting Edited KNN...");
+			EditedKNN EKNN = new EditedKNN(threshold, this);
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
 			testFoldRegression(editedTrainingSet, testSet, k, sigma, threshold);
-			System.out.println("Edited KNN training set size: " + editedTrainingSet.size());
+			safePrintln("Edited KNN training set size: " + editedTrainingSet.size());
 
-			System.out.println("\nTesting Condensed KNN...");
+			safePrintln("\nTesting Condensed KNN...");
 			CondensedKNN CKNN = new CondensedKNN(threshold);
 			ArrayList<Node> condensedTrainingSet = CKNN.condenseSet(trainingSet);
 			testFoldRegression(condensedTrainingSet, testSet, k, sigma, threshold);
-			System.out.println("Condensed KNN training set size: " + condensedTrainingSet.size());
+			safePrintln("Condensed KNN training set size: " + condensedTrainingSet.size());
 
 			// Clustering
 			int kCluster = editedTrainingSet.size(); // set number of clusters to number of points returned from editing
-			System.out.println("\nKMeansClustering...");
+			safePrintln("\nKMeansClustering...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
-			System.out.println("Testing KNN with Centroids as training set...");
+			safePrintln("Testing KNN with Centroids as training set...");
 			testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
 
-			System.out.println("\nPAMClustering...");
-			System.out.println("Number of clusters chosen: " + kCluster);
-			PAMClustering pam = new PAMClustering(kCluster, nodes);
-			System.out.println("Testing KNN with Medoids as training set...");
+			safePrintln("\nPAMClustering...");
+			safePrintln("Number of clusters chosen: " + kCluster);
+			PAMClustering pam = new PAMClustering(kCluster, nodes, this);
+			safePrintln("Testing KNN with Medoids as training set...");
 			testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set*/
 			groups.iterateTestSet();
 		}
 	}
-
-	public static void main(String[] args) {
+	
+	public void safePrintln(String s) throws FileNotFoundException
+	{
+		synchronized (System.out) {
+			System.out.println(s);
+		}
+	}
+	
+	
+	public static void main(String[] args) throws FileNotFoundException
+	{
 		//use these if you want to run a single data set
-		Driver test = new Driver("abalone");
+		Driver test = new Driver("segmentation");
 		test.start();
 		
 
-		//use these if you want to run all the data sets
+		//use these if you want to run all the data sets  "house-votes-84",
 		/*
-		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
+		String[] files = {"abalone", "forestfires", "glass", "machine", "segmentation"};
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
-			//System.out.println("\n********************\n" + file + "\n********************\n");
 			d.start();//Starts a new thread
 		}
 		*/
