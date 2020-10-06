@@ -87,6 +87,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
+		new EditedKNN(0).editSet(nodes, 5);
 	}
 	
 	public void visualize(ArrayList<Node> nodes1, String title)
