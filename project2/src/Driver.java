@@ -322,13 +322,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			System.out.println("\nKMeansClustering...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Centroids as training set...");
-			accKMEANS += testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
+			accKMEANS += testFoldRegression(kmc.getNearestToCentroids(), testSet, k, sigma, threshold);	// test fold using centroids as training set
 
 			System.out.println("\nPAMClustering...");
 			System.out.println("Number of clusters chosen: " + kCluster);
 			PAMClustering pam = new PAMClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Medoids as training set...");
-			accPAM += testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set*/
+			accPAM += testFoldRegression(pam.getMedoids(), testSet, k, sigma, threshold);	// test fold using medoids as training set*/
 			groups.iterateTestSet();
 		}
 		// Average F1 scores
