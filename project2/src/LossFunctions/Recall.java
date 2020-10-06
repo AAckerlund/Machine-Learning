@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Recall {
     private ArrayList<Integer[]> results;
     private int truePositives, falseNegatives;
-    private double recall;
     
     public Recall(ArrayList<Integer[]> results){
         this.results = results;
@@ -31,8 +30,7 @@ public class Recall {
 
     //uses equation given in class to find recall
     public double findRecall(){
-        recall = (double) truePositives / (truePositives + falseNegatives);
-        return recall;
+        return (double) truePositives / (truePositives + falseNegatives);
     }
 
     //getters and setters

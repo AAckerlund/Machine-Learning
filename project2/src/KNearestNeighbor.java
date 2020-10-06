@@ -1,20 +1,16 @@
 import java.util.ArrayList;
 import java.lang.Double;
 import java.util.Random;
-import java.util.HashMap;
 
 public class KNearestNeighbor {
     //finds distance between two data points from attribute values
     public double getDistance(Node dp1, Node dp2){
-        double distance;
         double sum = 0;
 
         for(int i = 0; i<dp1.getData().length; i++){
-            double s =  ((dp1.getData()[i] - dp2.getData()[i]) * (dp1.getData()[i] - dp2.getData()[i]));
-            sum += s;
+            sum += ((dp1.getData()[i] - dp2.getData()[i]) * (dp1.getData()[i] - dp2.getData()[i]));
         }
-        distance = java.lang.Math.sqrt(sum);
-        return distance;
+        return Math.sqrt(sum);
     }
 
     public int nearestNeighborClassification(Node datapoint, ArrayList<Node> datapoints, int k){
@@ -37,7 +33,6 @@ public class KNearestNeighbor {
         ArrayList<Node> knodes = new ArrayList<>(datapoints);
 
         for(int i = 0; i<k; i++) {
-            System.out.println(distances);
             double lowestDistance = Double.POSITIVE_INFINITY;
             for (int j = 0; j < distances.size(); j++) {
                 if (distances.get(j) < lowestDistance) {
@@ -46,29 +41,10 @@ public class KNearestNeighbor {
                     classOfLowestDistance = knodes.get(j).getId();
                 }
             }
-            System.out.println("lowest class: ");
-            System.out.println(classOfLowestDistance);
             classOfKLowestDistances.add(classOfLowestDistance);
-
-            System.out.println("lowest distance: ");
-            System.out.println(lowestDistance);
 
             distances.remove(distances.get(lowestDistanceIndex));
             knodes.remove(knodes.get(lowestDistanceIndex));
-
-            //System.out.println("distances");
-            //for(Double distance : distances)
-            //{
-            //    System.out.println(distance);
-            //}
-
-            /*System.out.println("classes: ");
-            for(Double classOfKLowestDistance : classOfKLowestDistances)
-            {
-                System.out.println(classOfKLowestDistance);
-            }
-            System.out.println();
-            */
         }
 
         int highestOccurence = 0;
@@ -82,29 +58,16 @@ public class KNearestNeighbor {
                 {
                     count += 1;
                 }
-        
             }
             if(count >= highestOccurence) {
                 highestOccurence = count;
                 classesWithHighestOccurence.add(classOfKLowestDistances.get(i));
             }
-
         }
-        System.out.println("Highest Occurence: ");
-        System.out.println(highestOccurence);
-        for(int i = 0; i<classesWithHighestOccurence.size(); i++) {
-            System.out.println(classesWithHighestOccurence.get(i));
-        }
-
         Random rand = new Random();
         int classIndex = rand.nextInt(classesWithHighestOccurence.size());
-
-        int chosenClass = (int)(double)classesWithHighestOccurence.get(classIndex);
-        System.out.println("CHOSEN CLASS: ");
-        System.out.println(chosenClass);
-        System.out.println("REAL CLASS ");
-        System.out.println((int)datapoint.getId());
-        return chosenClass;
+        
+        return (int)(double)classesWithHighestOccurence.get(classIndex);
     }
     
     public double nearestNeighborsRegression(Node datapoint, ArrayList<Node> datapoints, int ignoredAttr, int k, double sigma){
@@ -113,7 +76,6 @@ public class KNearestNeighbor {
             modifiedData.add(datapoint.getData()[i]);
         }
         modifiedData.remove(ignoredAttr);
-
         float[] modifiedDatapoint = new float[modifiedData.size()];
 
         for(int i = 0; i< modifiedData.size(); i++){
@@ -131,7 +93,6 @@ public class KNearestNeighbor {
                 datal.add(value.getData()[j]);
             }
             datal.remove(ignoredAttr);
-        
             dataWithoutTarget.add(datal);
         }
 
@@ -151,11 +112,9 @@ public class KNearestNeighbor {
         }
 
         ArrayList<Double> distances = new ArrayList<>();
-    
         for(Node node : modifiedDatapoints)
         {
-            double distance = getDistance(dpNode, node);
-            distances.add(distance);
+            distances.add(getDistance(dpNode, node));
         }
 
         ArrayList<Double> nearestNeighbors = new ArrayList<>();
@@ -175,20 +134,7 @@ public class KNearestNeighbor {
             nearestNeighborIndexes.add(nearestNeighborIndex);
             nearestNeighbors.add(lowestDistance);
         }
-        double predictedValue = gaussianEquation(sigma, nearestNeighbors, nearestNeighborIndexes, datapoints);
-
-        for(int i = 0; i<nearestNeighborIndexes.size(); i++){
-            //System.out.println("neighbor index: " + nearestNeighborIndexes.get(i));
-            //System.out.println("neighbor distance: " + nearestNeighbors.get(i));
-        }
-
-        /*System.out.println("PREDICTED VALUE: ");
-        System.out.println(predictedValue);
-        System.out.println("REAL VALUE: ");
-        System.out.println(datapoint.getData()[ignoredAttr]);*/
-
-
-        return predictedValue;
+        return gaussianEquation(sigma, nearestNeighbors, nearestNeighborIndexes, datapoints);
     }
 
     public double gaussianEquation(double sigma, ArrayList<Double> nearestNeighbors, ArrayList<Integer> nearestNeighborIndexes, ArrayList<Node> datapoints){
@@ -199,18 +145,12 @@ public class KNearestNeighbor {
         for(int i = 0; i<nearestNeighbors.size(); i++){
             int ignoredAttr = datapoints.get(i).getIgnoredAttr();
             double neighborTargetValue = datapoints.get(nearestNeighborIndexes.get(index)).getData()[ignoredAttr];
-            System.out.println("Neighbor Target Value: " + neighborTargetValue);
             double nnVal = nearestNeighbors.get(i);
-            System.out.println("Distance: " + nnVal);
-            numerator += (Math.exp((-(nnVal * nnVal)) / sigma)) * neighborTargetValue;
-            denominator += (Math.exp((-(nnVal * nnVal)) / sigma));
+            double exp = Math.exp((-(nnVal * nnVal)) / sigma);
+            numerator += exp * neighborTargetValue;
+            denominator += exp;
             index += 1;
         }
-
-        System.out.println("numerator: " + numerator);
-        System.out.println("denominator: " + denominator);
-        System.out.println("predicted value: " + (numerator / denominator));
-    
         return numerator / denominator;
     }
 

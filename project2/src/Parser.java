@@ -65,12 +65,6 @@ public class Parser
 		return list;
 	}
 	
-	public Node deNormNode(Node node, int attr)
-	{
-		node.setId(node.getData()[attr] * (maxList[attr] - minList[attr]) + minList[attr]);
-		return node;
-	}
-	
 	public float deNormAttr(float value, int attr)
 	{
 		return value*(maxList[attr] - minList[attr]) + minList[attr];
@@ -93,9 +87,7 @@ public class Parser
 			{
 				type = Integer.parseInt(data[data.length - 1]);
 			}
-			catch(NumberFormatException ignored)
-			{
-			}
+			catch(NumberFormatException ignored){}
 			
 			
 			float[] dataPoints = new float[data.length - 2];
@@ -105,7 +97,6 @@ public class Parser
 			}
 			nodes.add(new Node(type, dataPoints, -1));
 		}
-		
 		return normData(nodes);
 	}
 	
@@ -147,18 +138,6 @@ public class Parser
 		{
 			String line = in.next();
 			String[] data = line.split(",");
-			/*
-			male = 0
-			female = 1
-			infant = 2
-			 */
-			float id;
-			if(data[0].equals("M"))
-				id = 0;
-			else if(data[0].equals("F"))
-				id = 1;
-			else//data[0].equals("I")
-				id = 2;
 			
 			float[] attributes = new float[data.length - 1];
 			for(int i = 0; i < attributes.length; i++)
@@ -243,12 +222,10 @@ public class Parser
 			if(vendor.get(data[0]) == null)
 				vendor.put(data[0], vendor.size());
 			attributes[0] = vendor.get(data[0]);
-			//System.out.print(attributes[0] + " ");
 			
 			if(model.get(data[1]) == null)
 				model.put(data[1], model.size());
 			attributes[1] = model.get(data[1]);
-			//System.out.println(attributes[1]);
 			
 			nodes.add(new Node(attributes[attributes.length - 2], attributes, attributes.length - 2));
 		}
@@ -282,24 +259,6 @@ public class Parser
 				attributes[i - 1] = Float.parseFloat(data[i]);
 			}
 			nodes.add(new Node(id, attributes, -1));
-		}
-		return normData(nodes);
-	}
-	
-	public ArrayList<Node> simpleParser(String filePath)
-	{
-		Scanner in = initScanner(filePath);
-		ArrayList<Node> nodes = new ArrayList<>();
-		while(in.hasNext())
-		{
-			String line = in.next();
-			String[] data = line.split(",");
-			float[] attr = new float[data.length];
-			for(int i = 0; i < data.length; i++)
-			{
-				attr[i] = Float.parseFloat(data[i]);
-			}
-			nodes.add(new Node(Float.parseFloat(data[2]), attr, -1));
 		}
 		return normData(nodes);
 	}

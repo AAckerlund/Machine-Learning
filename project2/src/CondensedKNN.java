@@ -2,12 +2,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CondensedKNN {
-    private boolean isRegression;
-    private float threshold;
+    private final boolean isRegression;
+    private final float threshold;
+    
     public CondensedKNN(float threshold) {
         isRegression = !(threshold <= 0);
         this.threshold = threshold;
     }
+    
     public ArrayList<Node> condenseSet(ArrayList<Node> data) {
         // returns a condensed copy of the inputted set
         ArrayList<Node> shuffledSet = new ArrayList<>(data);    // copy input so original isn't modified
@@ -25,7 +27,6 @@ public class CondensedKNN {
             // loop through, comparing points and adding points until no points are added anymore
             ZChanged = false;
 
-            //TODO: add functionality for regression, where values will not be exactly equal
             for (int i = 1; i < shuffledSet.size(); i++) {
                 // Loop calculate nearest condensed point to each point, adding the point to the condensed set if class don't match
                 if (checkedIndices.contains(i)) {
@@ -36,8 +37,10 @@ public class CondensedKNN {
                 Node nearestPoint = findMinimumDistancePoint(condensedSet, currentPoint);
 
                 if (!isRegression) {
+                    System.out.println("CurrentPoint's class: " + currentPoint.getId() + " | Nearest Point In Set's class: " + nearestPoint.getId());
                     if (currentPoint.getId() != nearestPoint.getId()) {
                         // add to condensed set if points don't match
+                        System.out.println("Classes don't match. Adding point with class " + currentPoint.getId() + " to set");
                         condensedSet.add(currentPoint);
                         checkedIndices.add(i);
                         ZChanged = true;
