@@ -2,12 +2,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CondensedKNN {
-    private boolean isRegression;
-    private float threshold;
+    private final boolean isRegression;
+    private final float threshold;
+    
     public CondensedKNN(float threshold) {
         isRegression = !(threshold <= 0);
         this.threshold = threshold;
     }
+    
     public ArrayList<Node> condenseSet(ArrayList<Node> data) {
         // returns a condensed copy of the inputted set
         ArrayList<Node> shuffledSet = new ArrayList<>(data);    // copy input so original isn't modified

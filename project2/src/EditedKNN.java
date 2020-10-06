@@ -4,8 +4,8 @@ import java.util.Collections;
 
 public class EditedKNN
 {
-	private boolean isRegression;
-	private float threshold;
+	private final boolean isRegression;
+	private final float threshold;
 	public EditedKNN(float threshold)
 	{
 		isRegression = !(threshold <= 0);
@@ -122,7 +122,6 @@ public class EditedKNN
 			{
 				if(!isRegression)
 				{
-					//System.out.println("not regression");
 					if(id.get(i) == guess.getId())//they have the same id
 					{
 						return true;
@@ -130,7 +129,6 @@ public class EditedKNN
 				}
 				else
 				{
-					//System.out.println("regression");
 					float min = id.get(i) - threshold;
 					float max = id.get(i) + threshold;
 					if(min <= guess.getId() && guess.getId() <= max)//min <= guess.getId() <= max. so withing the threshold
