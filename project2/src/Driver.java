@@ -2,10 +2,8 @@ import LossFunctions.F1Score;
 import LossFunctions.Precision;
 import LossFunctions.Recall;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;//used in printing out the parsed data
-import java.util.Collection;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
@@ -22,7 +20,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Parser p = new Parser();
 		ArrayList<Node> nodes = null;
 		boolean isRegression = false;
-		switch (filePath) {
+		switch (filePath) {//since each dataset is different it needs its own parse function
 			case "house-votes-84" -> {
 				nodes = p.votesParser(fileStart + filePath + fileEnd);
 				System.out.println("Done Votes");
@@ -37,12 +35,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				Node datapoint = nodes.get(n);
 				nodes.remove(n);
 
-				System.out.println(datapoint.getData()[7]);
 				//testing knn regression
 				KNearestNeighbor knnre = new KNearestNeighbor();
 				double value = knnre.nearestNeighborsRegression(datapoint, nodes, 7, 20, 0.1);
-				
-				System.out.println(p.deNormAttr((float) value, 7));
 
 				isRegression = true;
 				System.out.println("Done Abalone");
