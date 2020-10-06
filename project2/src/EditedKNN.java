@@ -40,7 +40,7 @@ public class EditedKNN
 						nearest.remove(biggestDist(data.get(i), nearest));
 					}
 					//if the distance between the current node and one we are checking against is less than the distance between the current node and its current furthest neighbor
-					if(Calc.dist(data.get(i).getData(), data.get(j).getData()) < Calc.dist(data.get(i).getData(), biggestDist(data.get(i), nearest).getData()))
+					if(Calc.dist(data.get(i).getData(), data.get(j).getData(), data.get(i).getIgnoredAttr()) < Calc.dist(data.get(i).getData(), biggestDist(data.get(i), nearest).getData(), data.get(i).getIgnoredAttr()))
 					{
 
 						nearest.add(data.get(j));
@@ -56,7 +56,7 @@ public class EditedKNN
 				}
 				if(!sameValue(data.get(i), nearest))//differing values
 				{
-					System.out.print("Removed " + data.get(i).getId() + " At a distance of " + Calc.dist(data.get(i).getData(), biggestDist(data.get(i), nearest).getData()) + " When compared to");
+					System.out.print("Removed " + data.get(i).getId() + " At a distance of " + Calc.dist(data.get(i).getData(), biggestDist(data.get(i), nearest).getData(), data.get(i).getIgnoredAttr()) + " When compared to");
 					for(Node n : nearest)
 					{
 						System.out.print("| " + n.getId());
@@ -78,9 +78,9 @@ public class EditedKNN
 		int toRemove = 0;//tied to furthest
 		for(int i = 0; i < data.size(); i++)
 		{
-			if(Calc.dist(curr.getData(), data.get(i).getData()) > furthest)
+			if(Calc.dist(curr.getData(), data.get(i).getData(), data.get(i).getIgnoredAttr()) > furthest)
 			{
-				furthest = Calc.dist(curr.getData(), data.get(i).getData());
+				furthest = Calc.dist(curr.getData(), data.get(i).getData(), data.get(i).getIgnoredAttr());
 				toRemove = i;
 			}
 		}

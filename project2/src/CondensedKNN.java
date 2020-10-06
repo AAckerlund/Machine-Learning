@@ -45,7 +45,7 @@ public class CondensedKNN {
         Node nearestPoint = condensedSet.get(0);
         float nearestDist = Float.POSITIVE_INFINITY;
         for (Node node : condensedSet) {
-            float dist = Calc.dist(point.getData() , node.getData());
+            float dist = Calc.dist(point.getData() , node.getData(), node.getIgnoredAttr());
             if (dist < nearestDist) {
                 nearestDist = dist;
                 nearestPoint = node;
