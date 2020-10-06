@@ -65,7 +65,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		double bestSigma = 0.1f;
 		double bestAccuracy = 0;
 		ArrayList<Double[]> results = new ArrayList<>();
-		
+
 		KNearestNeighbor knn = new KNearestNeighbor();
 		for (int k = (int)Math.sqrt(trainingSet.size()) - 2; k <= (int)Math.sqrt(trainingSet.size()) + 2; k++) {
 			for (double sigma : sigmas) {
@@ -96,7 +96,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		System.out.println("Chosen k: " + bestk + " Chosen sigma: " + bestSigma);
 		System.out.println("with accuracy: " + bestAccuracy);
-		
+
 		return new float[] {bestk, (float)bestSigma};
 	}
 
@@ -140,7 +140,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return bestk;
 	}
 
-	public void testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k) {
+	public float testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k) {
+		// tests a fold, returns the average F1 score across all classes
 		System.out.println("Conducting test on testSet...");
 		System.out.println("testSet size: " + testSet.size());
 		if (trainingSet.size() < k) {
@@ -149,7 +150,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		KNearestNeighbor knn = new KNearestNeighbor();
 		ArrayList<Integer[]> results = new ArrayList<>();
-		
+
 		for (Node example : testSet) {
 			int guess = knn.nearestNeighborClassification(example, trainingSet, k);
 			int real = (int) example.getId();
@@ -161,6 +162,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Recall recall = new Recall(results);
 		ArrayList<Integer> classes = precision.getClasses();
 
+		float avgF1 = 0;
 		for(int _class: classes){
 			precision.setTrueAndFalsePositives(_class);
 			int ptp = precision.getTruePositives();
@@ -178,10 +180,15 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			System.out.println("Recall of class " + _class + "\tTrue Positives: " + rtp + "\tFalse Negatives: " + rfn + "\tRecall: " + recallResult);
 			System.out.println("F1 Score: " + f1Score);
 			System.out.println();
+
+			avgF1 += f1Score;
 		}
+		avgF1 = avgF1/classes.size();
+		return avgF1;
 	}
 
-	public void testFoldRegression(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k, float sigma, float threshold) {
+	public float testFoldRegression(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k, float sigma, float threshold) {
+		// test a fold using KNN for regression, return accuracy
 		System.out.println("Conducting test on testSet...");
 		System.out.println("trainingSet size: " + trainingSet.size());
 		System.out.println("testSet size: " + testSet.size());
@@ -191,7 +198,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		KNearestNeighbor knn = new KNearestNeighbor();
 		ArrayList<double[]> results = new ArrayList<>();
-		
+
 		for (Node example : testSet) {
 			double guess = knn.nearestNeighborsRegression(example, trainingSet, example.getIgnoredAttr(), k, sigma);
 			double real = example.getData()[example.getIgnoredAttr()];
@@ -205,12 +212,20 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}
 		float accuracy = (float)correct/results.size();
-		System.out.println("Accuracy: " + accuracy);
+		System.out.println("Accuracy of Fold:" + accuracy);
+		return accuracy;
 	}
 
 	public void crossValidation(ArrayList<Node> nodes)
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
+
+		// running totals of sums of F1 scores for averaging at the end
+		float F1KNN = 0;
+		float F1EKNN = 0;
+		float F1CKNN = 0;
+		float F1KMEANS = 0;
+		float F1PAM = 0;
 
 		for (int i = 0; i < 10; i++) {
 			System.out.println("Training set: " + i);
@@ -221,34 +236,50 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			int k = tune(trainingSet, tuningSet);	// find best k for given training and tuning set
 
 			System.out.println("Testing KNN...");
-			testFold(trainingSet, testSet, k);		// test a single fold
+			F1KNN += testFold(trainingSet, testSet, k);		// test a single fold
 
 			System.out.println("Testing Edited KNN...");
 			EditedKNN EKNN = new EditedKNN(-1);	// -1 is for classification
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
-			testFold(editedTrainingSet, testSet, k);
+			F1EKNN += testFold(editedTrainingSet, testSet, k);
 
 			System.out.println("Testing Condensed KNN...");
 			CondensedKNN CKNN = new CondensedKNN(-1);	// -1 is for classification
 			ArrayList<Node> condensedTrainingSet = CKNN.condenseSet(trainingSet);
-			testFold(condensedTrainingSet, testSet, k);
+			F1CKNN = testFold(condensedTrainingSet, testSet, k);
 			int kCluster = editedTrainingSet.size();	// set number of clusters to number of points returned from condensing
-			
-			
+
+
 			// Clustering
 			System.out.println("KMeansClustering...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Centroids as training set...");
-			testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
+			F1KMEANS += testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
 
 			System.out.println("PAMClustering...");
 			System.out.println("Number of clusters chosen: " + kCluster);
 			PAMClustering pam = new PAMClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Medoids as training set...");
-			testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set
+			F1PAM += testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set
 
 			groups.iterateTestSet();
 		}
+		// Average F1 scores
+		F1KNN = F1KNN / 10;
+		F1EKNN = F1EKNN / 10;
+		F1CKNN = F1CKNN / 10;
+		F1KMEANS = F1KMEANS / 10;
+		F1PAM = F1PAM / 10;
+
+		System.out.println("Total Results:");
+		System.out.println("KNN Average F1 Score: " + F1KNN);
+		System.out.println("EKNN Average F1 Score: " + F1EKNN);
+		System.out.println("CKNN Average F1 Score: " + F1CKNN);
+		System.out.println("KMEANS + KNN Average F1 Score: " + F1KMEANS);
+		System.out.println("PAM + KNN Average F1 Score: " + F1PAM);
+		/*for (Node node : Objects.requireNonNull(nodes)) {
+			System.out.println(node.getId() + Arrays.toString(node.getData()));
+		}*/
 	}
 
 	public void crossValidationRegression(ArrayList<Node> nodes)
@@ -267,7 +298,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			int k = (int)tunedParameters[0];
 			float sigma = tunedParameters[1];
 
-			//TODO: implement methods with regression enabled
 			System.out.println("\nTesting KNN...");
 			testFoldRegression(trainingSet, testSet, k, sigma, threshold);		// test a single fold
 
@@ -304,7 +334,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Driver test = new Driver("abalone");
 		test.start();
 		
-		
+
 		//use these if you want to run all the data sets
 		/*
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
