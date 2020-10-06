@@ -77,7 +77,7 @@ public class KMeansClustering {
             // It is possible for a cluster to end up empty. To ensure that there are k clusters, the nearest point to
             // the clusters' previous centroids is automatically added to the empty clusters
             if (clusters.get(i).size() == 0) {
-                //safePrintln("Empty cluster found. Adding nearest point");
+                //System.out.println("Empty cluster found. Adding nearest point");
 
                 float minDistance = Float.POSITIVE_INFINITY;    // infinite distance
                 Node closestPoint = dataset.get(0);     // indicates current nearest point to previous centroid

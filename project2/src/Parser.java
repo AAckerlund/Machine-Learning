@@ -27,7 +27,7 @@ public class Parser
 		}
 		catch(FileNotFoundException ex)
 		{
-			d.safePrintln("Bad file path. The path given was " + filePath);
+			d.System.out.println("Bad file path. The path given was " + filePath);
 		}
 		return null;
 	}

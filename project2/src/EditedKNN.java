@@ -39,7 +39,7 @@ public class EditedKNN
 
 					if(nearest.size() > k)//error checking
 					{
-						d.safePrintln("nearest too big");
+						d.System.out.println("nearest too big");
 						nearest.remove(biggestDist(data.get(i), nearest));
 					}
 					//if the distance between the current node and one we are checking against is less than the distance between the current node and its current furthest neighbor
@@ -64,7 +64,7 @@ public class EditedKNN
 					{
 						System.out.print("| " + n.getId());
 					}
-					safePrintln();*/
+					System.out.println();*/
 					data.remove(i);//remove the point
 					i--;//subtract 1 from the iterator variable so we don't skip a data point.
 					dataNotChanged = false;
