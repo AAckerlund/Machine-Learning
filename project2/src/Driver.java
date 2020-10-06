@@ -81,26 +81,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				nodes = p.segmentationParser(fileStart + filePath + fileEnd);
 				System.out.println("Done Segmentation");
 			}
-			case "simpleData" -> {
-				nodes = p.simpleParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Simple");
-			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
 		int size = nodes.size();
 		nodes = new EditedKNN(0).editSet(nodes, 5);
 		System.out.println("Old size: " + size + "\nNew size: " + nodes.size());
-	}
-	
-	public void visualize(ArrayList<Node> nodes1, String title)
-	{
-		VisualizeData vd1 = new VisualizeData(nodes1);
-		JFrame f1 = new JFrame(title);
-		f1.add(vd1);
-		f1.setSize(500, 500);
-		f1.setLocationRelativeTo(null);
-		f1.setVisible(true);
-		f1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
 	public float[] tuneRegression(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet, double threshold) {
@@ -328,7 +313,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver("abalone");//simpleData
+		Driver test = new Driver("abalone");
 		test.start();
 		
 		//use these if you want to run all the data sets
