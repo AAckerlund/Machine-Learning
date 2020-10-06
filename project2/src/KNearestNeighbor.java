@@ -37,7 +37,7 @@ public class KNearestNeighbor {
         ArrayList<Node> knodes = new ArrayList<>(datapoints);
 
         for(int i = 0; i<k; i++) {
-            System.out.println(distances);
+            //System.out.println(distances);
             double lowestDistance = Double.POSITIVE_INFINITY;
             for (int j = 0; j < distances.size(); j++) {
                 if (distances.get(j) < lowestDistance) {
@@ -90,10 +90,10 @@ public class KNearestNeighbor {
             }
 
         }
-        System.out.println("Highest Occurence: ");
-        System.out.println(highestOccurence);
+        //System.out.println("Highest Occurence: ");
+        //System.out.println(highestOccurence);
         for(int i = 0; i<classesWithHighestOccurence.size(); i++) {
-            System.out.println(classesWithHighestOccurence);
+            //System.out.println(classesWithHighestOccurence);
         }
 
         Random rand = new Random();
