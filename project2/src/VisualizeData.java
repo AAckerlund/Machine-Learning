@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,9 +22,9 @@ public class VisualizeData extends Canvas
 	public void paint(Graphics g)//This method just knows when it is needed and calls itself. Currently it gets called once the graph has been completely generated
 	{
 		int r = 5;//sets a radius for the nodes
-		for(float i = 0; i < (maxAttrValue[0] - minAttrValue[0]) + 20; i += (maxAttrValue[0] - minAttrValue[0])/getWidth())
+		for(float i = 0; i < (maxAttrValue[0] - minAttrValue[0]); i += (maxAttrValue[0] - minAttrValue[0])/getWidth())
 		{
-			for(float j = 0; j < (maxAttrValue[1] - minAttrValue[1]) + 20; j += (maxAttrValue[1] - minAttrValue[1])/getHeight())
+			for(float j = 0; j < (maxAttrValue[1] - minAttrValue[1]); j += (maxAttrValue[1] - minAttrValue[1])/getHeight())
 			{
 				if(colorMap.get((int) closestNode(i, j).getId()) == null)
 				{

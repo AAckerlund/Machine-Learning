@@ -88,9 +88,10 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		VisualizeData vd1 = new VisualizeData(nodes1);
 		JFrame f1 = new JFrame(title);
 		f1.add(vd1);
-		f1.setSize(600, 600);
+		f1.setSize(500, 500);
 		f1.setLocationRelativeTo(null);
 		f1.setVisible(true);
+		f1.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
 	public int tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet) {
@@ -191,7 +192,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			testFold(trainingSet, testSet, k);		// test a single fold
 
 			System.out.println("Testing Edited KNN...");
-			EditedKNN EKNN = new EditedKNN();
+			EditedKNN EKNN = new EditedKNN(0);
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
 			testFold(editedTrainingSet, testSet, k);
 			System.out.println("Edited KNN set size: " + editedTrainingSet.size());
@@ -225,7 +226,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver("machine");//simpleData
+		Driver test = new Driver("simpleData");//simpleData
 		test.start();
 		
 		//use these if you want to run all the data sets

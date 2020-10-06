@@ -4,6 +4,15 @@ import java.util.Collections;
 
 public class EditedKNN
 {
+	private boolean isRegression;
+	private float threshold;
+	public EditedKNN(float threshold)
+	{
+		if(threshold <= 0)
+			isRegression = false;
+		this.threshold = threshold;
+	}
+	
 	public ArrayList<Node> editSet(ArrayList<Node> dataInput, int k)
 	{
 		boolean dataNotChanged = false;
@@ -107,8 +116,24 @@ public class EditedKNN
 		for(int i = 0; i < id.size(); i++)
 		{
 			if(frequency.get(i) == greatestFrequency)//this id has the greatest frequency
-				if(id.get(i) == guess.getId())//they have the same id
-					return true;
+			{
+				if(!isRegression)
+				{
+					if(id.get(i) == guess.getId())//they have the same id
+					{
+						return true;
+					}
+				}
+				else
+				{
+					float min = id.get(i) - threshold;
+					float max = id.get(i) + threshold;
+					if(min <= guess.getId() && guess.getId() <= max)//min <= guess.getId() <= max. so withing the threshold
+					{
+						return true;
+					}
+				}
+			}
 		}
 		return false;
 	}
