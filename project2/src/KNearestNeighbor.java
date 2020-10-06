@@ -46,28 +46,28 @@ public class KNearestNeighbor {
                     classOfLowestDistance = knodes.get(j).getId();
                 }
             }
-            System.out.println("lowest class: ");
-            System.out.println(classOfLowestDistance);
+            //System.out.println("lowest class: ");
+            //System.out.println(classOfLowestDistance);
             classOfKLowestDistances.add(classOfLowestDistance);
 
-            System.out.println("lowest distance: ");
-            System.out.println(lowestDistance);
+            //System.out.println("lowest distance: ");
+            //System.out.println(lowestDistance);
 
             distances.remove(distances.get(lowestDistanceIndex));
             knodes.remove(knodes.get(lowestDistanceIndex));
 
-            System.out.println("distances");
+            //System.out.println("distances");
             for(Double distance : distances)
             {
-                System.out.println(distance);
+                //System.out.println(distance);
             }
 
-            System.out.println("classes: ");
+            //System.out.println("classes: ");
             for(Double classOfKLowestDistance : classOfKLowestDistances)
             {
-                System.out.println(classOfKLowestDistance);
+                //System.out.println(classOfKLowestDistance);
             }
-            System.out.println();
+            //System.out.println();
 
         }
 

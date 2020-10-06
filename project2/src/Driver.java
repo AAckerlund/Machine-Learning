@@ -25,6 +25,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		switch (filePath) {
 			case "house-votes-84" -> {
 				nodes = p.votesParser(fileStart + filePath + fileEnd);
+				//crossValidation(nodes);
 				System.out.println("Done Votes");
 			}
 			case "glass" -> {
@@ -89,7 +90,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		int size = nodes.size();
 		nodes = new EditedKNN(0).editSet(nodes, 5);
-		System.out.println("Old size: " + size + "\nNew size: " + nodes.size());
+
 	}
 	
 	public void visualize(ArrayList<Node> nodes1, String title)
@@ -242,8 +243,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 			int k = tune(trainingSet, tuningSet);	// find best k for given training and tuning set
 
-			System.out.println("Testing KNN...");
-			testFold(trainingSet, testSet, k);		// test a single fold
+			/*System.out.println("Testing KNN...");
+			testFold(trainingSet, testSet, k);		// test a single fold*/
 
 			System.out.println("Testing Edited KNN...");
 			EditedKNN EKNN = new EditedKNN(0);	// 0 is for classification
@@ -328,7 +329,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] files = {"abalone", "forestfires", "glass", "house-votes-84", "machine", "segmentation"};
 		
 		//use these if you want to run a single data set
-		Driver test = new Driver("abalone");//simpleData
+		Driver test = new Driver("house-votes-84");//simpleData
 		test.start();
 		
 		//use these if you want to run all the data sets
