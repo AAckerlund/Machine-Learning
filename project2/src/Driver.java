@@ -277,15 +277,19 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("CKNN Average F1 Score: " + F1CKNN);
 		System.out.println("KMEANS + KNN Average F1 Score: " + F1KMEANS);
 		System.out.println("PAM + KNN Average F1 Score: " + F1PAM);
-		/*for (Node node : Objects.requireNonNull(nodes)) {
-			System.out.println(node.getId() + Arrays.toString(node.getData()));
-		}*/
 	}
 
 	public void crossValidationRegression(ArrayList<Node> nodes)
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
 		float threshold = 0.08f;//chosen based on multiple tests
+
+		// running totals of sums of accuracies for averaging at the end
+		float accKNN = 0;
+		float accEKNN = 0;
+		float accCKNN = 0;
+		float accKMEANS = 0;
+		float accPAM = 0;
 
 		for (int i = 0; i < 10; i++) {
 			System.out.println("Training set: " + i);
@@ -299,18 +303,18 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			float sigma = tunedParameters[1];
 
 			System.out.println("\nTesting KNN...");
-			testFoldRegression(trainingSet, testSet, k, sigma, threshold);		// test a single fold
+			accKNN += testFoldRegression(trainingSet, testSet, k, sigma, threshold);		// test a single fold
 
 			System.out.println("\nTesting Edited KNN...");
 			EditedKNN EKNN = new EditedKNN(threshold);
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
-			testFoldRegression(editedTrainingSet, testSet, k, sigma, threshold);
+			accEKNN += testFoldRegression(editedTrainingSet, testSet, k, sigma, threshold);
 			System.out.println("Edited KNN training set size: " + editedTrainingSet.size());
 
 			System.out.println("\nTesting Condensed KNN...");
 			CondensedKNN CKNN = new CondensedKNN(threshold);
 			ArrayList<Node> condensedTrainingSet = CKNN.condenseSet(trainingSet);
-			testFoldRegression(condensedTrainingSet, testSet, k, sigma, threshold);
+			accCKNN += testFoldRegression(condensedTrainingSet, testSet, k, sigma, threshold);
 			System.out.println("Condensed KNN training set size: " + condensedTrainingSet.size());
 
 			// Clustering
@@ -318,15 +322,28 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			System.out.println("\nKMeansClustering...");
 			KMeansClustering kmc = new KMeansClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Centroids as training set...");
-			testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
+			accKMEANS += testFold(kmc.getNearestToCentroids(), testSet, k);	// test fold using centroids as training set
 
 			System.out.println("\nPAMClustering...");
 			System.out.println("Number of clusters chosen: " + kCluster);
 			PAMClustering pam = new PAMClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Medoids as training set...");
-			testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set*/
+			accPAM += testFold(pam.getMedoids(), testSet, k);	// test fold using medoids as training set*/
 			groups.iterateTestSet();
 		}
+		// Average F1 scores
+		accKNN = accKNN / 10;
+		accEKNN = accEKNN / 10;
+		accCKNN = accCKNN / 10;
+		accKMEANS = accKMEANS / 10;
+		accPAM = accPAM / 10;
+
+		System.out.println("Total Results:");
+		System.out.println("KNN Average Accuracy: " + accKNN);
+		System.out.println("EKNN Average Accuracy: " + accEKNN);
+		System.out.println("CKNN Average Accuracy: " + accCKNN);
+		System.out.println("KMEANS + KNN Average Accuracy: " + accKMEANS);
+		System.out.println("PAM + KNN Average Accuracy: " + accPAM);
 	}
 
 	public static void main(String[] args) {
