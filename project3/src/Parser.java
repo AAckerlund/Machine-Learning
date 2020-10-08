@@ -76,6 +76,55 @@ public class Parser
 	}
 	
 	//The below functions are all slightly different but all parse the data out from their respective files.
+	public ArrayList<Node> beanParser(String filePath)
+	{
+		Scanner in = initScanner(filePath);
+		ArrayList<Node> nodes = new ArrayList<>();
+		while(in.hasNext())
+		{
+			String line = in.next();
+			String[] data = line.split(",");
+			
+			float type = Integer.parseInt(data[data.length-1].substring(1));
+			float[] dataPoints = new float[data.length-1];
+			for(int i = 0; i < data.length - 1; i++)
+			{
+				dataPoints[i] = Integer.parseInt(data[i]);
+			}
+			nodes.add(new Node(type, dataPoints, -1));
+		}
+		return nodes;
+	}
+	
+	public ArrayList<Node> cancerParser(String filePath)
+	{
+		Scanner in = initScanner(filePath);
+		ArrayList<Node> nodes = new ArrayList<>();
+		while(in.hasNext())
+		{
+			String line = in.next();
+			String[] data = line.split(",");
+			
+			float id = Integer.parseInt(data[data.length-1]);
+			
+			float[] dataPoints = new float[data.length-2];
+			for(int i = 1; i < data.length-1; i++)
+			{
+				try
+				{
+					dataPoints[i - 1] = Integer.parseInt(data[i]);
+				}
+				catch(NumberFormatException ex)
+				{
+					dataPoints[i-1] = (int)(Math.random()*10) + 1;
+				}
+			}
+			nodes.add(new Node(id, dataPoints, -1));
+		}
+		
+		return nodes;
+	}
+	
 	public ArrayList<Node> glassParser(String filePath) throws FileNotFoundException
 	{
 		Scanner in = initScanner(filePath);

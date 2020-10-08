@@ -21,28 +21,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		ArrayList<Node> nodes = null;
 		boolean isRegression = false;
 		switch (filePath) {//since each dataset is different it needs its own parse function
-			case "house-votes-84" -> {
-				try
-				{
-					nodes = p.votesParser(fileStart + filePath + fileEnd);
-				}
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				System.out.println("Done Votes");
-			}
-			case "glass" -> {
-				try
-				{
-					nodes = p.glassParser(fileStart + filePath + fileEnd);
-				}
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				System.out.println("Done Glass");
-			}
 			case "abalone" -> {
 				try
 				{
@@ -54,6 +32,10 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 				isRegression = true;
 				System.out.println("Done Abalone");
+			}
+			case "breast-cancer-wisconsin" -> {
+				nodes = p.cancerParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Cancer");
 			}
 			case "forestfires" -> {
 				try
@@ -67,6 +49,17 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				isRegression = true;
 				System.out.println("Done Forest Fires");
 			}
+			case "glass" -> {
+				try
+				{
+					nodes = p.glassParser(fileStart + filePath + fileEnd);
+				}
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				System.out.println("Done Glass");
+			}
 			case "machine" -> {
 				try
 				{
@@ -79,9 +72,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				isRegression = true;
 				System.out.println("Done Machine");
 			}
-			case "segmentation" -> {
-				nodes = p.segmentationParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Segmentation");
+			case "soybean-small" -> {
+				nodes = p.beanParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Soybean");
 			}
 			default -> {
 				System.out.println("Bad file path: " + filePath);
@@ -412,7 +405,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		//use these if you want to run all the data sets  "house-votes-84",
 		/*
-		String[] files = {"abalone", "forestfires", "glass", "machine", "segmentation"};
+		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
