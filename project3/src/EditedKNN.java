@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,7 +12,7 @@ public class EditedKNN
 		this.threshold = threshold;
 	}
 	
-	public ArrayList<Node> editSet(ArrayList<Node> dataInput, int k)  throws FileNotFoundException
+	public ArrayList<Node> editSet(ArrayList<Node> dataInput, int k)
 	{
 		boolean dataNotChanged = false;
 		ArrayList<Node> data = new ArrayList<>(dataInput);	// copy input so original isn't modified
