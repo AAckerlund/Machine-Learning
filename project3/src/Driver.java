@@ -48,16 +48,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				nodes = p.beanParser(fileStart + filePath + fileEnd);
 				System.out.println("Done Soybean");
 			}
-			default -> {
-				System.out.println("Bad file path: " + filePath);
-			}
+			default -> System.out.println("Bad file path: " + filePath);
 		}
-		if (isRegression) {
+		/*if (isRegression) {
 			crossValidationRegression(nodes);
 		}
 		else {
 			crossValidation(nodes);
-		}
+		}*/
 	}
 
 	public float[] tuneRegression(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet, double threshold){
