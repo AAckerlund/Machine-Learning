@@ -50,6 +50,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
+		Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
 		/*if (isRegression) {
 			crossValidationRegression(nodes);
 		}
@@ -355,7 +356,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	public static void main(String[] args)
 	{
 		//use these if you want to run a single data set
-		Driver test = new Driver("segmentation");
+		Driver test = new Driver("glass");
 		test.start();
 		
 
