@@ -1,16 +1,15 @@
 import java.util.ArrayList;
 import java.lang.Double;
+import java.util.Arrays;
 import java.util.Random;
 
 public class KNearestNeighbor {
     //finds distance between two data points from attribute values
     public double getDistance(Node dp1, Node dp2){
-        double sum = 0;
-
-        for(int i = 0; i<dp1.getData().length; i++){
-            sum += ((dp1.getData()[i] - dp2.getData()[i]) * (dp1.getData()[i] - dp2.getData()[i]));
-        }
-        return Math.sqrt(sum);
+        //System.out.println(Arrays.toString(dp1.getData()) + ", " + Arrays.toString(dp2.getData()));
+        double num = Calc.dist(dp1.getData(), dp2.getData(), dp1.getIgnoredAttr());
+        //System.out.println(num);
+        return num;
     }
 
     public int nearestNeighborClassification(Node datapoint, ArrayList<Node> datapoints, int k){

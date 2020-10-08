@@ -18,7 +18,7 @@ public class Parser
 	 * @param filePath the path to the file the scanner is attached to.
 	 * @return an initialized scanner, or null if the scanner failed to initialize.
 	 */
-	public Scanner initScanner(String filePath) throws FileNotFoundException
+	public Scanner initScanner(String filePath)
 	{
 		File file = new File(filePath);
 		try
@@ -27,7 +27,7 @@ public class Parser
 		}
 		catch(FileNotFoundException ex)
 		{
-			d.System.out.println("Bad file path. The path given was " + filePath);
+			System.out.println("Bad file path. The path given was " + filePath);
 		}
 		return null;
 	}
@@ -237,7 +237,7 @@ public class Parser
 		return normData(nodes);
 	}
 	
-	public ArrayList<Node> segmentationParser(String filePath) throws FileNotFoundException
+	public ArrayList<Node> segmentationParser(String filePath)
 	{
 		Scanner in = initScanner(filePath);
 		ArrayList<Node> nodes = new ArrayList<>();

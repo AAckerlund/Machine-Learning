@@ -7,10 +7,8 @@ public class EditedKNN
 {
 	private final boolean isRegression;
 	private final float threshold;
-	Driver d;
-	public EditedKNN(float threshold, Driver d)
+	public EditedKNN(float threshold)
 	{
-		this.d = d;
 		isRegression = !(threshold <= 0);
 		this.threshold = threshold;
 	}
@@ -39,7 +37,7 @@ public class EditedKNN
 
 					if(nearest.size() > k)//error checking
 					{
-						d.System.out.println("nearest too big");
+						System.out.println("nearest too big");
 						nearest.remove(biggestDist(data.get(i), nearest));
 					}
 					//if the distance between the current node and one we are checking against is less than the distance between the current node and its current furthest neighbor

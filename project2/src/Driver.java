@@ -2,19 +2,13 @@ import LossFunctions.F1Score;
 import LossFunctions.Precision;
 import LossFunctions.Recall;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
 	String fileStart = "dataSets/", fileEnd = ".data", filePath;
-
-	public Driver(String path, int num) throws FileNotFoundException
-	{
-		System.out.println("" + num);
-	}
+	
 	public Driver(String filePath) {
 		this.filePath = filePath;
 	}
@@ -86,14 +80,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				System.out.println("Done Machine");
 			}
 			case "segmentation" -> {
-				try
-				{
-					nodes = p.segmentationParser(fileStart + filePath + fileEnd);
-				}
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
+				nodes = p.segmentationParser(fileStart + filePath + fileEnd);
 				System.out.println("Done Segmentation");
 			}
 			default -> {
@@ -291,7 +278,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		float F1CKNN = 0;
 		float F1KMEANS = 0;
 		float F1PAM = 0;
-
+		
 		for (int i = 0; i < 10; i++) {
 			System.out.println("Training set: " + i);
 			ArrayList<Node> trainingSet = groups.getTrainingSet();
@@ -304,7 +291,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			F1KNN += testFold(trainingSet, testSet, k);		// test a single fold
 
 			System.out.println("Testing Edited KNN...");
-			EditedKNN EKNN = new EditedKNN(-1, this);	// -1 is for classification
+			EditedKNN EKNN = new EditedKNN(-1);	// -1 is for classification
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
 			F1EKNN += testFold(editedTrainingSet, testSet, k);
 
@@ -371,7 +358,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			accKNN += testFoldRegression(trainingSet, testSet, k, sigma, threshold);		// test a single fold
 
 			System.out.println("\nTesting Edited KNN...");
-			EditedKNN EKNN = new EditedKNN(threshold, this);
+			EditedKNN EKNN = new EditedKNN(threshold);
 			ArrayList<Node> editedTrainingSet = EKNN.editSet(trainingSet, k);
 			accEKNN += testFoldRegression(editedTrainingSet, testSet, k, sigma, threshold);
 			System.out.println("Edited KNN training set size: " + editedTrainingSet.size());
