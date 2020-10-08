@@ -10,8 +10,7 @@ public class Main
 	
 	public void run()
 	{
-		Printer s = new Printer();
-		s.getInst().print("test.txt", "" + i);
+		Printer.println("test"+i+".txt", "" + i);
 	}
 	
 	public static void main(String[] args)
