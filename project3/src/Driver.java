@@ -17,99 +17,49 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	{
 		//parse out the data in the file
 		System.out.println(filePath);
-		Parser p = new Parser(this);
+		Parser p = new Parser();
 		ArrayList<Node> nodes = null;
 		boolean isRegression = false;
 		switch (filePath) {//since each dataset is different it needs its own parse function
-			case "house-votes-84" -> {
-				try
-				{
-					nodes = p.votesParser(fileStart + filePath + fileEnd);
-				}
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				System.out.println("Done Votes");
-			}
-			case "glass" -> {
-				try
-				{
-					nodes = p.glassParser(fileStart + filePath + fileEnd);
-				}
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				System.out.println("Done Glass");
-			}
 			case "abalone" -> {
-				try
-				{
-					nodes = p.abaloneParser(fileStart + filePath + fileEnd);
-				}
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
+				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
 				isRegression = true;
 				System.out.println("Done Abalone");
 			}
+			case "breast-cancer-wisconsin" -> {
+				nodes = p.cancerParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Cancer");
+			}
 			case "forestfires" -> {
-				try
-				{
-					nodes = p.firesParser(fileStart + filePath + fileEnd);
-				}
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
+				nodes = p.firesParser(fileStart + filePath + fileEnd);
 				isRegression = true;
 				System.out.println("Done Forest Fires");
 			}
+			case "glass" -> {
+				nodes = p.glassParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Glass");
+			}
 			case "machine" -> {
-				try
-				{
-					nodes = p.machineParser(fileStart + filePath + fileEnd);
-				}
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
+				nodes = p.machineParser(fileStart + filePath + fileEnd);
 				isRegression = true;
 				System.out.println("Done Machine");
 			}
-			case "segmentation" -> {
-				nodes = p.segmentationParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Segmentation");
+			case "soybean-small" -> {
+				nodes = p.beanParser(fileStart + filePath + fileEnd);
+				System.out.println("Done Soybean");
 			}
-			default -> {
-				System.out.println("Bad file path: " + filePath);
-			}
+			default -> System.out.println("Bad file path: " + filePath);
 		}
-		if (isRegression) {
-			try
-			{
-				crossValidationRegression(nodes);
-			}
-			catch(FileNotFoundException e)
-			{
-				e.printStackTrace();
-			}
+		Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
+		/*if (isRegression) {
+			crossValidationRegression(nodes);
 		}
 		else {
-			try
-			{
-				crossValidation(nodes);
-			}
-			catch(FileNotFoundException e)
-			{
-				e.printStackTrace();
-			}
-		}
+			crossValidation(nodes);
+		}*/
 	}
 
-	public float[] tuneRegression(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet, double threshold) throws FileNotFoundException {
+	public float[] tuneRegression(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet, double threshold){
 		System.out.println("Tuning k and sigma...");
 		double[] sigmas = {0.1f, 0.01f, 0.001f, 0.0001f, 0.00001f};
 
@@ -152,7 +102,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return new float[] {bestk, (float)bestSigma};
 	}
 
-	public int tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet) throws FileNotFoundException {
+	public int tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet){
 		// outputs a k that is tuned for precision based on a training and tuning set
 		System.out.println("Tuning k...");
 		int bestk = 0;
@@ -192,7 +142,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return bestk;
 	}
 
-	public float testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k) throws FileNotFoundException {
+	public float testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k){
 		// tests a fold, returns the average F1 score across all classes
 		System.out.println("Conducting test on testSet...");
 		System.out.println("testSet size: " + testSet.size());
@@ -239,7 +189,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return avgF1;
 	}
 
-	public float testFoldRegression(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k, float sigma, float threshold) throws FileNotFoundException {
+	public float testFoldRegression(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k, float sigma, float threshold){
 		// test a fold using KNN for regression, return accuracy
 		System.out.println("Conducting test on testSet...");
 		System.out.println("trainingSet size: " + trainingSet.size());
@@ -268,7 +218,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return accuracy;
 	}
 
-	public void crossValidation(ArrayList<Node> nodes) throws FileNotFoundException
+	public void crossValidation(ArrayList<Node> nodes)
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
 
@@ -331,7 +281,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("PAM + KNN Average F1 Score: " + F1PAM);
 	}
 
-	public void crossValidationRegression(ArrayList<Node> nodes) throws FileNotFoundException
+	public void crossValidationRegression(ArrayList<Node> nodes)
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
 		float threshold = 0.08f;//chosen based on multiple tests
@@ -403,16 +353,16 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	}
 	
 	
-	public static void main(String[] args) throws FileNotFoundException
+	public static void main(String[] args)
 	{
 		//use these if you want to run a single data set
-		Driver test = new Driver("segmentation");
+		Driver test = new Driver("glass");
 		test.start();
 		
 
 		//use these if you want to run all the data sets  "house-votes-84",
 		/*
-		String[] files = {"abalone", "forestfires", "glass", "machine", "segmentation"};
+		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
