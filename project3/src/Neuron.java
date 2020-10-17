@@ -7,15 +7,20 @@ public class Neuron
 {
 	private ArrayList<Neuron> outputs;
 	private ArrayList<Double> weights;
-	private double biasWeight;
 	private double value;
 	
 	public Neuron()
 	{
 		outputs = new ArrayList<>();
 		weights = new ArrayList<>();
-		biasWeight = 0;
 		value = 0;
+	}
+
+	public Neuron(double value)
+	{
+		outputs = new ArrayList<>();
+		weights = new ArrayList<>();
+		this.value = value;
 	}
 	
 	public void updateValue(double inputValue)
@@ -40,5 +45,12 @@ public class Neuron
 		{
 			outputs.get(i).updateValue(valueUpdates.get(i));
 		}
+	}
+
+	//adds a new output edge and gives a random weight to the edge
+	public void addOutput(Neuron n)
+	{
+		outputs.add(n);
+		weights.add((Math.random()*2)-1);
 	}
 }
