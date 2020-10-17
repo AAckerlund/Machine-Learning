@@ -24,6 +24,7 @@ public class Network
             hiddenLayers = new ArrayList<>();
             for(int i = 0; i < hiddenLayerNodeNums.length; i++)
             {
+                hiddenLayers.add(new ArrayList<>());
                 for(int j = 0; j < hiddenLayerNodeNums[i]; j++)
                 {
                     tmp = new Neuron();
@@ -64,21 +65,25 @@ public class Network
                     n1.addOutput(hiddenLayers.get(0).get(i));
                 }
             }
-            for(int i = 0; i < hiddenLayers.size(); i++)//attach hidden layers to each other
+            try
             {
-                for(int j = 0; j < hiddenLayers.get(i).size(); j++)
+                for(int i = 0; i < hiddenLayers.size(); i++)//attach hidden layers to each other
                 {
-                    for(int k = 0; k < hiddenLayers.get(i+1).size(); k++)
+                    for(int j = 0; j < hiddenLayers.get(i).size(); j++)
                     {
-                        hiddenLayers.get(i).get(j).addOutput(hiddenLayers.get(i+1).get(k));
+                        for(int k = 0; k < hiddenLayers.get(i + 1).size(); k++)
+                        {
+                            hiddenLayers.get(i).get(j).addOutput(hiddenLayers.get(i + 1).get(k));
+                        }
                     }
                 }
             }
+            catch(IndexOutOfBoundsException ignored){}
             for(int i = 0; i < hiddenLayers.get(hiddenLayers.size()-1).size(); i++)//attach each neuron of the last hidden layer to the output layer
             {
                 for(int j = 0; j < outputLayer.size(); j++)
                 {
-                    hiddenLayers.get(hiddenLayers.size()-1).get(i).addOutput(outputLayer.get(i));
+                    hiddenLayers.get(hiddenLayers.size()-1).get(i).addOutput(outputLayer.get(j));
                 }
             }
         }
