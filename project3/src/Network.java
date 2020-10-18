@@ -5,9 +5,11 @@ public class Network
     private ArrayList<Neuron> nodes, inputLayer, outputLayer;
     private ArrayList<ArrayList<Neuron>> hiddenLayers = null;
     private double bias;
+    private boolean isClassification;
 
-    public Network(double[] inputNodeValues, int[] hiddenLayerNodeNums, int outputLayerNodeNum, double bias)
+    public Network(double[] inputNodeValues, int[] hiddenLayerNodeNums, int outputLayerNodeNum, double bias, boolean isClassification)
     {
+        this.isClassification = isClassification;
         this.bias = bias;
         nodes = new ArrayList<>();
         inputLayer = new ArrayList<>();
@@ -89,7 +91,7 @@ public class Network
         }
     }
     
-    public ArrayList<Neuron> feedForward()
+    public ArrayList<Neuron> feedForward()//TODO add bias node into calculations
     {
         if(hiddenLayers == null)//just need the input and output layers
         {
@@ -126,7 +128,11 @@ public class Network
                     weights.add(neuron.getWeights().get(j));//take its weight and value
                     values.add(neuron.getValue());
                 }
-                double newValue = Activation.Sigmoidal(weights, values);//determine the updated value of the output node
+                double newValue;//determine the updated value of the output node
+                if(isClassification)//classification
+                    newValue = Activation.Sigmoidal(weights, values);
+                else//regression
+                    newValue = Activation.Linear(weights, values);
                 value.updateValue(newValue);//push the updated value to the node
             }
         }

@@ -11,4 +11,9 @@ public class Activation
 		}
 		return 1/(1+Math.exp(-1*exponent));
 	}
+	
+	public static double Linear(ArrayList<Double> weights, ArrayList<Double> values)//TODO Implement me
+	{
+		return (Math.random()*2)-1;
+	}
 }
