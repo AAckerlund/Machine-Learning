@@ -48,6 +48,7 @@ public class Network
 
     public void generateLinks()
     {
+        Neuron biasNode = new Neuron(1);//TODO is this right?
         if(hiddenLayers == null)//connect input layer to output layer if there are no hidden layers
         {
             for(Neuron value : inputLayer)
@@ -55,6 +56,7 @@ public class Network
                 for(Neuron neuron : outputLayer)
                 {
                     value.addOutput(neuron);
+                    biasNode.addOutput(neuron);
                 }
             }
         }
@@ -65,6 +67,7 @@ public class Network
                 for(int i = 0; i < hiddenLayers.get(0).size(); i++)
                 {
                     n1.addOutput(hiddenLayers.get(0).get(i));
+                    biasNode.addOutput(hiddenLayers.get(0).get(i));
                 }
             }
             try
@@ -76,6 +79,7 @@ public class Network
                         for(int k = 0; k < hiddenLayers.get(i + 1).size(); k++)
                         {
                             hiddenLayers.get(i).get(j).addOutput(hiddenLayers.get(i + 1).get(k));
+                            biasNode.addOutput(hiddenLayers.get(i + 1).get(k));
                         }
                     }
                 }
@@ -86,6 +90,7 @@ public class Network
                 for(int j = 0; j < outputLayer.size(); j++)
                 {
                     hiddenLayers.get(hiddenLayers.size()-1).get(i).addOutput(outputLayer.get(j));
+                    biasNode.addOutput(outputLayer.get(j));
                 }
             }
         }
