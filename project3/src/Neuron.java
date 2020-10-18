@@ -62,4 +62,9 @@ public class Neuron
 	{
 		return value;
 	}
+	
+	public Neuron getOutputNeuron(int index)
+	{
+		return outputs.get(index);
+	}
 }

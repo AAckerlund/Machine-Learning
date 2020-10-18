@@ -15,7 +15,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 	public void run() //the method that is called when a Thread starts
 	{
-		Network net = new Network(new double[]{.5, .3, .35}, new int[]{}, 1, .5);
+		Network net = new Network(new double[]{.5, .3, .35}, new int[]{}, 1, .5, true);
 		ArrayList<Neuron> output = net.feedForward();
 		for(Neuron neuron : output)
 		{
