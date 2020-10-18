@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Network
 {
     private ArrayList<Neuron> nodes, inputLayer, outputLayer;
-    private ArrayList<ArrayList<Neuron>> hiddenLayers;
+    private ArrayList<ArrayList<Neuron>> hiddenLayers = null;
     private double bias;
 
     public Network(double[] inputNodeValues, int[] hiddenLayerNodeNums, int outputLayerNodeNum, double bias)
@@ -85,6 +85,49 @@ public class Network
                 {
                     hiddenLayers.get(hiddenLayers.size()-1).get(i).addOutput(outputLayer.get(j));
                 }
+            }
+        }
+    }
+    
+    public ArrayList<Neuron> feedForward()
+    {
+        if(hiddenLayers == null)//just need the input and output layers
+        {
+            propagateLayer(inputLayer, outputLayer);
+        }
+        else
+        {
+            int hiddenLayerCount = hiddenLayers.size();
+            propagateLayer(inputLayer, hiddenLayers.get(0));
+            if(hiddenLayerCount == 1)
+            {
+                propagateLayer(hiddenLayers.get(0), outputLayer);
+            }
+            else if(hiddenLayerCount == 2)
+            {
+                propagateLayer(hiddenLayers.get(0), hiddenLayers.get(1));
+                propagateLayer(hiddenLayers.get(1), outputLayer);
+            }
+        }
+        return outputLayer;
+    }
+    
+    public void propagateLayer(ArrayList<Neuron> input, ArrayList<Neuron> output)
+    {
+        ArrayList<Double> weights, values;
+        for(Neuron value : output)//for each node in the output layer
+        {
+            for(int j = 0; j < input.get(0).getWeights().size(); j++)//for each edge in a node of the input layer
+            {
+                weights = new ArrayList<>();//reset the array lists
+                values = new ArrayList<>();
+                for(Neuron neuron : input)//for each node in the input layer
+                {
+                    weights.add(neuron.getWeights().get(j));//take its weight and value
+                    values.add(neuron.getValue());
+                }
+                double newValue = Activation.Sigmoidal(weights, values);//determine the updated value of the output node
+                value.updateValue(newValue);//push the updated value to the node
             }
         }
     }

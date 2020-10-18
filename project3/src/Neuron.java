@@ -31,7 +31,6 @@ public class Neuron
 	public ArrayList<Double> calcOutput()
 	{
 		ArrayList<Double> outputValues = new ArrayList<>();
-		value = Activation.Sigmoidal(weights, outputValues);
 		for(int i = 0; i < outputs.size(); i++)
 		{
 			outputValues.add(value*weights.get(i));
@@ -39,7 +38,7 @@ public class Neuron
 		return outputValues;
 	}
 	
-	public void pushUpdate(ArrayList<Double> valueUpdates)
+	public void pushWeightUpdate(ArrayList<Double> valueUpdates)
 	{
 		for(int i = 0; i < valueUpdates.size(); i++)
 		{
@@ -52,5 +51,15 @@ public class Neuron
 	{
 		outputs.add(n);
 		weights.add((Math.random()*2)-1);
+	}
+	
+	public ArrayList<Double> getWeights()
+	{
+		return weights;
+	}
+	
+	public double getValue()
+	{
+		return value;
 	}
 }

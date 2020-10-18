@@ -15,7 +15,12 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 	public void run() //the method that is called when a Thread starts
 	{
-		Network net = new Network(new double[]{.5, .3, .35}, new int[]{2, 3}, 1, .5);
+		Network net = new Network(new double[]{.5, .3, .35}, new int[]{}, 1, .5);
+		ArrayList<Neuron> output = net.feedForward();
+		for(Neuron neuron : output)
+		{
+			System.out.println(neuron.getValue());
+		}
 		//parse out the data in the file
 		System.out.println(filePath);
 		Parser p = new Parser();
@@ -52,6 +57,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			default -> System.out.println("Bad file path: " + filePath);
 		}
 		Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
+		
 		/*if (isRegression) {
 			crossValidationRegression(nodes);
 		}
