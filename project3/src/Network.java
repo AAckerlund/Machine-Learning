@@ -97,7 +97,7 @@ public class Network
         }
     }
     
-    public ArrayList<Neuron> feedForward()//TODO add bias node into calculations
+    public ArrayList<Neuron> feedForward()
     {
         if(hiddenLayers == null)//just need the input and output layers
         {
