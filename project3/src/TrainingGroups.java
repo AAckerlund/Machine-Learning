@@ -20,7 +20,7 @@ public class TrainingGroups {
     private void sortData()
     {
         //using a lambda function to override the built in comparator so that we can sort by Node.id
-        fulldataset.sort((n1, n2) -> Float.compare(n1.getId(), n2.getId()));
+        fulldataset.sort((n1, n2) -> Double.compare(n1.getId(), n2.getId()));
     }
     
     // partition data into a number of folds and a tuning set
