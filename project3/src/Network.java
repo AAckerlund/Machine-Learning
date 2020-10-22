@@ -123,7 +123,7 @@ public class Network
     public void propagateLayer(ArrayList<Neuron> input, ArrayList<Neuron> output)
     {
         ArrayList<Double> weights, values;
-        for(Neuron value : output)//for each node in the output layer
+        for(Neuron outputNeuron : output)//for each node in the output layer
         {
             for(int j = 0; j < input.get(0).getWeights().size(); j++)//for each edge in a node of the input layer
             {
@@ -138,19 +138,17 @@ public class Network
                 //add bias neuron weight and value to respective arraylists
                 for(int i = 0; i < biasNeuron.getWeights().size(); i++)
                 {
-                    if(biasNeuron.getOutputNeuron(i) == value)
+                    if(biasNeuron.getOutputNeuron(i) == outputNeuron)
                     {
                         weights.add(biasNeuron.getWeights().get(i));
                         values.add(biasNeuron.getValue());
                     }
                 }
                 
-                double newValue;//determine the updated value of the output node
+                double newValue = outputNeuron.getValue();//determine the updated value of the output node
                 if(isClassification)//classification
                     newValue = Activation.Sigmoidal(weights, values);
-                else//regression
-                    newValue = Activation.Linear(weights, values);
-                value.updateValue(newValue);//push the updated value to the node
+                outputNeuron.updateValue(newValue);//push the updated value to the node
             }
         }
     }
