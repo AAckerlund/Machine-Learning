@@ -2,24 +2,24 @@ import java.util.ArrayList;
 
 public class Network
 {
-    private ArrayList<Neuron> nodes, inputLayer, outputLayer;
+    private ArrayList<Neuron> neurons, inputLayer, outputLayer;
     private ArrayList<ArrayList<Neuron>> hiddenLayers = null;
     private Neuron biasNeuron;
     private double bias;
     private boolean isClassification;
 
-    public Network(double[] inputNodeValues, int[] hiddenLayerNodeNums, int outputLayerNodeNum, double bias, boolean isClassification)
+    public Network(int inputLayerNodeNum, int[] hiddenLayerNodeNums, int outputLayerNodeNum, double bias, boolean isClassification)
     {
         this.isClassification = isClassification;
         this.bias = bias;
-        nodes = new ArrayList<>();
+        neurons = new ArrayList<>();
         inputLayer = new ArrayList<>();
         Neuron tmp;
-        for(int i = 0; i < inputNodeValues.length; i++)
+        for(int i = 0; i < inputLayerNodeNum; i++)
         {
-            tmp = new Neuron(inputNodeValues[i]);
+            tmp = new Neuron(0);
             inputLayer.add(tmp);
-            nodes.add(tmp);
+            neurons.add(tmp);
         }
 
         if(hiddenLayerNodeNums.length > 0)//there are hidden layers
@@ -32,7 +32,7 @@ public class Network
                 {
                     tmp = new Neuron();
                     hiddenLayers.get(i).add(tmp);
-                    nodes.add(tmp);
+                    neurons.add(tmp);
                 }
             }
         }
@@ -42,7 +42,7 @@ public class Network
         {
             tmp = new Neuron();
             outputLayer.add(tmp);
-            nodes.add(tmp);
+            neurons.add(tmp);
         }
         generateWeights();
     }
@@ -56,11 +56,11 @@ public class Network
             {
                 for(Neuron neuron : outputLayer)
                 {
-                    value.addOutput(neuron);
+                    value.connectOutput(neuron);
                 }
             }
             for (Neuron neuron : outputLayer) { // connect bias neuron to output nodes
-                biasNeuron.addOutput(neuron);
+                biasNeuron.connectOutput(neuron);
             }
         }
         else//there are hidden layers that need to be connected
@@ -69,11 +69,11 @@ public class Network
             {
                 for(int i = 0; i < hiddenLayers.get(0).size(); i++)
                 {
-                    n1.addOutput(hiddenLayers.get(0).get(i));
+                    n1.connectOutput(hiddenLayers.get(0).get(i));
                 }
             }
             for(int i = 0; i < hiddenLayers.get(0).size(); i++) {
-                biasNeuron.addOutput(hiddenLayers.get(0).get(i));   // connect bias to every hidden node
+                biasNeuron.connectOutput(hiddenLayers.get(0).get(i));   // connect bias to every hidden node
             }
 
             for(int layeri = 0; layeri < hiddenLayers.size()-1; layeri++) { //attach hidden layers to each other
@@ -81,12 +81,12 @@ public class Network
                 {
                     for(int k = 0; k < hiddenLayers.get(layeri + 1).size(); k++)
                     {
-                        hiddenLayers.get(layeri).get(j).addOutput(hiddenLayers.get(layeri + 1).get(k));
+                        hiddenLayers.get(layeri).get(j).connectOutput(hiddenLayers.get(layeri + 1).get(k));
                     }
                 }
                 for(int k = 0; k < hiddenLayers.get(layeri + 1).size(); k++)
                 {
-                    biasNeuron.addOutput(hiddenLayers.get(layeri + 1).get(k));
+                    biasNeuron.connectOutput(hiddenLayers.get(layeri + 1).get(k));
                 }
             }
             //attach each neuron of the last hidden layer to the output layer
@@ -94,18 +94,23 @@ public class Network
             {
                 for(int j = 0; j < outputLayer.size(); j++)
                 {
-                    hiddenLayers.get(hiddenLayers.size()-1).get(i).addOutput(outputLayer.get(j));
+                    hiddenLayers.get(hiddenLayers.size()-1).get(i).connectOutput(outputLayer.get(j));
                 }
             }
             for(int j = 0; j < outputLayer.size(); j++)
             {
-                biasNeuron.addOutput(outputLayer.get(j));
+                biasNeuron.connectOutput(outputLayer.get(j));
             }
         }
     }
     
-    public ArrayList<Neuron> feedForward()
+    public ArrayList<Neuron> feedForward(double[] inputNodeValues)
     {
+        // Set inputs
+        for (int i = 0; i < inputNodeValues.length; i++) {
+            inputLayer.get(i).setValue(inputNodeValues[i]);
+        }
+
         if(hiddenLayers == null)//just need the input and output layers
         {
             propagateLayer(inputLayer, outputLayer);
@@ -158,17 +163,36 @@ public class Network
                 newValue = Activation.Sigmoidal(weights, values);
             else//regression
                 newValue = Activation.Linear(weights, values);
+            output.get(j).updateSumInputs(Activation.Dot(weights, values)); //save neuron's input values
             output.get(j).updateValue(newValue);                    //push the updated value to the node
         }
     }
 
     public ArrayList<Neuron> getCompleteNetwork()
     {
-        return nodes;
+        return neurons;
     }
 
-    public double getBias()
+    public ArrayList<ArrayList<Neuron>> getHiddenLayers() {
+        return hiddenLayers;
+    }
+
+    public Neuron getBiasNeuron()
     {
-        return bias;
+        return biasNeuron;
+    }
+
+    public void pushWeightUpdates() {
+        // push weight updates to weights hashmaps
+        for (Neuron n : inputLayer) {
+            n.pushWeightUpdate();
+        }
+        if (hiddenLayers != null) {
+            for (int i = 0; i < hiddenLayers.size(); i++) {
+                for (Neuron n : hiddenLayers.get(i)) {
+                    n.pushWeightUpdate();
+                }
+            }
+        }
     }
 }

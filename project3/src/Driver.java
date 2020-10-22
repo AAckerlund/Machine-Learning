@@ -15,8 +15,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 	public void run() //the method that is called when a Thread starts
 	{
-		Network net = new Network(new double[]{.5, .3, .35}, new int[]{}, 1, .5, true);
-		ArrayList<Neuron> output = net.feedForward();
+		Network net = new Network(3, new int[]{}, 1, .5, true);
+		ArrayList<Neuron> output = net.feedForward(new double[]{.5, .3, .35});
 		for(Neuron neuron : output)
 		{
 			System.out.println(neuron.getValue());
@@ -65,7 +65,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			crossValidation(nodes);
 		}*/
 	}
-
+	/*
 	public float[] tuneRegression(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet, double threshold){
 		System.out.println("Tuning k and sigma...");
 		double[] sigmas = {0.1f, 0.01f, 0.001f, 0.0001f, 0.00001f};
@@ -148,8 +148,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Chosen k: " + bestk);
 		return bestk;
 	}
-
-	public float testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k){
+*/
+/*	public float testFold(ArrayList<Node> trainingSet, ArrayList<Node> testSet, int k){
 		// tests a fold, returns the average F1 score across all classes
 		System.out.println("Conducting test on testSet...");
 		System.out.println("testSet size: " + testSet.size());
@@ -224,8 +224,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Accuracy of Fold:" + accuracy);
 		return accuracy;
 	}
-
-	public void crossValidation(ArrayList<Node> nodes)
+*/
+	/*public void crossValidation(ArrayList<Node> nodes)
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
 
@@ -286,8 +286,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("CKNN Average F1 Score: " + F1CKNN);
 		System.out.println("KMEANS + KNN Average F1 Score: " + F1KMEANS);
 		System.out.println("PAM + KNN Average F1 Score: " + F1PAM);
-	}
-
+	}*/
+/*
 	public void crossValidationRegression(ArrayList<Node> nodes)
 	{
 		TrainingGroups groups = new TrainingGroups(nodes);
@@ -341,7 +341,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			PAMClustering pam = new PAMClustering(kCluster, nodes);
 			System.out.println("Testing KNN with Medoids as training set...");
-			accPAM += testFoldRegression(pam.getMedoids(), testSet, k, sigma, threshold);	// test fold using medoids as training set*/
+			accPAM += testFoldRegression(pam.getMedoids(), testSet, k, sigma, threshold);	// test fold using medoids as training set
 			groups.iterateTestSet();
 		}
 		// Average F1 scores
@@ -358,7 +358,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("KMEANS + KNN Average Accuracy: " + accKMEANS);
 		System.out.println("PAM + KNN Average Accuracy: " + accPAM);
 	}
-	
+	*/
 	
 	public static void main(String[] args)
 	{

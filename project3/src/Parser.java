@@ -37,8 +37,8 @@ public class Parser
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			float type = Integer.parseInt(data[data.length-1].substring(1));
-			float[] dataPoints = new float[data.length-1];
+			double type = Integer.parseInt(data[data.length-1].substring(1));
+			double[] dataPoints = new double[data.length-1];
 			for(int i = 0; i < data.length - 1; i++)
 			{
 				dataPoints[i] = Integer.parseInt(data[i]);
@@ -57,9 +57,9 @@ public class Parser
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			float id = Integer.parseInt(data[data.length-1]);
+			double id = Integer.parseInt(data[data.length-1]);
 			
-			float[] dataPoints = new float[data.length-2];
+			double[] dataPoints = new double[data.length-2];
 			for(int i = 1; i < data.length-1; i++)
 			{
 				try
@@ -96,7 +96,7 @@ public class Parser
 			catch(NumberFormatException ignored){}
 			
 			
-			float[] dataPoints = new float[data.length - 2];
+			double[] dataPoints = new double[data.length - 2];
 			for(int i = 1; i < data.length - 1; i++)
 			{
 				dataPoints[i - 1] = Float.parseFloat(data[i]);
@@ -115,12 +115,12 @@ public class Parser
 			String line = in.next();
 			String[] data = line.split(",");
 			
-			float[] attributes = new float[data.length - 1];
+			double[] attributes = new double[data.length - 1];
 			for(int i = 0; i < attributes.length; i++)
 			{
-				attributes[i] = Float.parseFloat(data[i + 1]);
+				attributes[i] = Double.parseDouble(data[i + 1]);
 			}
-			
+
 			nodes.add(new Node(attributes[attributes.length - 1], attributes, attributes.length - 1));
 		}
 		return nodes;
@@ -161,16 +161,16 @@ public class Parser
 			line = in.next();
 			String[] data = line.split(",");
 			
-			float[] attributes = new float[data.length];
+			double[] attributes = new double[data.length];
 			
 			attributes[2] = months.get(data[2]);
 			attributes[3] = days.get(data[3]);
 			
-			attributes[0] = Float.parseFloat(data[0]);
-			attributes[1] = Float.parseFloat(data[1]);
+			attributes[0] = Double.parseDouble(data[0]);
+			attributes[1] = Double.parseDouble(data[1]);
 			for(int i = 4; i < attributes.length; i++)
 			{
-				attributes[i] = Float.parseFloat(data[i]);
+				attributes[i] = Double.parseDouble(data[i]);
 			}
 			nodes.add(new Node(attributes[attributes.length - 1], attributes, attributes.length - 1));
 		}
@@ -188,7 +188,7 @@ public class Parser
 		{
 			String line = in.next();
 			String[] data = line.split(",");
-			float[] attributes = new float[data.length];
+			double[] attributes = new double[data.length];
 			for(int i = 2; i < attributes.length; i++)
 			{
 				attributes[i] = Float.parseFloat(data[i]);
