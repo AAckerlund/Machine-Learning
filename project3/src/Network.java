@@ -44,12 +44,12 @@ public class Network
             outputLayer.add(tmp);
             nodes.add(tmp);
         }
-        generateLinks();
+        generateWeights();
     }
 
-    public void generateLinks()
+    public void generateWeights()
     {
-        biasNeuron = new Neuron(1);//TODO is this value right?
+        biasNeuron = new Neuron(1); // Initialize a bias neuron with weight 1 that functions as a bias connected to every non-input neuron
         if(hiddenLayers == null)//connect input layer to output layer if there are no hidden layers
         {
             for(Neuron value : inputLayer)
@@ -57,8 +57,10 @@ public class Network
                 for(Neuron neuron : outputLayer)
                 {
                     value.addOutput(neuron);
-                    biasNeuron.addOutput(neuron);
                 }
+            }
+            for (Neuron neuron : outputLayer) { // connect bias neuron to output nodes
+                biasNeuron.addOutput(neuron);
             }
         }
         else//there are hidden layers that need to be connected
@@ -68,31 +70,36 @@ public class Network
                 for(int i = 0; i < hiddenLayers.get(0).size(); i++)
                 {
                     n1.addOutput(hiddenLayers.get(0).get(i));
-                    biasNeuron.addOutput(hiddenLayers.get(0).get(i));
                 }
             }
-            try
-            {
-                for(int i = 0; i < hiddenLayers.size(); i++)//attach hidden layers to each other
+            for(int i = 0; i < hiddenLayers.get(0).size(); i++) {
+                biasNeuron.addOutput(hiddenLayers.get(0).get(i));   // connect bias to every hidden node
+            }
+
+            for(int layeri = 0; layeri < hiddenLayers.size()-1; layeri++) { //attach hidden layers to each other
+                for(int j = 0; j < hiddenLayers.get(layeri).size(); j++)
                 {
-                    for(int j = 0; j < hiddenLayers.get(i).size(); j++)
+                    for(int k = 0; k < hiddenLayers.get(layeri + 1).size(); k++)
                     {
-                        for(int k = 0; k < hiddenLayers.get(i + 1).size(); k++)
-                        {
-                            hiddenLayers.get(i).get(j).addOutput(hiddenLayers.get(i + 1).get(k));
-                            biasNeuron.addOutput(hiddenLayers.get(i + 1).get(k));
-                        }
+                        hiddenLayers.get(layeri).get(j).addOutput(hiddenLayers.get(layeri + 1).get(k));
                     }
                 }
+                for(int k = 0; k < hiddenLayers.get(layeri + 1).size(); k++)
+                {
+                    biasNeuron.addOutput(hiddenLayers.get(layeri + 1).get(k));
+                }
             }
-            catch(IndexOutOfBoundsException ignored){}
-            for(int i = 0; i < hiddenLayers.get(hiddenLayers.size()-1).size(); i++)//attach each neuron of the last hidden layer to the output layer
+            //attach each neuron of the last hidden layer to the output layer
+            for(int i = 0; i < hiddenLayers.get(hiddenLayers.size()-1).size(); i++)
             {
                 for(int j = 0; j < outputLayer.size(); j++)
                 {
                     hiddenLayers.get(hiddenLayers.size()-1).get(i).addOutput(outputLayer.get(j));
-                    biasNeuron.addOutput(outputLayer.get(j));
                 }
+            }
+            for(int j = 0; j < outputLayer.size(); j++)
+            {
+                biasNeuron.addOutput(outputLayer.get(j));
             }
         }
     }
@@ -123,35 +130,35 @@ public class Network
     public void propagateLayer(ArrayList<Neuron> input, ArrayList<Neuron> output)
     {
         ArrayList<Double> weights, values;
-        for(Neuron value : output)//for each node in the output layer
+
+        for(int j = 0; j < input.get(0).getWeights().size(); j++) //for each edge in a node of the input layer (corresponding to one output)
         {
-            for(int j = 0; j < input.get(0).getWeights().size(); j++)//for each edge in a node of the input layer
+
+            weights = new ArrayList<>();    //reset the array lists
+            values = new ArrayList<>();
+
+            for(Neuron neuron : input)      //for each node in the input layer
             {
-                weights = new ArrayList<>();//reset the array lists
-                values = new ArrayList<>();
-                for(Neuron neuron : input)//for each node in the input layer
-                {
-                    weights.add(neuron.getWeights().get(j));//take its weight and value
-                    values.add(neuron.getValue());
-                }
-                
-                //add bias neuron weight and value to respective arraylists
-                for(int i = 0; i < biasNeuron.getWeights().size(); i++)
-                {
-                    if(biasNeuron.getOutputNeuron(i) == value)
-                    {
-                        weights.add(biasNeuron.getWeights().get(i));
-                        values.add(biasNeuron.getValue());
-                    }
-                }
-                
-                double newValue;//determine the updated value of the output node
-                if(isClassification)//classification
-                    newValue = Activation.Sigmoidal(weights, values);
-                else//regression
-                    newValue = Activation.Linear(weights, values);
-                value.updateValue(newValue);//push the updated value to the node
+                weights.add(neuron.getWeights().get(j));    //take its weight and value
+                values.add(neuron.getValue());
             }
+
+            //add bias neuron weight and value to respective arraylists
+            for(int i = 0; i < biasNeuron.getWeights().size(); i++)
+            {
+                if(biasNeuron.getOutputNeuron(i) == output.get(j))  //search for weight corresponding to current Neuron
+                {
+                    weights.add(biasNeuron.getWeights().get(i));    //take bias weight and value
+                    values.add(biasNeuron.getValue());
+                }
+            }
+
+            double newValue;//determine the updated value of the output node
+            if(isClassification)//classification
+                newValue = Activation.Sigmoidal(weights, values);
+            else//regression
+                newValue = Activation.Linear(weights, values);
+            output.get(j).updateValue(newValue);                    //push the updated value to the node
         }
     }
 

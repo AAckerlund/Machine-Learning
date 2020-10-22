@@ -56,7 +56,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.out.println("Bad file path: " + filePath);
 		}
-		Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
+		//Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
 		
 		/*if (isRegression) {
 			crossValidationRegression(nodes);

@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 /*
-edge weights are initialized to random
+edge weights are initialized to random between -0.01 and 0.01
 each node points to every node in the next layer
  */
 public class Neuron
 {
-	private ArrayList<Neuron> outputs;
-	private ArrayList<Double> weights;
-	private double value;
+	private ArrayList<Neuron> outputs;		// Neurons this Neuron outputs to
+	private ArrayList<Double> weights;		// Weights from this Neuron to the next layer
+	private double value;					// Output value of neuron (after activation for hidden and output neurons)
+	private double sumInputs;				// Input value of neuron (weighted sum of previous layer outputs(values))
 	
 	public Neuron()
 	{
@@ -46,11 +47,12 @@ public class Neuron
 		}
 	}
 
-	//adds a new output edge and gives a random weight to the edge
+	//adds a new output edge and gives a random weight to the edge between -0.01 and 0.01
 	public void addOutput(Neuron n)
 	{
 		outputs.add(n);
-		weights.add((Math.random()*2)-1);
+		//weights.add((0.01 - Math.random()*0.02));	//TODO: Change this back to random after testing
+		weights.add(0.01);	// Constant weight for testing feedforward
 	}
 	
 	public ArrayList<Double> getWeights()
