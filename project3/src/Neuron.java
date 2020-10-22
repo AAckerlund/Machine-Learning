@@ -25,7 +25,7 @@ public class Neuron
 	
 	public void updateValue(double inputValue)
 	{
-		value += inputValue;
+		value = inputValue;
 	}
 	
 	public ArrayList<Double> calcOutput()
