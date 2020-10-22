@@ -158,11 +158,10 @@ public class Network
                 }
             }
 
-            double newValue;//determine the updated value of the output node
+            double newValue = output.get(j).getValue();//determine the updated value of the output node
             if(isClassification)//classification
                 newValue = Activation.Sigmoidal(weights, values);
-            else//regression
-                newValue = Activation.Linear(weights, values);
+            
             output.get(j).updateSumInputs(Activation.Dot(weights, values)); //save neuron's input values
             output.get(j).updateValue(newValue);                    //push the updated value to the node
         }
