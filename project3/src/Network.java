@@ -158,9 +158,7 @@ public class Network
                 }
             }
 
-            double newValue = output.get(j).getValue();//determine the updated value of the output node
-            if(isClassification)//classification
-                newValue = Activation.Sigmoidal(weights, values);
+            double newValue = Activation.Sigmoidal(weights, values);//determine the update value of the output node
             
             output.get(j).updateSumInputs(Activation.Dot(weights, values)); //save neuron's input values
             output.get(j).updateValue(newValue);                    //push the updated value to the node
