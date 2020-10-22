@@ -5,13 +5,11 @@ public class Network
     private ArrayList<Neuron> neurons, inputLayer, outputLayer;
     private ArrayList<ArrayList<Neuron>> hiddenLayers = null;
     private Neuron biasNeuron;
-    private double bias;
     private boolean isClassification;
 
-    public Network(int inputLayerNodeNum, int[] hiddenLayerNodeNums, int outputLayerNodeNum, double bias, boolean isClassification)
+    public Network(int inputLayerNodeNum, int[] hiddenLayerNodeNums, int outputLayerNodeNum, boolean isClassification)
     {
         this.isClassification = isClassification;
-        this.bias = bias;
         neurons = new ArrayList<>();
         inputLayer = new ArrayList<>();
         Neuron tmp;
@@ -106,7 +104,7 @@ public class Network
     
     public ArrayList<Neuron> feedForward(double[] inputNodeValues)
     {
-        // Set inputs
+        // Set inputs neuron values
         for (int i = 0; i < inputNodeValues.length; i++) {
             inputLayer.get(i).setValue(inputNodeValues[i]);
         }
@@ -158,6 +156,7 @@ public class Network
                 }
             }
 
+            //TODO: make sure to differentiate the output layer uses a linear activation
             double newValue = Activation.Sigmoidal(weights, values);//determine the update value of the output node
             
             output.get(j).updateSumInputs(Activation.Dot(weights, values)); //save neuron's input values

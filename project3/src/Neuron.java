@@ -23,6 +23,7 @@ public class Neuron
 		outputs = new ArrayList<>();
 		inputs = new ArrayList<>();
 		weights = new HashMap<>();
+		weightUpdates = new HashMap<>();
 		value = 0;
 		delta = 0;
 	}
@@ -32,6 +33,7 @@ public class Neuron
 		outputs = new ArrayList<>();
 		inputs = new ArrayList<>();
 		weights = new HashMap<>();
+		weightUpdates = new HashMap<>();
 		this.value = value;
 		delta = 0;
 	}

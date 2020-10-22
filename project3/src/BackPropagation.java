@@ -48,13 +48,12 @@ public class BackPropagation {
     // updates neural net on an example using backprop
     public void trainExample(Node example) {    // TODO: make this work for multiple output nodes (multi-class)
         double target = example.getId();    // stores the true value to be guessed
-        Neuron biasNeuron = nn.getBiasNeuron();
 
         for (Neuron outputNeuron : nn.feedForward(example.getData())) { //start at outputs, this should work for multiple outputs
             double output = outputNeuron.getValue();
 
             //save delta value for calculating the delta rule in hidden nodes
-            outputNeuron.setDelta(calculateDeltaLogistic(true, output, target, outputNeuron));
+            outputNeuron.setDelta(calculateDelta(true, output, target, outputNeuron));
 
             for (Neuron prev : outputNeuron.getUpstream()) {
                 double update = calculateWeightUpdate(true, output, target, outputNeuron, prev);
@@ -75,7 +74,7 @@ public class BackPropagation {
                     double output = currentNeuron.getValue();
 
                     //save delta value for calculating the delta rule in hidden nodes
-                    currentNeuron.setDelta(calculateDeltaLogistic(true, output, target, currentNeuron));
+                    currentNeuron.setDelta(calculateDelta(true, output, target, currentNeuron));
 
                     for (Neuron prev : currentNeuron.getUpstream()) {
                         double update = calculateWeightUpdate(true, output, target, currentNeuron, prev);
@@ -89,7 +88,7 @@ public class BackPropagation {
                 double output = currentNeuron.getValue();
 
                 //save delta value for calculating the delta rule in hidden nodes
-                currentNeuron.setDelta(calculateDeltaLogistic(true, output, target, currentNeuron));
+                currentNeuron.setDelta(calculateDelta(true, output, target, currentNeuron));
 
                 for (Neuron prev : currentNeuron.getUpstream()) {
                     double update = calculateWeightUpdate(true, output, target, currentNeuron, prev);
@@ -97,6 +96,7 @@ public class BackPropagation {
                 }
             }
         }
+        updateWeights();    // Finally push the weights to the functional weight arrays in each Neuron
 
     }
 
@@ -104,24 +104,30 @@ public class BackPropagation {
         if (useMomentum) {  // add an extra momentum term to the weight update
             //TODO: Implement momentum
             return 0;
+            //
         }
         else {
-            return -learningRate * calculateGradientLogistic(outputLayer, output, target, n, precNeuron);
+            return -learningRate * calculateGradient(outputLayer, output, target, n, precNeuron);
         }
     }
 
-    private double calculateGradientLogistic(boolean outputLayer, double output, double target, Neuron n, Neuron precNeuron) {
+    private double calculateGradient(boolean outputLayer, double output, double target, Neuron n, Neuron precNeuron) {
         // helper function to calculate "error" term delta, effective multiplies by the input
-        return calculateDeltaLogistic(outputLayer, output, target, n) * precNeuron.getValue();
+        return calculateDelta(outputLayer, output, target, n) * precNeuron.getValue();
     }
 
-    private double calculateDeltaLogistic(boolean outputLayer, double output, double target, Neuron n) {
+    private double calculateDelta(boolean outputLayer, double output, double target, Neuron n) {
         // helper function to calculate delta, the error term using input, output, error, and other deltas
         // use a different function for output layer, since they dont have weights in front
         if (outputLayer) {
-            return -(target-output)*output*(1-output);  // error term for output neuron
+            if (isClassification) {
+                return -(target - output) * output * (1 - output);  // error term for output neuron using logistic activation and MSE
+            }
+            else {
+                return -(target - output);  // error term for output neuron using linear activation and MSE
+            }
         }
-        else {
+        else {  // calculate delta for hidden layers, always logistic
             ArrayList<Double> downstreamWeights = n.getWeights();
             ArrayList<Double> deltas = new ArrayList<>();
             for (Neuron neuron : n.getDownstream()) {

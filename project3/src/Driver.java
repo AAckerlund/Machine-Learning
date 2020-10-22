@@ -46,7 +46,35 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			default -> System.out.println("Bad file path: " + filePath);
 		}
 		//Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
-		
+
+		//TODO: Get rid of ignoredatt value and just place the variable of interest in ID, and not in data[]
+		//Testing training a single example in backprop for a boolean classification
+		Network net = new Network(3, new int[]{}, 1, false);
+		BackPropagation bp = new BackPropagation(net, 1000, false, true, 1);
+
+		ArrayList<Node> trainingSet = new ArrayList<>();
+		trainingSet.add(new Node(1, new double[]{0.1, 0.5, 0.8}, -1));
+		trainingSet.add(new Node(1, new double[]{0.2, 0.4, 0.7}, -1));
+		trainingSet.add(new Node(0, new double[]{0.5, 0.1, 0.2}, -1));
+		trainingSet.add(new Node(0, new double[]{0.6, 0.2, 0.4}, -1));
+
+		//Before Training an example
+		System.out.println("Before Training an example...");
+		ArrayList<Neuron> output = net.feedForward(trainingSet.get(0).getData());
+		for (Neuron neuron : output) {
+			System.out.println(neuron.getValue());
+		}
+
+		bp.trainExample(trainingSet.get(0));
+
+		//After Training an example, should be closer to the expected class
+		System.out.println("After Training an example...");
+		output = net.feedForward(trainingSet.get(0).getData());
+		for (Neuron neuron : output) {
+			System.out.println(neuron.getValue());
+		}
+
+		/*
 		Network net;
 		for(int i = 0; i < 2; i++)
 		{
@@ -65,6 +93,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 			}
 		}
+		 */
 	}
 	
 	public static void main(String[] args)
