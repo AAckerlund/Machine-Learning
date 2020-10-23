@@ -105,32 +105,33 @@ public class Network
     public ArrayList<Neuron> feedForward(double[] inputNodeValues)
     {
         // Set inputs neuron values
+        // TODO: Should generalize this for any number of layers, even if we're only doing up to 2 layers
         for (int i = 0; i < inputNodeValues.length; i++) {
             inputLayer.get(i).setValue(inputNodeValues[i]);
         }
 
         if(hiddenLayers == null)//just need the input and output layers
         {
-            propagateLayer(inputLayer, outputLayer);
+            propagateLayer(inputLayer, outputLayer, true);
         }
-        else
+        else    // hidden layers exist
         {
             int hiddenLayerCount = hiddenLayers.size();
-            propagateLayer(inputLayer, hiddenLayers.get(0));
+            propagateLayer(inputLayer, hiddenLayers.get(0), false);
             if(hiddenLayerCount == 1)
             {
-                propagateLayer(hiddenLayers.get(0), outputLayer);
+                propagateLayer(hiddenLayers.get(0), outputLayer, true);
             }
             else if(hiddenLayerCount == 2)
             {
-                propagateLayer(hiddenLayers.get(0), hiddenLayers.get(1));
-                propagateLayer(hiddenLayers.get(1), outputLayer);
+                propagateLayer(hiddenLayers.get(0), hiddenLayers.get(1), false);
+                propagateLayer(hiddenLayers.get(1), outputLayer, true);
             }
         }
         return outputLayer;
     }
     
-    public void propagateLayer(ArrayList<Neuron> input, ArrayList<Neuron> output)
+    public void propagateLayer(ArrayList<Neuron> input, ArrayList<Neuron> output, boolean outputLayer)
     {
         ArrayList<Double> weights, values;
 
@@ -157,7 +158,18 @@ public class Network
             }
 
             //TODO: make sure to differentiate the output layer uses a linear activation
-            double newValue = Activation.Sigmoidal(weights, values);//determine the update value of the output node
+            double newValue;
+            if (outputLayer) {
+                if (!isClassification) {
+                    newValue = Activation.Dot(weights, values); // use linear activation function on output node
+                }
+                else {
+                    newValue = Activation.Sigmoidal(weights, values); // Use sigmoidal(logistic) function for output
+                }
+            }
+            else {
+                newValue = Activation.Sigmoidal(weights, values);   // use sigmoidal for all hidden layers, if any
+            }
             
             output.get(j).updateSumInputs(Activation.Dot(weights, values)); //save neuron's input values
             output.get(j).updateValue(newValue);                    //push the updated value to the node
@@ -183,6 +195,7 @@ public class Network
         for (Neuron n : inputLayer) {
             n.pushWeightUpdate();
         }
+        biasNeuron.pushWeightUpdate();
         if (hiddenLayers != null) {
             for (int i = 0; i < hiddenLayers.size(); i++) {
                 for (Neuron n : hiddenLayers.get(i)) {

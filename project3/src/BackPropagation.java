@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class BackPropagation {
     // Contains the backpropagation training algorithms for both regression and classification
@@ -7,38 +8,62 @@ public class BackPropagation {
     boolean useMomentum;
     boolean isClassification;
     double learningRate;    // How quickly gradient descent changes the function values
+    double momentumScale;
     Network nn;             // The network that is being trained
 
     public BackPropagation(Network nn, int maxIterations, boolean useMomentum,
-                           boolean isClassification, double learningRate) {
+                           boolean isClassification, double learningRate, double momentumScale) {
         // Constructor that only saves arguments about the type of problem and training method
         this.nn = nn;
         this.maxIterations = maxIterations;
         this.useMomentum = useMomentum;
         this.isClassification = isClassification;
         this.learningRate = learningRate;
+        this.momentumScale = momentumScale;
     }
 
     // trains neural net on a shuffled training set until error does not improve (or until a set max)
-    public void trainNetwork() {    //TODO: Implement this
-        /*double bestError = Double.MAX_VALUE;
-        double prevError = Double.MAX_VALUE - 1;
+    public void trainNetwork(ArrayList<Node> trainingSet) {    //TODO: Implement this
+        double bestError = Double.MAX_VALUE;
+        double prevError = calculateMSError(trainingSet);       //TODO: change this for classification, maybe
 
         int iteration = 0;
 
-        double output = nn.feedForward().get(0).getValue(); //TODO: Implement this for multiple outputs
-        prevError = calculateSError(output, target);
+        if (isClassification) { //TODO: Implement this for multiple outputs
 
-        // train using Gradient Descent repeatedly until either error does not improve or we reach a specified max iteration
-        while ((prevError < bestError) || (iteration < maxIterations)) {
-            bestError = prevError;
-            prevError = calculateSError(output, target);
-        }*/
+        }
+        else {  // train regression using MSError
+            // train using Gradient Descent repeatedly until either error does not improve or we reach a specified max iteration
+            ArrayList<Node> shuffledSet = new ArrayList<>(trainingSet);
+            while (((prevError < bestError) && (iteration < maxIterations)) || iteration < 5) { // do at least 5 iterations
+            //while ((iteration < maxIterations)) {   // Testing what happens when just doing raw iterations
+                System.out.println("Iteration: " + iteration);
+                System.out.println("New Error: " + prevError);
+                bestError = prevError;
+                Collections.shuffle(shuffledSet);   // randomize order of training set every time
+
+                for (Node example : shuffledSet) {
+                    trainExample(example);
+                }
+                prevError = calculateMSError(trainingSet);
+                iteration++;
+            }
+            System.out.println("Best Mean-Squared-Error: " + bestError);
+            System.out.println("Number of iterations: " + iteration);
+        }
+
     }
 
-    private double calculateSError(double output,double target) {
-        // Calculates squared error for regression
-        return Math.pow(target-output, 2);
+    private double calculateMSError(ArrayList<Node> trainingSet) {
+        // Calculates squared error for regression for a training set
+        double error = 0;
+        for (Node example : trainingSet) {
+            double output = nn.feedForward(example.getData()).get(0).getValue();    // Should be one output for regression
+            error += Math.pow(output - example.getId(), 2);         // add up squared errors
+        }
+        error /= trainingSet.size();    // calculate mean
+
+        return error;
     }
 
     private void updateWeights() {
@@ -101,9 +126,9 @@ public class BackPropagation {
     }
 
     private double calculateWeightUpdate(boolean outputLayer, double output, double target, Neuron n, Neuron precNeuron) {
-        if (useMomentum) {  // add an extra momentum term to the weight update
-            //TODO: Implement momentum
-            return 0;
+        if (useMomentum && (precNeuron.getWeightUpdate(n) != null)) {  // add an extra momentum term to the weight update
+            return -learningRate * calculateGradient(outputLayer, output, target, n, precNeuron)
+                    + momentumScale * precNeuron.getWeightUpdate(n);
             //
         }
         else {

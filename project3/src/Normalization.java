@@ -50,9 +50,11 @@ public class Normalization {
         }
 
         // Print out results
-        for (Node node : list) {
+        /*for (Node node : list) {
             System.out.println(node.getId() + Arrays.toString(node.getData()));
         }
+
+         */
 
     }
 }

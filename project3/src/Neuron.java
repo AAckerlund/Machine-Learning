@@ -17,7 +17,6 @@ public class Neuron
 	private double delta;						// Stores current delta value for this neuron to be used in backpropagation
 	private HashMap<Neuron,Double> weightUpdates;	// Stores weight updates to be used in backpropagation later, again
 													// as output Neuron-based hashmap
-	
 	public Neuron()
 	{
 		outputs = new ArrayList<>();
@@ -73,13 +72,18 @@ public class Neuron
 		}
 	}
 
+	// get previous weight update towards a certain neuron
+	public Double getWeightUpdate(Neuron n) {
+		return weightUpdates.get(n);
+	}
+
 	//adds a new output edge and gives a random weight to the edge between -0.01 and 0.01
 	//also assigns saves this node as input to the next node for easy weight access in backpropagation
 	public void connectOutput(Neuron n)
 	{
 		outputs.add(n);
-		//weights.put(n, (0.01 - Math.random()*0.02));	//TODO: Change this back to random after testing
-		weights.put(n, 0.01);	// Constant weight for testing feedforward
+		weights.put(n, (0.01 - Math.random()*0.02));
+		//weights.put(n, 0.01);	// Constant weight for testing feedforward
 		n.connectInput(this);	// save this node as input to complete double linked list
 
 	}
