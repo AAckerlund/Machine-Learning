@@ -1,5 +1,7 @@
 package ThreadSafeTest;
 
+import LossFunctions.CrossEntropy;
+
 public class Main
 {
 	int i;
@@ -22,4 +24,6 @@ public class Main
 		}
 		System.err.println("done");
 	}
+
+
 }
