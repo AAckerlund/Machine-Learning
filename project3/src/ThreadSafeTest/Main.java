@@ -1,7 +1,5 @@
 package ThreadSafeTest;
 
-import LossFunctions.CrossEntropy;
-
 public class Main
 {
 	int i;
