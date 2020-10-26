@@ -66,6 +66,18 @@ public class BackPropagation {
         return error;
     }
 
+    //uses cross entropy to calculate loss for classification
+    public double calculateLoss(double predictedValue, double trueValue){
+        double loss;
+        if(trueValue == 1){
+            loss = -Math.log(predictedValue);
+        }
+        else{
+            loss = -Math.log(1 - predictedValue);
+        }
+        return loss;
+    }
+
     private void updateWeights() {
         nn.pushWeightUpdates();
     }

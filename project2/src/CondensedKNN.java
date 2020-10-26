@@ -37,8 +37,10 @@ public class CondensedKNN {
                 Node nearestPoint = findMinimumDistancePoint(condensedSet, currentPoint);
 
                 if (!isRegression) {
+                    System.out.println("CurrentPoint's class: " + currentPoint.getId() + " | Nearest Point In Set's class: " + nearestPoint.getId());
                     if (currentPoint.getId() != nearestPoint.getId()) {
                         // add to condensed set if points don't match
+                        System.out.println("Classes don't match. Adding point with class " + currentPoint.getId() + " to set");
                         condensedSet.add(currentPoint);
                         checkedIndices.add(i);
                         ZChanged = true;
