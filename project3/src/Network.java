@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Network
 {
@@ -7,7 +8,9 @@ public class Network
     private Neuron biasNeuron;
     private boolean isClassification;
 
-    public Network(int inputLayerNodeNum, int[] hiddenLayerNodeNums, int outputLayerNodeNum, boolean isClassification)
+    HashMap<Neuron, Double> outputToClass;  // HashMap for mapping an output neuron to its corresponding class
+
+    public Network(int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification)
     {
         this.isClassification = isClassification;
         neurons = new ArrayList<>();
@@ -36,11 +39,21 @@ public class Network
         }
 
         outputLayer = new ArrayList<>();
-        for(int i = 0; i < outputLayerNodeNum; i++)
-        {
+        if (!isClassification)
+        { // For regression, just use one output neuron
             tmp = new Neuron();
             outputLayer.add(tmp);
             neurons.add(tmp);
+        }
+        else {
+            outputToClass = new HashMap<>();
+            for (int i = 0; i < outputLayerClasses.length; i++)
+            {   // For Classification, add node for each class and save the class value to HashMap
+                tmp = new Neuron();
+                outputLayer.add(tmp);
+                neurons.add(tmp);
+                outputToClass.put(tmp, outputLayerClasses[i]);
+            }
         }
         generateWeights();
     }
@@ -135,7 +148,8 @@ public class Network
     {
         ArrayList<Double> weights, values;
 
-        for(int j = 0; j < input.get(0).getWeights().size(); j++) //for each edge in a node of the input layer (corresponding to one output)
+        //for(int j = 0; j < input.get(0).getWeights().size(); j++) //for each edge in a node of the input layer (corresponding to one output)
+        for (Neuron out : output)
         {
 
             weights = new ArrayList<>();    //reset the array lists
@@ -143,23 +157,22 @@ public class Network
 
             for(Neuron neuron : input)      //for each node in the input layer
             {
-                weights.add(neuron.getWeights().get(j));    //take its weight and value
+                weights.add(neuron.getWeight(out));    //take its weight and value
                 values.add(neuron.getValue());
             }
 
             //add bias neuron weight and value to respective arraylists
             for(int i = 0; i < biasNeuron.getWeights().size(); i++)
             {
-                if(biasNeuron.getOutputNeuron(i) == output.get(j))  //search for weight corresponding to current Neuron
+                if(biasNeuron.getOutputNeuron(i) == out)  //search for weight corresponding to current Neuron
                 {
                     weights.add(biasNeuron.getWeights().get(i));    //take bias weight and value
                     values.add(biasNeuron.getValue());
                 }
             }
 
-            //TODO: make sure to differentiate the output layer uses a linear activation
             double newValue;
-            if (outputLayer) {
+            if (outputLayer) {  // Check if node is in output layer, which will mean use a different activation function
                 if (!isClassification) {
                     newValue = Activation.Dot(weights, values); // use linear activation function on output node
                 }
@@ -171,8 +184,8 @@ public class Network
                 newValue = Activation.Sigmoidal(weights, values);   // use sigmoidal for all hidden layers, if any
             }
             
-            output.get(j).updateSumInputs(Activation.Dot(weights, values)); //save neuron's input values
-            output.get(j).updateValue(newValue);                    //push the updated value to the node
+            out.updateSumInputs(Activation.Dot(weights, values)); //save neuron's input values
+            out.updateValue(newValue);                    //push the updated value to the node
         }
     }
 
@@ -183,6 +196,14 @@ public class Network
 
     public ArrayList<ArrayList<Neuron>> getHiddenLayers() {
         return hiddenLayers;
+    }
+
+    public ArrayList<Neuron> getOutputLayer() {
+        return outputLayer;
+    }
+
+    public HashMap<Neuron, Double> getOutputToClass() {
+        return outputToClass;
     }
 
     public Neuron getBiasNeuron()

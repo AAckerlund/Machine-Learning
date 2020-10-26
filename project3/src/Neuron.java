@@ -46,16 +46,6 @@ public class Neuron
 	{
 		sumInput = newSumInput;
 	}
-	
-	public ArrayList<Double> calcOutput()
-	{
-		ArrayList<Double> outputValues = new ArrayList<>();
-		for(int i = 0; i < outputs.size(); i++)
-		{
-			outputValues.add(value*weights.get(i));
-		}
-		return outputValues;
-	}
 
 	// save update of weight to downstream neuron n, but do not change any weights yet
 	public void saveWeightUpdate(Neuron n, double weightChange)
@@ -95,6 +85,11 @@ public class Neuron
 	public ArrayList<Double> getWeights()
 	{
 		return new ArrayList<>(weights.values());
+	}
+
+	public double getWeight(Neuron n)
+	{
+		return weights.get(n);
 	}
 	
 	public double getValue()

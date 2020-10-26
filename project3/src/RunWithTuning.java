@@ -13,7 +13,7 @@ public class RunWithTuning {
     public double runClassificationLearningRate() {
         double optimalLearningRate = learningRates[0];
         for (double learningRate : learningRates) {
-            //TODO: run backpropagation for classification and get performance from CrossEntropy
+            //TODO: run backpropagation for classification and get performance from Mean Squared Error
             //TODO: find best learning rate from performance
         }
         return optimalLearningRate;
@@ -22,7 +22,7 @@ public class RunWithTuning {
     public double runClassificationmomentum() {
         double optimalMomentum = momentums[0];
         for (double momentum : momentums) {
-            //TODO: run backpropagation for classification and get performance from CrossEntropy
+            //TODO: run backpropagation for classification and get performance from Mean Squared Error
             //TODO: find best momentum from performance
         }
         return optimalMomentum;
@@ -31,7 +31,7 @@ public class RunWithTuning {
     public int runClassificationNodesPerLayerNum() {
         int optimalNodesPerLayerNum = nodesPerLayerNum[0];
         for (double nodeNum : nodesPerLayerNum) {
-            //TODO: run backpropagation for classification and get performance from CrossEntropy
+            //TODO: run backpropagation for classification and get performance from Mean Squared Error
             //TODO: find best node number from performance
         }
         return optimalNodesPerLayerNum;
