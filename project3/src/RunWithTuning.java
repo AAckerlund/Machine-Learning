@@ -5,14 +5,13 @@ public class RunWithTuning {
     ArrayList<Node> trainingSet;
     public double[] learningRates;
     public double[] momentums;
-    public ArrayList<ArrayList<Neuron>> hiddenLayers;
+    public int[] hiddenLayerNodeNums;
 
-    public RunWithTuning(BackPropagation backPropForTuning, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, ArrayList<ArrayList<Neuron>> hiddenLayers) {
-        this.backPropForTuning = backPropForTuning;
+    public RunWithTuning(ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, int[] hiddenLayerNodeNums) {
         this.trainingSet = trainingSet;
         this.learningRates = learningRates;
         this.momentums = momentums;
-        this.hiddenLayers = hiddenLayers;
+        this.hiddenLayerNodeNums = hiddenLayerNodeNums;
     }
 
     public double runLearningRate() {

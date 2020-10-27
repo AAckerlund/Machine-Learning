@@ -132,7 +132,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 
 	}
-	
+
+	public void runExperiment(ArrayList<Node> dataset) {
+		RunWithTuning tuner;
+	}
+
 	public static void main(String[] args)
 	{
 		//use these if you want to run a single data set
