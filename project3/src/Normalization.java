@@ -45,7 +45,12 @@ public class Normalization {
         // Normalize all entries using z-score normalization
         for (Node node : list) {
             for (int j = 0; j < numAttributes; j++) {
-                node.getData()[j] = (float) ((node.getData()[j] - meanList[j]) / stdDevList[j]);
+                if (stdDevList[j] == 0) {
+                    node.getData()[j] = 0;  // Prevent dividing by zero, score is just 0
+                }
+                else {
+                    node.getData()[j] = ((node.getData()[j] - meanList[j]) / stdDevList[j]);
+                }
             }
         }
 
