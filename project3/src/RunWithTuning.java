@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 public class RunWithTuning {
-    public BackPropagation backProp;
-    ArrayList<Node> tuningSet;
+    private BackPropagation backProp;
+    ArrayList<Node> tuningSet, trainingSet;
     
-    public double[] learningRates;
+    private double[] learningRates;
     private double bestLearningRate;
     
-    public double[] momentums;
+    private double[] momentums;
     private double bestMomentum;
     
     private double[] outputLayerClasses;
@@ -16,10 +16,13 @@ public class RunWithTuning {
     private int numHiddenLayers;
     private int[] bestNumNodesPerLayer;
     
+    private String outFile;
+    
     private double bestError;
 
-    public RunWithTuning(ArrayList<Node> tuningSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, int numHiddenLayers) {
+    public RunWithTuning(ArrayList<Node> tuningSet, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, int numHiddenLayers, String outFile) {
         this.tuningSet = tuningSet;
+        this.trainingSet = trainingSet;
         
         this.learningRates = learningRates;
         bestLearningRate = 0;
@@ -33,6 +36,8 @@ public class RunWithTuning {
         this.numHiddenLayers = numHiddenLayers;
         bestNumNodesPerLayer = new int[numHiddenLayers];
         bestError = Double.MAX_VALUE;
+        
+        this.outFile = outFile;
     }
     
     public void tune()
@@ -46,8 +51,9 @@ public class RunWithTuning {
                 if(numHiddenLayers == 0)
                 {
                     n = new Network(tuningSet.get(0).getData().length, new int[] {}, outputLayerClasses, isClassification);
-                    backProp = new BackPropagation(n, 10000, learningRate, momentum);
-                    error = backProp.trainNetwork(tuningSet);
+                    backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
+                    backProp.trainNetwork(trainingSet);
+                    error = backProp.calculateMSError(tuningSet);
                     if(error <= bestError)
                     {
                         bestError = error;
@@ -60,8 +66,9 @@ public class RunWithTuning {
                     for(int k = 1; k < 100; k++)
                     {
                         n = new Network(tuningSet.get(0).getData().length, new int[] {k}, outputLayerClasses, isClassification);
-                        backProp = new BackPropagation(n, 10000, learningRate, momentum);
-                        error = backProp.trainNetwork(tuningSet);
+                        backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
+                        backProp.trainNetwork(trainingSet);
+                        error = backProp.calculateMSError(tuningSet);
                         if(error <= bestError)
                         {
                             bestError = error;
@@ -78,8 +85,9 @@ public class RunWithTuning {
                         for(int l = 0; l < 100; l++)
                         {
                             n = new Network(tuningSet.get(0).getData().length, new int[] {k, l}, outputLayerClasses, isClassification);
-                            backProp = new BackPropagation(n, 10000, learningRate, momentum);
-                            error = backProp.trainNetwork(tuningSet);
+                            backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
+                            backProp.trainNetwork(trainingSet);
+                            error = backProp.calculateMSError(tuningSet);
                             if(error <= bestError)
                             {
                                 bestError = error;
@@ -135,6 +143,26 @@ public class RunWithTuning {
         return optimalMomentum;
     }
     
+    /*public ArrayList<Neuron> runNodesPerLayerNum() {
+	ArrayList<Neuron> optimalNodesPerLayerNum = hiddenLayerNodeNums[0];
+	double lowestError = Double.POSITIVE_INFINITY;
+	ArrayList<Double> errors = new ArrayList<>();
+	for (int hiddenLayer : hiddenLayerNodeNums) {
+		backPropForTuning.nn.setHiddenLayers(hiddenLayerN);
+		double error = backPropForTuning.trainNetwork(trainingSet);
+		errors.add(error);
+		if(error < lowestError){
+			lowestError = error;
+			optimalNodesPerLayerNum = hiddenLayer;
+		}
+	}
+	System.err.println("Errors from Number of Hidden Layer Nodes: ");
+	for(double error: errors){
+		System.out.println(error);
+	}
+	return optimalNodesPerLayerNum;
+}*/
+    
     public double getBestLearningRate()
     {
         return bestLearningRate;
@@ -154,23 +182,5 @@ public class RunWithTuning {
     {
         return bestError;
     }
-    /*public ArrayList<Neuron> runNodesPerLayerNum() {
-        ArrayList<Neuron> optimalNodesPerLayerNum = hiddenLayerNodeNums[0];
-        double lowestError = Double.POSITIVE_INFINITY;
-        ArrayList<Double> errors = new ArrayList<>();
-        for (int hiddenLayer : hiddenLayerNodeNums) {
-            backPropForTuning.nn.setHiddenLayers(hiddenLayerN);
-            double error = backPropForTuning.trainNetwork(trainingSet);
-            errors.add(error);
-            if(error < lowestError){
-                lowestError = error;
-                optimalNodesPerLayerNum = hiddenLayer;
-            }
-        }
-        System.err.println("Errors from Number of Hidden Layer Nodes: ");
-        for(double error: errors){
-            System.out.println(error);
-        }
-        return optimalNodesPerLayerNum;
-    }*/
+
 }

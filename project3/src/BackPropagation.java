@@ -12,8 +12,9 @@ public class BackPropagation {
     double momentumScale;
     Network nn;             // The network that is being trained
     HashMap<Neuron, Double> outputToClass;  // HashMap for mapping an output neuron to its corresponding class
+    private String outFile;
 
-    public BackPropagation(Network nn, int maxIterations, double learningRate, double momentumScale) {
+    public BackPropagation(Network nn, int maxIterations, double learningRate, double momentumScale, String outFile) {
         // Constructor that only saves arguments about the type of problem and training method
         this.nn = nn;
         this.numClasses = nn.getOutputLayer().size();
@@ -22,6 +23,7 @@ public class BackPropagation {
         this.learningRate = learningRate;
         this.momentumScale = momentumScale;
         this.outputToClass = nn.getOutputToClass();
+        this.outFile = outFile;
     }
 
     // trains neural net on a shuffled training set until error does not improve (or until a set max)
@@ -36,8 +38,8 @@ public class BackPropagation {
         ArrayList<Node> shuffledSet = new ArrayList<>(trainingSet);
         while (((prevError < bestError) && (iteration < maxIterations)) || iteration < 5) { // do at least 5 iterations
         //while ((iteration < maxIterations)) {   // Testing what happens when just doing raw iterations
-            System.out.println("Iteration: " + iteration);
-            System.out.println("New Error: " + prevError);
+            Printer.println("Iteration: " + iteration, outFile);
+            Printer.println("New Error: " + prevError, outFile);
             bestError = prevError;
             Collections.shuffle(shuffledSet);   // randomize order of training set every time
 
@@ -47,12 +49,12 @@ public class BackPropagation {
             prevError = calculateMSError(trainingSet);
             iteration++;
         }
-        System.out.println("Best Mean-Squared-Error: " + bestError);
-        System.out.println("Number of iterations: " + iteration);
+        Printer.println("Best Mean-Squared-Error: " + bestError, outFile);
+        Printer.println("Number of iterations: " + iteration, outFile);
         return bestError;
     }
 
-    private double calculateMSError(ArrayList<Node> trainingSet) {
+    public double calculateMSError(ArrayList<Node> trainingSet) {
         // Calculates squared error for regression for a training set
         double error = 0;
         if (isClassification) {
