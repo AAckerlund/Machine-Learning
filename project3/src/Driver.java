@@ -76,6 +76,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		else {
 			classes = getClasses(nodes);
+			parsedNodes = nodes;
 		}
 
 		// Train and test using the real test set
