@@ -50,71 +50,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
 
 		//TODO: Get rid of ignoredatt value and just place the variable of interest in ID, and not in data[]
-		//Testing training a small set
-/*
-		isRegression = false;
-		Network net = new Network(2, new int[]{}, new double[]{0, 1}, true);
-		BackPropagation bp = new BackPropagation(net, 100000, false, true, 0.1, 0.5);
-
-		ArrayList<Node> trainingSet = new ArrayList<>();
-		trainingSet.add(new Node(1, new double[]{0.1, 0.6}, -1));
-		trainingSet.add(new Node(1, new double[]{0.1, 0.7}, -1));
-		trainingSet.add(new Node(0, new double[]{0.9, 0.1}, -1));
-		trainingSet.add(new Node(0, new double[]{0.8, 0.1}, -1));
-
-*/
-
-/*
-		//Before Training an example
-		System.out.println("Before Training an example...");
-		ArrayList<Neuron> output = net.feedForward(trainingSet.get(0).getData());
-		for (Neuron neuron : output) {
-			System.out.println(neuron.getValue());
-		}
-
-		bp.trainExample(trainingSet.get(0));
-
-		//After Training an example, should be closer to the expected class
-		System.out.println("After Training an example...");
-		output = net.feedForward(trainingSet.get(0).getData());
-		for (Neuron neuron : output) {
-			System.out.println(neuron.getValue());
-		}
-
- */
-
-		//Train using whole training set
-/*
-		bp.trainNetwork(trainingSet);
-		System.out.println("After Training the network...");
-		if (isRegression) {
-			for (int i = 0; i < trainingSet.size(); i++) {
-				ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
-				for (Neuron neuron : output) {
-					System.out.println("Output: " + neuron.getValue() + " | Original: " + trainingSet.get(i).getId());
-				}
-			}
-		}
-		else {
-			HashMap<Neuron, Double> classMap = net.getOutputToClass();
-			for (int i = 0; i < trainingSet.size(); i++) {
-				ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
-				System.out.println("\nFor example with class " + trainingSet.get(i).getId() + ":");
-				double highestValue = 0;
-				double mostLikelyClass = 0;
-				for (Neuron neuron : output) {
-					double neuronClass = classMap.get(neuron);
-					double neuronValue = neuron.getValue();
-					System.out.println("Output from Neuron corresponding to class " + neuronClass + ": " + neuronValue);
-					if (neuronValue > highestValue) {	// find most likely class
-						highestValue = neuronValue;
-						mostLikelyClass = neuronClass;
-					}
-				}
-				System.out.println("Predicted class: " + mostLikelyClass);
-			}
-		}
-*/
 
 		// TODO: This is just a bandaid. Should edit the response variable out of the data and have a way to normalize id
 		// Parse the problematic feature out of the array and into the id, or compile classes into an array
@@ -195,28 +130,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				System.out.println("Predicted class: " + mostLikelyClass);
 			}
 		}
-
-
-		/*
-		Network net;
-		for(int i = 0; i < 2; i++)
-		{
-			int[] hiddenLayers = new int[i];
-			for(int j = 0; j < i; j++)
-			{
-				hiddenLayers[j] = (int) (Math.random() * nodes.get(0).getData().length - 1);
-			}
-			net = new Network(nodes.get(0).getData().length, hiddenLayers, 1, .5, !isRegression);
-			for(Node node : nodes)
-			{
-				ArrayList<Neuron> output = net.feedForward(node.getData());
-				for(Neuron neuron : output)
-				{
-					System.out.println(neuron.getValue());
-				}
-			}
-		}
-		 */
 
 	}
 	
