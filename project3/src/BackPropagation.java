@@ -54,7 +54,7 @@ public class BackPropagation {
         return bestError;
     }
 
-    private double calculateMSError(ArrayList<Node> trainingSet) {
+    public double calculateMSError(ArrayList<Node> trainingSet) {
         // Calculates squared error for regression for a training set
         double error = 0;
         if (isClassification) {

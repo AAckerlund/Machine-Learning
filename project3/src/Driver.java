@@ -148,7 +148,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		TrainingGroups folds = new TrainingGroups(dataset);
 		ArrayList<Node> tuningSet = folds.getTrainingSet();
-		RunWithTuning tuner = new RunWithTuning(tuningSet, learningRates, momentums, hiddenLayerNodeNums);
+		RunWithTuning tuner = new RunWithTuning(tuningSet, learningRates, momentums, hiddenLayerNodeNums, filePath);
 		tuner.tune();
 
 		for (int i = 0; i < 10; i++) {

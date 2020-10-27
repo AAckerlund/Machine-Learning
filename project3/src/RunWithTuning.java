@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class RunWithTuning {
     private BackPropagation backProp;
-    ArrayList<Node> tuningSet;
+    ArrayList<Node> tuningSet, trainingSet;
     
     private double[] learningRates;
     private double bestLearningRate;
@@ -20,8 +20,9 @@ public class RunWithTuning {
     
     private double bestError;
 
-    public RunWithTuning(ArrayList<Node> tuningSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, int numHiddenLayers, String outFile) {
+    public RunWithTuning(ArrayList<Node> tuningSet, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, int numHiddenLayers, String outFile) {
         this.tuningSet = tuningSet;
+        this.trainingSet = trainingSet;
         
         this.learningRates = learningRates;
         bestLearningRate = 0;
@@ -51,7 +52,8 @@ public class RunWithTuning {
                 {
                     n = new Network(tuningSet.get(0).getData().length, new int[] {}, outputLayerClasses, isClassification);
                     backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
-                    error = backProp.trainNetwork(tuningSet);
+                    backProp.trainNetwork(trainingSet);
+                    error = backProp.calculateMSError(tuningSet);
                     if(error <= bestError)
                     {
                         bestError = error;
@@ -65,7 +67,8 @@ public class RunWithTuning {
                     {
                         n = new Network(tuningSet.get(0).getData().length, new int[] {k}, outputLayerClasses, isClassification);
                         backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
-                        error = backProp.trainNetwork(tuningSet);
+                        backProp.trainNetwork(trainingSet);
+                        error = backProp.calculateMSError(tuningSet);
                         if(error <= bestError)
                         {
                             bestError = error;
@@ -83,7 +86,8 @@ public class RunWithTuning {
                         {
                             n = new Network(tuningSet.get(0).getData().length, new int[] {k, l}, outputLayerClasses, isClassification);
                             backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
-                            error = backProp.trainNetwork(tuningSet);
+                            backProp.trainNetwork(trainingSet);
+                            error = backProp.calculateMSError(tuningSet);
                             if(error <= bestError)
                             {
                                 bestError = error;
