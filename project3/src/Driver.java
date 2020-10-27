@@ -48,6 +48,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 			default -> System.err.println("Bad file path: " + filePath);
 		}
+		
 		Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
 
 		//TODO: Get rid of ignoredatt value and just place the variable of interest in ID, and not in data[]
@@ -82,6 +83,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		// Tune, Train and test using the real test set
 		runExperiment(parsedNodes, classes, isRegression);
+		System.out.println("finished running experiment for " + filePath);
 	}
 
 	public double[] getClasses(ArrayList<Node> dataset) {
@@ -109,7 +111,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		TrainingGroups groups = new TrainingGroups(dataset);
 
 		for (int layers = 0; layers <= 2; layers++) {
-
+			System.out.println(filePath + " is on layer " + layers);
 			for (int fold = 0; fold < 10; fold++) {
 				// Tuning phase
 				ArrayList<Node> tuningSet = groups.getTuningSet();
