@@ -79,48 +79,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			parsedNodes = nodes;
 		}
 
-		// Train and test using the real test set
-
-		TrainingGroups groups = new TrainingGroups(parsedNodes);
-
-		//Network net = new Network(parsedNodes.get(0).getData().length, new int[]{}, classes, !isRegression);	// 0 layers
-		//Network net = new Network(parsedNodes.get(0).getData().length, new int[]{parsedNodes.get(0).getData().length-1}, classes, !isRegression);	// 1 layer
-		Network net = new Network(parsedNodes.get(0).getData().length, new int[]{parsedNodes.get(0).getData().length-1,
-				parsedNodes.get(0).getData().length-2}, classes, !isRegression);	// 2 layers
-
-		BackPropagation bp = new BackPropagation(net, 10000, 0.0001, 0.1, filePath);
-
-		ArrayList<Node> trainingSet = groups.getTrainingSet();
-		bp.trainNetwork(trainingSet);
-		Printer.println(filePath, "After Training the network...");
-		if (isRegression) {
-			for (int i = 0; i < trainingSet.size(); i++) {
-				ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
-				for (Neuron neuron : output) {
-					Printer.println(filePath, "Output: " + neuron.getValue() + " | Original: " + trainingSet.get(i).getId());
-				}
-			}
-		}
-		else {
-			HashMap<Neuron, Double> classMap = net.getOutputToClass();
-			for (int i = 0; i < trainingSet.size(); i++) {
-				ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
-				Printer.println(filePath, "\nFor example with class " + trainingSet.get(i).getId() + ":");
-				double highestValue = 0;
-				double mostLikelyClass = 0;
-				for (Neuron neuron : output) {
-					double neuronClass = classMap.get(neuron);
-					double neuronValue = neuron.getValue();
-					Printer.println(filePath, "Output from Neuron corresponding to class " + neuronClass + ": " + neuronValue);
-					if (neuronValue > highestValue) {	// find most likely class
-						highestValue = neuronValue;
-						mostLikelyClass = neuronClass;
-					}
-				}
-				Printer.println(filePath, "Predicted class: " + mostLikelyClass);
-			}
-		}
-
+		// Tune, Train and test using the real test set
+		runExperiment(parsedNodes, classes, isRegression);
 	}
 
 	public double[] getClasses(ArrayList<Node> dataset) {
@@ -145,12 +105,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
 		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};	// includes 0 for no momentum
 
-		TrainingGroups folds = new TrainingGroups(dataset);
+		TrainingGroups groups = new TrainingGroups(dataset);
 
 		for (int layers = 0; layers < 3; layers++) {
-			for (int i = 0; i < 10; i++) {
-				ArrayList<Node> tuningSet = folds.getTuningSet();
-				ArrayList<Node> trainingSet = folds.getTrainingSet();
+
+			for (int fold = 0; fold < 10; fold++) {
+				// Tuning phase
+				ArrayList<Node> tuningSet = groups.getTuningSet();
+				ArrayList<Node> trainingSet = groups.getTrainingSet();
 				RunWithTuning tuner = new RunWithTuning(tuningSet, trainingSet, learningRates, momentums, classes,
 						!isRegression, layers, filePath);
 				tuner.tune();
@@ -158,7 +120,42 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				double learningRate = tuner.getBestLearningRate();
 				double momentum = tuner.getBestMomentum();
 				int[] hiddenLayerNodeNums = tuner.getBestNumNodesPerLayer();
-				folds.iterateTestSet();
+
+				// Test phase
+				Network net = new Network(dataset.get(0).getData().length, hiddenLayerNodeNums, classes, !isRegression);
+				BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
+
+				bp.trainNetwork(trainingSet);
+				Printer.println(filePath, "After Training the network...");
+				if (isRegression) {
+					for (int i = 0; i < trainingSet.size(); i++) {
+						ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
+						for (Neuron neuron : output) {
+							Printer.println(filePath, "Output: " + neuron.getValue() + " | Original: " + trainingSet.get(i).getId());
+						}
+					}
+				}
+				else {
+					HashMap<Neuron, Double> classMap = net.getOutputToClass();
+					for (int i = 0; i < trainingSet.size(); i++) {
+						ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
+						Printer.println(filePath, "\nFor example with class " + trainingSet.get(i).getId() + ":");
+						double highestValue = 0;
+						double mostLikelyClass = 0;
+						for (Neuron neuron : output) {
+							double neuronClass = classMap.get(neuron);
+							double neuronValue = neuron.getValue();
+							Printer.println(filePath, "Output from Neuron corresponding to class " + neuronClass + ": " + neuronValue);
+							if (neuronValue > highestValue) {	// find most likely class
+								highestValue = neuronValue;
+								mostLikelyClass = neuronClass;
+							}
+						}
+						Printer.println(filePath, "Predicted class: " + mostLikelyClass);
+					}
+				}
+
+				groups.iterateTestSet();
 			}
 		}
 	}
