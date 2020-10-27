@@ -7,21 +7,18 @@ public class BackPropagation {
     // Assuming using logistic functions as activation functions
     int maxIterations;
     int numClasses;         // How many outputs to have on a multiclass problem
-    boolean useMomentum;
     boolean isClassification;
     double learningRate;    // How quickly gradient descent changes the function values
     double momentumScale;
     Network nn;             // The network that is being trained
     HashMap<Neuron, Double> outputToClass;  // HashMap for mapping an output neuron to its corresponding class
 
-    public BackPropagation(Network nn, int maxIterations, boolean useMomentum,
-                           boolean isClassification, double learningRate, double momentumScale) {
+    public BackPropagation(Network nn, int maxIterations, double learningRate, double momentumScale) {
         // Constructor that only saves arguments about the type of problem and training method
         this.nn = nn;
         this.numClasses = nn.getOutputLayer().size();
         this.maxIterations = maxIterations;
-        this.useMomentum = useMomentum;
-        this.isClassification = isClassification;
+        this.isClassification = nn.isClassification();
         this.learningRate = learningRate;
         this.momentumScale = momentumScale;
         this.outputToClass = nn.getOutputToClass();
@@ -161,7 +158,7 @@ public class BackPropagation {
     }
 
     private double calculateWeightUpdate(boolean outputLayer, double output, double target, Neuron n, Neuron precNeuron) {
-        if (useMomentum && (precNeuron.getWeightUpdate(n) != null)) {  // add an extra momentum term to the weight update
+        if (precNeuron.getWeightUpdate(n) != null) {  // add an extra momentum term to the weight update
             return -learningRate * calculateGradient(outputLayer, output, target, n, precNeuron)
                     + momentumScale * precNeuron.getWeightUpdate(n);
         }

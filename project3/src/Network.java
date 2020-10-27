@@ -229,4 +229,9 @@ public class Network
             }
         }
     }
+    
+    public boolean isClassification()
+    {
+        return isClassification;
+    }
 }

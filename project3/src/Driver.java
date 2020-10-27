@@ -98,7 +98,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Network net = new Network(parsedNodes.get(0).getData().length, new int[]{parsedNodes.get(0).getData().length-1,
 				parsedNodes.get(0).getData().length-2}, classes, !isRegression);	// 2 layers
 
-		BackPropagation bp = new BackPropagation(net, 10000, true, !isRegression, 0.0001, 0.1);
+		BackPropagation bp = new BackPropagation(net, 10000, 0.0001, 0.1);
 
 		ArrayList<Node> trainingSet = groups.getTrainingSet();
 		bp.trainNetwork(trainingSet);
