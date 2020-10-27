@@ -53,9 +53,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		// TODO: This is just a bandaid. Should edit the response variable out of the data and have a way to normalize id
 		// Parse the problematic feature out of the array and into the id, or compile classes into an array
-
 		ArrayList<Node> parsedNodes = new ArrayList<>();
-		double[] classes = new double[]{};	// holds all classes found in a dataset
+		double[] classes = new double[]{};
 		if (isRegression) {
 			for (Node node : nodes) {
 				int ignoredAttr = node.getIgnoredAttr();
@@ -75,19 +74,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				parsedNodes.add(new Node(normalizedID, newData, 128395));
 			}
 		}
-		else {	// For classification, parse the dataset and compile the classes into an array
-			ArrayList<Double> classList = new ArrayList<>();
-			for (Node node : nodes) {	// Populate list with nodes
-				if (!classList.contains(node.getId())) {
-					classList.add(node.getId());
-				}
-			}
-			classes = new double[classList.size()];
-			for (int i = 0; i < classes.length; i++) {
-				classes[i] = classList.get(i);	// copy arraylist to the double array
-			}
+		else {
+			classes = getClasses(nodes);
 		}
-
 
 		// Train and test using the real test set
 
@@ -133,8 +122,38 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 	}
 
-	public void runExperiment(ArrayList<Node> dataset) {
-		RunWithTuning tuner;
+	public double[] getClasses(ArrayList<Node> dataset) {
+		double[] classes = new double[]{};	// holds all classes found in a dataset
+
+		// For classification, parse the dataset and compile the classes into an array
+		ArrayList<Double> classList = new ArrayList<>();
+		for (Node node : dataset) {	// Populate list with nodes
+			if (!classList.contains(node.getId())) {
+				classList.add(node.getId());
+			}
+		}
+		classes = new double[classList.size()];
+		for (int i = 0; i < classes.length; i++) {
+			classes[i] = classList.get(i);	// copy arraylist to the double array
+		}
+
+		return classes;
+	}
+
+	public void runExperiment(ArrayList<Node> dataset, double[] classes) {
+		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
+		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};	// includes 0 for no momentum
+		//TODO: may just shift this to runwithtuning to automatically try values based on size of input layer
+		int[] hiddenLayerNodeNums = new int[]{1, 2, 3, 4, 5, 6};
+
+		TrainingGroups folds = new TrainingGroups(dataset);
+		ArrayList<Node> tuningSet = folds.getTrainingSet();
+		RunWithTuning tuner = new RunWithTuning(tuningSet, learningRates, momentums, hiddenLayerNodeNums);
+		tuner.tune();
+
+		for (int i = 0; i < 10; i++) {
+
+		}
 	}
 
 	public static void main(String[] args)
