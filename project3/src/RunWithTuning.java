@@ -44,6 +44,7 @@ public class RunWithTuning {
     {
         for(double momentum : momentums)
         {
+            Printer.println(outFile, "Momentum is" + momentum);
             for(double learningRate : learningRates)
             {
                 double error;

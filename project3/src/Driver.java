@@ -177,7 +177,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		*/
 		//use these if you want to run all the data sets  "house-votes-84",
 
-		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+		String[] files = {/*"abalone", */"breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
