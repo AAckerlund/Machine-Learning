@@ -21,31 +21,31 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			case "abalone" -> {
 				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
 				isRegression = true;
-				System.out.println("Done Abalone");
+				Printer.println("Done Abalone", filePath);
 			}
 			case "breast-cancer-wisconsin" -> {
 				nodes = p.cancerParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Cancer");
+				Printer.println("Done Cancer", filePath);
 			}
 			case "forestfires" -> {
 				nodes = p.firesParser(fileStart + filePath + fileEnd);
 				isRegression = true;
-				System.out.println("Done Forest Fires");
+				Printer.println("Done Forest Fires", filePath);
 			}
 			case "glass" -> {
 				nodes = p.glassParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Glass");
+				Printer.println("Done Glass", filePath);
 			}
 			case "machine" -> {
 				nodes = p.machineParser(fileStart + filePath + fileEnd);
 				isRegression = true;
-				System.out.println("Done Machine");
+				Printer.println("Done Machine", filePath);
 			}
 			case "soybean-small" -> {
 				nodes = p.beanParser(fileStart + filePath + fileEnd);
-				System.out.println("Done Soybean");
+				Printer.println("Done Soybean", filePath);
 			}
-			default -> System.out.println("Bad file path: " + filePath);
+			default -> System.err.println("Bad file path: " + filePath);
 		}
 		Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
 
@@ -98,16 +98,16 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Network net = new Network(parsedNodes.get(0).getData().length, new int[]{parsedNodes.get(0).getData().length-1,
 				parsedNodes.get(0).getData().length-2}, classes, !isRegression);	// 2 layers
 
-		BackPropagation bp = new BackPropagation(net, 10000, 0.0001, 0.1);
+		BackPropagation bp = new BackPropagation(net, 10000, 0.0001, 0.1, filePath);
 
 		ArrayList<Node> trainingSet = groups.getTrainingSet();
 		bp.trainNetwork(trainingSet);
-		System.out.println("After Training the network...");
+		Printer.println("After Training the network...", filePath);
 		if (isRegression) {
 			for (int i = 0; i < trainingSet.size(); i++) {
 				ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
 				for (Neuron neuron : output) {
-					System.out.println("Output: " + neuron.getValue() + " | Original: " + trainingSet.get(i).getId());
+					Printer.println("Output: " + neuron.getValue() + " | Original: " + trainingSet.get(i).getId(), filePath);
 				}
 			}
 		}
@@ -115,19 +115,19 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			HashMap<Neuron, Double> classMap = net.getOutputToClass();
 			for (int i = 0; i < trainingSet.size(); i++) {
 				ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
-				System.out.println("\nFor example with class " + trainingSet.get(i).getId() + ":");
+				Printer.println("\nFor example with class " + trainingSet.get(i).getId() + ":", filePath);
 				double highestValue = 0;
 				double mostLikelyClass = 0;
 				for (Neuron neuron : output) {
 					double neuronClass = classMap.get(neuron);
 					double neuronValue = neuron.getValue();
-					System.out.println("Output from Neuron corresponding to class " + neuronClass + ": " + neuronValue);
+					Printer.println("Output from Neuron corresponding to class " + neuronClass + ": " + neuronValue, filePath);
 					if (neuronValue > highestValue) {	// find most likely class
 						highestValue = neuronValue;
 						mostLikelyClass = neuronClass;
 					}
 				}
-				System.out.println("Predicted class: " + mostLikelyClass);
+				Printer.println("Predicted class: " + mostLikelyClass, filePath);
 			}
 		}
 

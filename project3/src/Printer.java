@@ -14,14 +14,14 @@ public class Printer
 	}
 	static synchronized void print(String file, String str)
 	{
-		File f = new File(file);
+		File f = new File(file + ".txt");
 		FileWriter out = null;
 		
 		try{ out = new FileWriter(f, true); }
-		catch(IOException ex){ System.out.println("Error creating File Writer on thread " + file); }
+		catch(IOException ex){ System.err.println("Error creating File Writer on thread " + file); }
 		
 		try{ out.write(str); }
-		catch(IOException ex){ System.out.println("Error writing message \"" + str + "\" to file on thread " + file); }
+		catch(IOException ex){ System.err.println("Error writing message \"" + str + "\" to file on thread " + file); }
 		
 		try{ out.close(); }
 		catch(IOException ex){ System.err.println("Error closing File Writer on thread " + file); }
