@@ -162,7 +162,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 						Printer.println(filePath, "Predicted class: " + mostLikelyClass);
 					}
 				}
-				Printer.println(filePath, "Mean-Squared Error: " + bp.calculateMSError(testSet));
+				Printer.println(filePath, "Overall Mean-Squared Error: " + bp.calculateMSError(testSet));
 
 				groups.iterateTestSet();
 			}
