@@ -140,19 +140,24 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return classes;
 	}
 
-	public void runExperiment(ArrayList<Node> dataset, double[] classes) {
+	public void runExperiment(ArrayList<Node> dataset, double[] classes, boolean isRegression) {
 		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
 		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};	// includes 0 for no momentum
-		//TODO: may just shift this to runwithtuning to automatically try values based on size of input layer
-		int[] hiddenLayerNodeNums = new int[]{1, 2, 3, 4, 5, 6};
 
 		TrainingGroups folds = new TrainingGroups(dataset);
-		ArrayList<Node> tuningSet = folds.getTrainingSet();
-		RunWithTuning tuner = new RunWithTuning(tuningSet, learningRates, momentums, hiddenLayerNodeNums);
-		tuner.tune();
 
-		for (int i = 0; i < 10; i++) {
+		for (int layers = 0; layers < 3; layers++) {
+			for (int i = 0; i < 10; i++) {
+				ArrayList<Node> tuningSet = folds.getTuningSet();
+				ArrayList<Node> trainingSet = folds.getTrainingSet();
+				RunWithTuning tuner = new RunWithTuning(tuningSet, learningRates, momentums, classes, !isRegression, layers);
+				tuner.tune();
 
+				double learningRate = tuner.getBestLearningRate();
+				double momentum = tuner.getBestMomentum();
+				int[] hiddenLayerNodeNums = tuner.getBestNumNodesPerLayer();
+				folds.iterateTestSet();
+			}
 		}
 	}
 
