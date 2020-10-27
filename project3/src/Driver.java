@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Driver extends Thread//extending Thread allows for multithreading
@@ -107,7 +108,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		TrainingGroups groups = new TrainingGroups(dataset);
 
-		for (int layers = 0; layers < 3; layers++) {
+		for (int layers = 0; layers <= 2; layers++) {
 
 			for (int fold = 0; fold < 10; fold++) {
 				// Tuning phase
@@ -122,24 +123,29 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				int[] hiddenLayerNodeNums = tuner.getBestNumNodesPerLayer();
 
 				// Test phase
+				ArrayList<Node> testSet= groups.getTestSet();
 				Network net = new Network(dataset.get(0).getData().length, hiddenLayerNodeNums, classes, !isRegression);
 				BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
 
 				bp.trainNetwork(trainingSet);
-				Printer.println(filePath, "After Training the network...");
+				Printer.println(filePath, "\nFold " + fold + " | Number of Hidden Layers: " + layers);
+				Printer.println(filePath, "Number of nodes per hidden layer: " + Arrays.toString(hiddenLayerNodeNums));
+				Printer.println(filePath, "Learning Rate: " + learningRate + " | Momentum Constant: " + momentum);
+				Printer.println(filePath, "Fold " + fold);
+
 				if (isRegression) {
-					for (int i = 0; i < trainingSet.size(); i++) {
-						ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
+					for (int i = 0; i < testSet.size(); i++) {
+						ArrayList<Neuron> output = net.feedForward(testSet.get(i).getData());
 						for (Neuron neuron : output) {
-							Printer.println(filePath, "Output: " + neuron.getValue() + " | Original: " + trainingSet.get(i).getId());
+							Printer.println(filePath, "Output: " + neuron.getValue() + " | Original: " + testSet.get(i).getId());
 						}
 					}
 				}
 				else {
 					HashMap<Neuron, Double> classMap = net.getOutputToClass();
-					for (int i = 0; i < trainingSet.size(); i++) {
-						ArrayList<Neuron> output = net.feedForward(trainingSet.get(i).getData());
-						Printer.println(filePath, "\nFor example with class " + trainingSet.get(i).getId() + ":");
+					for (int i = 0; i < testSet.size(); i++) {
+						ArrayList<Neuron> output = net.feedForward(testSet.get(i).getData());
+						Printer.println(filePath, "\nFor example with class " + testSet.get(i).getId() + ":");
 						double highestValue = 0;
 						double mostLikelyClass = 0;
 						for (Neuron neuron : output) {
@@ -154,6 +160,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 						Printer.println(filePath, "Predicted class: " + mostLikelyClass);
 					}
 				}
+				Printer.println(filePath, "Mean-Squared Error: " + bp.calculateMSError(testSet));
 
 				groups.iterateTestSet();
 			}
