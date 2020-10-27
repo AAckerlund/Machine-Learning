@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class Network
 {
     private ArrayList<Neuron> neurons, inputLayer, outputLayer;
-    public ArrayList<ArrayList<Neuron>> hiddenLayers = null;
+    private ArrayList<ArrayList<Neuron>> hiddenLayers = null;
     private Neuron biasNeuron;
     private boolean isClassification;
 
@@ -118,7 +118,6 @@ public class Network
     public ArrayList<Neuron> feedForward(double[] inputNodeValues)
     {
         // Set inputs neuron values
-        // TODO: Should generalize this for any number of layers, even if we're only doing up to 2 layers
         for (int i = 0; i < inputNodeValues.length; i++) {
             inputLayer.get(i).setValue(inputNodeValues[i]);
         }
@@ -196,6 +195,11 @@ public class Network
 
     public ArrayList<ArrayList<Neuron>> getHiddenLayers() {
         return hiddenLayers;
+    }
+    
+    public void setHiddenLayers(ArrayList<ArrayList<Neuron>> newHiddenLayers)
+    {
+        hiddenLayers = newHiddenLayers;
     }
 
     public ArrayList<Neuron> getOutputLayer() {
