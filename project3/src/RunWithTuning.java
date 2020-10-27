@@ -14,6 +14,27 @@ public class RunWithTuning {
         this.momentums = momentums;
         this.hiddenLayers = hiddenLayers;
     }
+    
+    public void tune()
+    {
+        for(int i = 0; i < momentums.length; i++)
+        {
+            for(int j = 0; j < learningRates.length; j++)
+            {
+                if(hiddenLayers.size() > 0)
+                {
+                    for(int k = 0; k < hiddenLayers.size(); k++)
+                    {
+        
+                    }
+                }
+                else
+                {
+                
+                }
+            }
+        }
+    }
 
     public double runLearningRate() {
         double optimalLearningRate = learningRates[0];
@@ -28,7 +49,7 @@ public class RunWithTuning {
                 optimalLearningRate = learningRate;
             }
         }
-        System.out.println("Errors from Learning Rates: ");
+        System.err.println("Errors from Learning Rates: ");
         for(double error: errors){
             System.out.println(error);
         }
@@ -48,7 +69,7 @@ public class RunWithTuning {
                 optimalMomentum = momentum;
             }
         }
-        System.out.println("Errors from Momentums: ");
+        System.err.println("Errors from Momentums: ");
         for(double error: errors){
             System.out.println(error);
         }
@@ -60,7 +81,7 @@ public class RunWithTuning {
         double lowestError = Double.POSITIVE_INFINITY;
         ArrayList<Double> errors = new ArrayList<>();
         for (ArrayList<Neuron> hiddenLayer : hiddenLayers) {
-            backPropForTuning.nn.hiddenLayers = hiddenLayers;
+            backPropForTuning.nn.setHiddenLayers(hiddenLayers);
             double error = backPropForTuning.trainNetwork(trainingSet);
             errors.add(error);
             if(error < lowestError){
@@ -68,7 +89,7 @@ public class RunWithTuning {
                 optimalNodesPerLayerNum = hiddenLayer;
             }
         }
-        System.out.println("Errors from Number of Hidden Layer Nodes: ");
+        System.err.println("Errors from Number of Hidden Layer Nodes: ");
         for(double error: errors){
             System.out.println(error);
         }
