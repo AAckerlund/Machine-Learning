@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class Network
 {
     private ArrayList<Neuron> neurons, inputLayer, outputLayer;
-    private ArrayList<ArrayList<Neuron>> hiddenLayers = null;
+    public ArrayList<ArrayList<Neuron>> hiddenLayers = null;
     private Neuron biasNeuron;
     private boolean isClassification;
 

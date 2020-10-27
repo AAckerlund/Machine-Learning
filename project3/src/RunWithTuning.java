@@ -1,67 +1,77 @@
+import java.util.ArrayList;
+
 public class RunWithTuning {
-    public String tuningTarget;
-    public String method;
+    public BackPropagation backPropForTuning;
+    ArrayList<Node> trainingSet;
     public double[] learningRates;
     public double[] momentums;
-    public int[] nodesPerLayerNum;
+    public ArrayList<ArrayList<Neuron>> hiddenLayers;
 
-    public RunWithTuning(String tuningTarget, String method) {
-        this.tuningTarget = tuningTarget;
-        this.method = method;
+    public RunWithTuning(BackPropagation backPropForTuning, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, ArrayList<ArrayList<Neuron>> hiddenLayers) {
+        this.backPropForTuning = backPropForTuning;
+        this.trainingSet = trainingSet;
+        this.learningRates = learningRates;
+        this.momentums = momentums;
+        this.hiddenLayers = hiddenLayers;
     }
 
-    public double runClassificationLearningRate() {
+    public double runLearningRate() {
         double optimalLearningRate = learningRates[0];
+        double lowestError = Double.POSITIVE_INFINITY;
+        ArrayList<Double> errors = new ArrayList<>();
         for (double learningRate : learningRates) {
-            //TODO: run backpropagation for classification and get performance from Mean Squared Error
-            //TODO: find best learning rate from performance
+            backPropForTuning.learningRate = learningRate;
+            double error = backPropForTuning.trainNetwork(trainingSet);
+            errors.add(error);
+            if(error < lowestError){
+                lowestError = error;
+                optimalLearningRate = learningRate;
+            }
+        }
+        System.out.println("Errors from Learning Rates: ");
+        for(double error: errors){
+            System.out.println(error);
         }
         return optimalLearningRate;
     }
 
-    public double runClassificationmomentum() {
+    public double runMomentum() {
         double optimalMomentum = momentums[0];
+        double lowestError = Double.POSITIVE_INFINITY;
+        ArrayList<Double> errors = new ArrayList<>();
         for (double momentum : momentums) {
-            //TODO: run backpropagation for classification and get performance from Mean Squared Error
-            //TODO: find best momentum from performance
+            backPropForTuning.momentumScale = momentum;
+            double error = backPropForTuning.trainNetwork(trainingSet);
+            errors.add(error);
+            if(error < lowestError){
+                lowestError = error;
+                optimalMomentum = momentum;
+            }
+        }
+        System.out.println("Errors from Momentums: ");
+        for(double error: errors){
+            System.out.println(error);
         }
         return optimalMomentum;
     }
 
-    public int runClassificationNodesPerLayerNum() {
-        int optimalNodesPerLayerNum = nodesPerLayerNum[0];
-        for (double nodeNum : nodesPerLayerNum) {
-            //TODO: run backpropagation for classification and get performance from Mean Squared Error
-            //TODO: find best node number from performance
+    public ArrayList<Neuron> runNodesPerLayerNum() {
+        ArrayList<Neuron> optimalNodesPerLayerNum = hiddenLayers.get(0);
+        double lowestError = Double.POSITIVE_INFINITY;
+        ArrayList<Double> errors = new ArrayList<>();
+        for (ArrayList<Neuron> hiddenLayer : hiddenLayers) {
+            backPropForTuning.nn.hiddenLayers = hiddenLayers;
+            double error = backPropForTuning.trainNetwork(trainingSet);
+            errors.add(error);
+            if(error < lowestError){
+                lowestError = error;
+                optimalNodesPerLayerNum = hiddenLayer;
+            }
+        }
+        System.out.println("Errors from Number of Hidden Layer Nodes: ");
+        for(double error: errors){
+            System.out.println(error);
         }
         return optimalNodesPerLayerNum;
     }
-
-
-    public double runRegressionLearningRate() {
-        double optimalLearningRate = learningRates[0];
-        for (double learningRate : learningRates) {
-            //TODO: run backpropagation for regression and get performance from Mean Squared Error
-            //TODO: find best learning rate from performance
-        }
-        return optimalLearningRate;
-    }
-
-    public double runRegressionMomentum() {
-        double optimalMomentum = momentums[0];
-        for (double momentum : momentums) {
-            //TODO: run backpropagation for regression and get performance from Mean Squared Error
-            //TODO: find best momentum from performance
-        }
-        return optimalMomentum;
-    }
-
-        public int runRegressionNodesPerLayerNum(){
-            int optimalNodesPerLayerNum = nodesPerLayerNum[0];
-            for (double nodeNum : nodesPerLayerNum) {
-                //TODO: run backpropagation for regression and get performance from Mean Squared Error
-                //TODO: find best node number from performance
-            }
-            return optimalNodesPerLayerNum;
-        }
 }

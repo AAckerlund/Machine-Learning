@@ -197,10 +197,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 
 
-
-
-
-
 		/*
 		Network net;
 		for(int i = 0; i < 2; i++)

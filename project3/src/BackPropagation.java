@@ -28,7 +28,7 @@ public class BackPropagation {
     }
 
     // trains neural net on a shuffled training set until error does not improve (or until a set max)
-    public void trainNetwork(ArrayList<Node> trainingSet) {
+    public double trainNetwork(ArrayList<Node> trainingSet) {
         double bestError = Double.MAX_VALUE;
         double prevError = calculateMSError(trainingSet);
 
@@ -52,6 +52,7 @@ public class BackPropagation {
         }
         System.out.println("Best Mean-Squared-Error: " + bestError);
         System.out.println("Number of iterations: " + iteration);
+        return bestError;
     }
 
     private double calculateMSError(ArrayList<Node> trainingSet) {
