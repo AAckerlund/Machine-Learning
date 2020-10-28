@@ -105,13 +105,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
 		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};	// includes 0 for no momentum
 
-		TrainingGroups groups = new TrainingGroups(dataset);
+
 
 		for (int layers = 0; layers <= 2; layers++) {
+			TrainingGroups groups = new TrainingGroups(dataset);
 			double totalMSE = 0;
 			for (int fold = 0; fold < 10; fold++) {
 				// Tuning phase
-				System.out.println(filePath + " is tuning fold " + fold);
 				ArrayList<Node> tuningSet = groups.getTuningSet();
 				ArrayList<Node> trainingSet = groups.getTrainingSet();
 				RunWithTuning tuner = new RunWithTuning(35, 1000, tuningSet, trainingSet, learningRates, momentums, classes,
@@ -124,7 +124,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				int[] hiddenLayerNodeNums = tuner.getBestNumNodesPerLayer();
 
 				// Test phase
-				ArrayList<Node> testSet= groups.getTestSet();
+				ArrayList<Node> testSet = groups.getTestSet();
 				Network net = new Network(dataset.get(0).getData().length, hiddenLayerNodeNums, classes, !isRegression);
 				BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
 
@@ -176,17 +176,17 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	public static void main(String[] args)
 	{
 		//use these if you want to run a single data set
-		/*Driver test = new Driver("forestfires");
+		Driver test = new Driver("machine");
 		test.start();
-		*/
+
 		//use these if you want to run all the data sets  "house-votes-84",
 
-		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+		/*String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
 			d.start();//Starts a new thread
-		}
+		}*/
 
 	}
 }

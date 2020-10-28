@@ -51,7 +51,6 @@ public class RunWithTuning {
         {
             for(double learningRate : learningRates)
             {
-                System.out.println(outFile + " is trying momentum constant " + momentum + ", learning rate " + learningRate);
                 double error;
                 Network n;
                 if(numHiddenLayers == 0)
@@ -71,7 +70,6 @@ public class RunWithTuning {
                 {
                     for(int k = 1; k < maxHiddenNodesPerLayer; k++)
                     {
-                        System.out.println(outFile + " is trying " + k + " nodes in hidden layer");
                         n = new Network(tuningSet.get(0).getData().length, new int[] {k}, outputLayerClasses, isClassification);
                         backProp = new BackPropagation(n, maxIterations, learningRate, momentum, outFile);
                         backProp.trainNetwork(trainingSet);
@@ -91,7 +89,6 @@ public class RunWithTuning {
                     {
                         for(int l = 0; l < maxHiddenNodesPerLayer; l++)
                         {
-                            System.out.println(outFile + " is trying " + k + " nodes in 1st layer, " + l + " nodes in 2nd layer");
                             n = new Network(tuningSet.get(0).getData().length, new int[] {k, l}, outputLayerClasses, isClassification);
                             backProp = new BackPropagation(n, maxIterations, learningRate, momentum, outFile);
                             backProp.trainNetwork(trainingSet);
