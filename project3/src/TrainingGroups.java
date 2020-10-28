@@ -67,7 +67,7 @@ public class TrainingGroups {
     }
 
     public void iterateTestSet() {
-        if(testSetIndex >= groups.size())
+        if(testSetIndex >= groups.size()-1)
             testSetIndex = 0;
         else
             this.testSetIndex++;
