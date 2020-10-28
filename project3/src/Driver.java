@@ -51,9 +51,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		
 		Normalization.zNormalize(nodes);	// use z-normalization to normalize the nodes
 
-		//TODO: Get rid of ignoredatt value and just place the variable of interest in ID, and not in data[]
-
-		// TODO: This is just a bandaid. Should edit the response variable out of the data and have a way to normalize id
 		// Parse the problematic feature out of the array and into the id, or compile classes into an array
 		ArrayList<Node> parsedNodes = new ArrayList<>();
 		double[] classes = new double[]{};
@@ -87,7 +84,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	}
 
 	public double[] getClasses(ArrayList<Node> dataset) {
-		double[] classes = new double[]{};	// holds all classes found in a dataset
+		double[] classes;	// holds all classes found in a dataset
 
 		// For classification, parse the dataset and compile the classes into an array
 		ArrayList<Double> classList = new ArrayList<>();
@@ -111,11 +108,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		TrainingGroups groups = new TrainingGroups(dataset);
 
 		for (int layers = 0; layers <= 2; layers++) {
+			double totalMSE = 0;
 			for (int fold = 0; fold < 10; fold++) {
 				// Tuning phase
+				System.out.println(filePath + " is tuning fold " + fold);
 				ArrayList<Node> tuningSet = groups.getTuningSet();
 				ArrayList<Node> trainingSet = groups.getTrainingSet();
-				RunWithTuning tuner = new RunWithTuning(tuningSet, trainingSet, learningRates, momentums, classes,
+				RunWithTuning tuner = new RunWithTuning(35, 1000, tuningSet, trainingSet, learningRates, momentums, classes,
 						!isRegression, layers, filePath);
 				tuner.tune();
 				System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + " layer " + layers);
@@ -163,10 +162,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 						Printer.println(filePath, "Predicted class: " + mostLikelyClass);
 					}
 				}
-				Printer.println(filePath, "Overall Mean-Squared Error for Fold: " + bp.calculateMSError(testSet));
+
+				double MSE = bp.calculateMSError(testSet);
+				totalMSE += MSE;
+				Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold +": " + MSE + "\n");
 
 				groups.iterateTestSet();
 			}
+			Printer.println(filePath, "Average Mean-Squared Error for " + layers + " hidden layers: " + totalMSE + "\n");
 		}
 	}
 
