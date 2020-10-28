@@ -17,10 +17,12 @@ public class RunWithTuning {
     private int[] bestNumNodesPerLayer;
     
     private String outFile;
-    
+
+    private int maxIterations;
+    private int maxHiddenNodesPerLayer;
     private double bestError;
 
-    public RunWithTuning(ArrayList<Node> tuningSet, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, int numHiddenLayers, String outFile) {
+    public RunWithTuning(int maxHiddenNodesPerLayer, int maxIterations, ArrayList<Node> tuningSet, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, int numHiddenLayers, String outFile) {
         this.tuningSet = tuningSet;
         this.trainingSet = trainingSet;
         
@@ -38,6 +40,9 @@ public class RunWithTuning {
         bestError = Double.MAX_VALUE;
         
         this.outFile = outFile;
+
+        this.maxIterations = maxIterations;     // Maximum number of gradient descent iterations to tune with
+        this.maxHiddenNodesPerLayer = maxHiddenNodesPerLayer;
     }
     
     public void tune()
@@ -46,12 +51,13 @@ public class RunWithTuning {
         {
             for(double learningRate : learningRates)
             {
+                System.out.println(outFile + " is trying momentum constant " + momentum + ", learning rate " + learningRate);
                 double error;
                 Network n;
                 if(numHiddenLayers == 0)
                 {
                     n = new Network(tuningSet.get(0).getData().length, new int[] {}, outputLayerClasses, isClassification);
-                    backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
+                    backProp = new BackPropagation(n, maxIterations, learningRate, momentum, outFile);
                     backProp.trainNetwork(trainingSet);
                     error = backProp.calculateMSError(tuningSet);
                     if(error <= bestError)
@@ -63,10 +69,11 @@ public class RunWithTuning {
                 }
                 else if(numHiddenLayers == 1)
                 {
-                    for(int k = 1; k < 100; k++)
+                    for(int k = 1; k < maxHiddenNodesPerLayer; k++)
                     {
+                        System.out.println(outFile + " is trying " + k + " nodes in hidden layer");
                         n = new Network(tuningSet.get(0).getData().length, new int[] {k}, outputLayerClasses, isClassification);
-                        backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
+                        backProp = new BackPropagation(n, maxIterations, learningRate, momentum, outFile);
                         backProp.trainNetwork(trainingSet);
                         error = backProp.calculateMSError(tuningSet);
                         if(error <= bestError)
@@ -80,12 +87,13 @@ public class RunWithTuning {
                 }
                 else//numHiddenLayers == 2
                 {
-                    for(int k = 0; k < 100; k++)
+                    for(int k = 0; k < maxHiddenNodesPerLayer; k++)
                     {
-                        for(int l = 0; l < 100; l++)
+                        for(int l = 0; l < maxHiddenNodesPerLayer; l++)
                         {
+                            System.out.println(outFile + " is trying " + k + " nodes in 1st layer, " + l + " nodes in 2nd layer");
                             n = new Network(tuningSet.get(0).getData().length, new int[] {k, l}, outputLayerClasses, isClassification);
-                            backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
+                            backProp = new BackPropagation(n, maxIterations, learningRate, momentum, outFile);
                             backProp.trainNetwork(trainingSet);
                             error = backProp.calculateMSError(tuningSet);
                             if(error <= bestError)

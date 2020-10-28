@@ -38,8 +38,9 @@ public class BackPropagation {
         ArrayList<Node> shuffledSet = new ArrayList<>(trainingSet);
         while (((prevError < bestError) && (iteration < maxIterations)) || iteration < 5) { // do at least 5 iterations
         //while ((iteration < maxIterations)) {   // Testing what happens when just doing raw iterations
-            Printer.println(outFile, "Iteration: " + iteration);
-            Printer.println(outFile, "New Error: " + prevError);
+            if (iteration%50 == 0) {
+                Printer.println(outFile, "Iteration: " + iteration + " | New Error: " + prevError);
+            }
             bestError = prevError;
             Collections.shuffle(shuffledSet);   // randomize order of training set every time
 
@@ -49,8 +50,7 @@ public class BackPropagation {
             prevError = calculateMSError(trainingSet);
             iteration++;
         }
-        Printer.println(outFile, "Best Mean-Squared-Error: " + bestError);
-        Printer.println(outFile, "Number of iterations: " + iteration);
+        Printer.println(outFile, "\nIteration: " + iteration + " | Best Mean-Squared-Error: " + bestError + "\n");
         return bestError;
     }
 
