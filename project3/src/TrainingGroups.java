@@ -68,7 +68,7 @@ public class TrainingGroups {
 
     public void iterateTestSet() {
         if(testSetIndex >= groups.size()-1)
-            System.out.println("Last Fold! Cannot iterate any more!");
+            testSetIndex = 0;
         else
             this.testSetIndex++;
     }
