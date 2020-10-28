@@ -102,19 +102,18 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	}
 
 	public void runExperiment(ArrayList<Node> dataset, double[] classes, boolean isRegression) {
-		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
-		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};	// includes 0 for no momentum
-
-		TrainingGroups groups = new TrainingGroups(dataset);
+		double[] learningRates = new double[]{/*0.001, 0.01, 0.1, */1};
+		double[] momentums = new double[]{/*0, 0.001, 0.01, 0.1, */1};	// includes 0 for no momentum
 
 		for (int layers = 0; layers <= 2; layers++) {
+			TrainingGroups groups = new TrainingGroups(dataset);
 			double totalMSE = 0;
 			for (int fold = 0; fold < 10; fold++) {
 				// Tuning phase
 				System.out.println(filePath + " is tuning fold " + fold);
 				ArrayList<Node> tuningSet = groups.getTuningSet();
 				ArrayList<Node> trainingSet = groups.getTrainingSet();
-				RunWithTuning tuner = new RunWithTuning(35, 1000, tuningSet, trainingSet, learningRates, momentums, classes,
+				RunWithTuning tuner = new RunWithTuning(5, 1000, tuningSet, trainingSet, learningRates, momentums, classes,
 						!isRegression, layers, filePath);
 				tuner.tune();
 				System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + " layer " + layers);
@@ -167,8 +166,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				totalMSE += MSE;
 				Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold +": " + MSE + "\n");
 
-				groups.iterateTestSet();
+				groups.iterateTestSet();	// Move to next fold
 			}
+			totalMSE /= 10;	// take average
 			Printer.println(filePath, "Average Mean-Squared Error for " + layers + " hidden layers: " + totalMSE + "\n");
 		}
 	}
@@ -181,7 +181,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		*/
 		//use these if you want to run all the data sets  "house-votes-84",
 
-		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+		String[] files = {/*"abalone", "breast-cancer-wisconsin", "forestfires", "glass", */"machine"/*, "soybean-small"*/};
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
