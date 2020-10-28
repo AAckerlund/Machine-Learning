@@ -105,8 +105,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
 		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};	// includes 0 for no momentum
 
-
-
 		for (int layers = 0; layers <= 2; layers++) {
 			TrainingGroups groups = new TrainingGroups(dataset);
 			double totalMSE = 0;
@@ -114,7 +112,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				// Tuning phase
 				ArrayList<Node> tuningSet = groups.getTuningSet();
 				ArrayList<Node> trainingSet = groups.getTrainingSet();
-				RunWithTuning tuner = new RunWithTuning(35, 1000, tuningSet, trainingSet, learningRates, momentums, classes,
+				RunWithTuning tuner = new RunWithTuning(50, 1000, tuningSet, trainingSet, learningRates, momentums, classes,
 						!isRegression, layers, filePath);
 				System.out.println("Started tuning\t\t" + filePath + "\tfold " + fold + " layer " + layers);
 				tuner.tune();
@@ -169,8 +167,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				totalMSE += MSE;
 				Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold +": " + MSE + "\n");
 
-				groups.iterateTestSet();
+				groups.iterateTestSet();	// Move to next fold
 			}
+			totalMSE /= 10;	// take average
 			Printer.println(filePath, "Average Mean-Squared Error for " + layers + " hidden layers: " + totalMSE + "\n");
 		}
 	}
