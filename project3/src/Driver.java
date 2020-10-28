@@ -116,6 +116,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				ArrayList<Node> trainingSet = groups.getTrainingSet();
 				RunWithTuning tuner = new RunWithTuning(35, 1000, tuningSet, trainingSet, learningRates, momentums, classes,
 						!isRegression, layers, filePath);
+				System.out.println("Started tuning\t\t" + filePath + "\tfold " + fold + " layer " + layers);
 				tuner.tune();
 				System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + " layer " + layers);
 
@@ -128,6 +129,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				Network net = new Network(dataset.get(0).getData().length, hiddenLayerNodeNums, classes, !isRegression);
 				BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
 
+				System.out.println("Started training\t" + filePath + "\tfold " + fold + " layer " + layers);
 				bp.trainNetwork(trainingSet);
 				System.out.println("Finished training\t" + filePath + "\tfold " + fold + " layer " + layers);
 				Printer.println(filePath, "\nFold " + fold + " | Number of Hidden Layers: " + layers);
