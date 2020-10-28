@@ -111,7 +111,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		TrainingGroups groups = new TrainingGroups(dataset);
 
 		for (int layers = 0; layers <= 2; layers++) {
-			System.out.println(filePath + " is on layer " + layers);
 			for (int fold = 0; fold < 10; fold++) {
 				// Tuning phase
 				ArrayList<Node> tuningSet = groups.getTuningSet();
@@ -119,6 +118,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				RunWithTuning tuner = new RunWithTuning(tuningSet, trainingSet, learningRates, momentums, classes,
 						!isRegression, layers, filePath);
 				tuner.tune();
+				System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + " layer " + layers);
 
 				double learningRate = tuner.getBestLearningRate();
 				double momentum = tuner.getBestMomentum();
@@ -130,6 +130,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
 
 				bp.trainNetwork(trainingSet);
+				System.out.println("Finished training\t" + filePath + "\tfold " + fold + " layer " + layers);
 				Printer.println(filePath, "\nFold " + fold + " | Number of Hidden Layers: " + layers);
 				Printer.println(filePath, "Number of nodes per hidden layer: " + Arrays.toString(hiddenLayerNodeNums));
 				Printer.println(filePath, "Learning Rate: " + learningRate + " | Momentum Constant: " + momentum);
@@ -177,7 +178,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		*/
 		//use these if you want to run all the data sets  "house-votes-84",
 
-		String[] files = {/*"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", */"soybean-small"};
+		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);

@@ -63,7 +63,7 @@ public class RunWithTuning {
                 }
                 else if(numHiddenLayers == 1)
                 {
-                    for(int k = 1; k < 100; k++)
+                    for(int k = 1; k < 50; k++)
                     {
                         n = new Network(tuningSet.get(0).getData().length, new int[] {k}, outputLayerClasses, isClassification);
                         backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
@@ -80,9 +80,9 @@ public class RunWithTuning {
                 }
                 else//numHiddenLayers == 2
                 {
-                    for(int k = 0; k < 100; k++)
+                    for(int k = 0; k < 50; k++)
                     {
-                        for(int l = 0; l < 100; l++)
+                        for(int l = 0; l < 50; l++)
                         {
                             n = new Network(tuningSet.get(0).getData().length, new int[] {k, l}, outputLayerClasses, isClassification);
                             backProp = new BackPropagation(n, 10000, learningRate, momentum, outFile);
