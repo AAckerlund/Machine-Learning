@@ -5,19 +5,18 @@ import java.util.HashMap;
 public class BackPropagation {
     // Contains the backpropagation training algorithms for both regression and classification
     // Assuming using logistic functions as activation functions
-    int maxIterations;
-    int numClasses;         // How many outputs to have on a multiclass problem
-    boolean isClassification;
-    double learningRate;    // How quickly gradient descent changes the function values
-    double momentumScale;
-    Network nn;             // The network that is being trained
-    HashMap<Neuron, Double> outputToClass;  // HashMap for mapping an output neuron to its corresponding class
+    private int maxIterations;
+    private boolean isClassification;
+    private double learningRate;    // How quickly gradient descent changes the function values
+    private double momentumScale;
+    private Network nn;             // The network that is being trained
+    private HashMap<Neuron, Double> outputToClass;  // HashMap for mapping an output neuron to its corresponding class
     private String outFile;
 
     public BackPropagation(Network nn, int maxIterations, double learningRate, double momentumScale, String outFile) {
         // Constructor that only saves arguments about the type of problem and training method
         this.nn = nn;
-        this.numClasses = nn.getOutputLayer().size();
+        // How many outputs to have on a multiclass problem
         this.maxIterations = maxIterations;
         this.isClassification = nn.isClassification();
         this.learningRate = learningRate;
@@ -37,7 +36,6 @@ public class BackPropagation {
         // train using Gradient Descent repeatedly until either error does not improve or we reach a specified max iteration
         ArrayList<Node> shuffledSet = new ArrayList<>(trainingSet);
         while (((prevError < bestError) && (iteration < maxIterations)) || iteration < 5) { // do at least 5 iterations
-        //while ((iteration < maxIterations)) {   // Testing what happens when just doing raw iterations
             if (iteration%50 == 0) {
                 Printer.println(outFile, "Iteration: " + iteration + " | New Error: " + prevError);
             }
@@ -69,29 +67,16 @@ public class BackPropagation {
                     error += Math.pow(n.getValue() - target, 2);
                 }
             }
-            error /= trainingSet.size();    // calculate mean
         }
         else {  // For regression
             for (Node example : trainingSet) {
                 double output = nn.feedForward(example.getData()).get(0).getValue();    // Should be one output for regression
                 error += Math.pow(output - example.getId(), 2);         // add up squared errors
             }
-            error /= trainingSet.size();    // calculate mean
         }
+        error /= trainingSet.size();    // calculate mean
 
         return error;
-    }
-
-    //uses cross entropy to calculate loss for classification
-    public double calculateLoss(double predictedValue, double trueValue){
-        double loss;
-        if(trueValue == 1){
-            loss = -Math.log(predictedValue);
-        }
-        else{
-            loss = -Math.log(1 - predictedValue);
-        }
-        return loss;
     }
 
     private void updateWeights() {
@@ -156,7 +141,6 @@ public class BackPropagation {
             }
         }
         updateWeights();    // Finally push the weights to the functional weight arrays in each Neuron
-
     }
 
     private double calculateWeightUpdate(boolean outputLayer, double output, double target, Neuron n, Neuron precNeuron) {

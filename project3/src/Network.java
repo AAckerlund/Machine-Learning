@@ -47,12 +47,12 @@ public class Network
         }
         else {
             outputToClass = new HashMap<>();
-            for (int i = 0; i < outputLayerClasses.length; i++)
+            for(double outputLayerClass : outputLayerClasses)
             {   // For Classification, add node for each class and save the class value to HashMap
                 tmp = new Neuron();
                 outputLayer.add(tmp);
                 neurons.add(tmp);
-                outputToClass.put(tmp, outputLayerClasses[i]);
+                outputToClass.put(tmp, outputLayerClass);
             }
         }
         generateWeights();
@@ -103,14 +103,14 @@ public class Network
             //attach each neuron of the last hidden layer to the output layer
             for(int i = 0; i < hiddenLayers.get(hiddenLayers.size()-1).size(); i++)
             {
-                for(int j = 0; j < outputLayer.size(); j++)
+                for(Neuron neuron : outputLayer)
                 {
-                    hiddenLayers.get(hiddenLayers.size()-1).get(i).connectOutput(outputLayer.get(j));
+                    hiddenLayers.get(hiddenLayers.size() - 1).get(i).connectOutput(neuron);
                 }
             }
-            for(int j = 0; j < outputLayer.size(); j++)
+            for(Neuron neuron : outputLayer)
             {
-                biasNeuron.connectOutput(outputLayer.get(j));
+                biasNeuron.connectOutput(neuron);
             }
         }
     }
@@ -188,31 +188,12 @@ public class Network
         }
     }
 
-    public ArrayList<Neuron> getCompleteNetwork()
-    {
-        return neurons;
-    }
-
     public ArrayList<ArrayList<Neuron>> getHiddenLayers() {
         return hiddenLayers;
-    }
-    
-    public void setHiddenLayers(ArrayList<ArrayList<Neuron>> newHiddenLayers)
-    {
-        hiddenLayers = newHiddenLayers;
-    }
-
-    public ArrayList<Neuron> getOutputLayer() {
-        return outputLayer;
     }
 
     public HashMap<Neuron, Double> getOutputToClass() {
         return outputToClass;
-    }
-
-    public Neuron getBiasNeuron()
-    {
-        return biasNeuron;
     }
 
     public void pushWeightUpdates() {
@@ -222,8 +203,10 @@ public class Network
         }
         biasNeuron.pushWeightUpdate();
         if (hiddenLayers != null) {
-            for (int i = 0; i < hiddenLayers.size(); i++) {
-                for (Neuron n : hiddenLayers.get(i)) {
+            for(ArrayList<Neuron> hiddenLayer : hiddenLayers)
+            {
+                for(Neuron n : hiddenLayer)
+                {
                     n.pushWeightUpdate();
                 }
             }

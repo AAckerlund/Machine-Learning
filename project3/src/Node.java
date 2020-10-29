@@ -21,18 +21,10 @@ public class Node
 	{
 		return id;
 	}
-	
-	public void setId(float id)
-	{
-		this.id = id;
-	}
-	
+
 	public double[] getData()
 	{
 		return data;
 	}
 
-	public void setData(double[] data) {
-		this.data = data;
-	}
 }

@@ -56,10 +56,7 @@ public class Neuron
 	// change weights
 	public void pushWeightUpdate()
 	{
-		for(Neuron n : weights.keySet())
-		{
-			weights.put(n , weights.get(n) + weightUpdates.get(n));
-		}
+		weights.replaceAll((n, v) -> v + weightUpdates.get(n));
 	}
 
 	// get previous weight update towards a certain neuron
@@ -73,7 +70,6 @@ public class Neuron
 	{
 		outputs.add(n);
 		weights.put(n, (0.01 - Math.random()*0.02));
-		//weights.put(n, 0.01);	// Constant weight for testing feedforward
 		n.connectInput(this);	// save this node as input to complete double linked list
 
 	}
@@ -108,11 +104,6 @@ public class Neuron
 	public Neuron getOutputNeuron(int index)
 	{
 		return outputs.get(index);
-	}
-
-	public Neuron getInputNeuron(int index)
-	{
-		return inputs.get(index);
 	}
 
 	public double getDelta() {

@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Normalization {
     public static void zNormalize(ArrayList<Node> list) {
@@ -53,13 +52,5 @@ public class Normalization {
                 }
             }
         }
-
-        // Print out results
-        /*for (Node node : list) {
-            System.out.println(node.getId() + Arrays.toString(node.getData()));
-        }
-
-         */
-
     }
 }

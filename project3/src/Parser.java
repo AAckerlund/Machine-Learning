@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class Parser
 {
-	Driver d;
 	/**
 	 * initializes a scanner for the given file
 	 *

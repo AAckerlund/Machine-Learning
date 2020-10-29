@@ -16,7 +16,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println(filePath);
 		Parser p = new Parser();
 		ArrayList<Node> nodes = null;
-		int numClasses = 0;
 		boolean isRegression = false;
 		switch (filePath) {//since each dataset is different it needs its own parse function
 			case "abalone" -> {
@@ -64,9 +63,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				for (int i = 0; i < node.getData().length; i++) {
 					if (i < ignoredAttr) {
 						newData[i] = node.getData()[i];
-					} else if (i == ignoredAttr) {
-						continue;    // skip ignored attribute
-					} else {    // past ignored attribute, offset index when assigning to new data
+					} else if (i > ignoredAttr) {    // past ignored attribute, offset index when assigning to new data
 						newData[i - 1] = node.getData()[i];
 					}
 				}
@@ -136,25 +133,30 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				Printer.println(filePath, "Fold " + fold);
 
 				if (isRegression) {
-					for (int i = 0; i < testSet.size(); i++) {
-						ArrayList<Neuron> output = net.feedForward(testSet.get(i).getData());
-						for (Neuron neuron : output) {
-							Printer.println(filePath, "Output: " + neuron.getValue() + " | Original: " + testSet.get(i).getId());
+					for(Node node : testSet)
+					{
+						ArrayList<Neuron> output = net.feedForward(node.getData());
+						for(Neuron neuron : output)
+						{
+							Printer.println(filePath, "Output: " + neuron.getValue() + " | Original: " + node.getId());
 						}
 					}
 				}
 				else {
 					HashMap<Neuron, Double> classMap = net.getOutputToClass();
-					for (int i = 0; i < testSet.size(); i++) {
-						ArrayList<Neuron> output = net.feedForward(testSet.get(i).getData());
-						Printer.println(filePath, "\nFor example with class " + testSet.get(i).getId() + ":");
+					for(Node node : testSet)
+					{
+						ArrayList<Neuron> output = net.feedForward(node.getData());
+						Printer.println(filePath, "\nFor example with class " + node.getId() + ":");
 						double highestValue = 0;
 						double mostLikelyClass = 0;
-						for (Neuron neuron : output) {
+						for(Neuron neuron : output)
+						{
 							double neuronClass = classMap.get(neuron);
 							double neuronValue = neuron.getValue();
 							Printer.println(filePath, "Output from Neuron corresponding to class " + neuronClass + ": " + neuronValue);
-							if (neuronValue > highestValue) {	// find most likely class
+							if(neuronValue > highestValue)
+							{    // find most likely class
 								highestValue = neuronValue;
 								mostLikelyClass = neuronClass;
 							}
@@ -177,17 +179,16 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	public static void main(String[] args)
 	{
 		//use these if you want to run a single data set
-		Driver test = new Driver("machine");
-		test.start();
+		/*Driver test = new Driver("machine");
+		test.start();*/
 
-		//use these if you want to run all the data sets  "house-votes-84",
+		//use these if you want to run all the data sets
 
-		/*String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		for (String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Driver d = new Driver(file);
 			d.start();//Starts a new thread
-		}*/
-
+		}
 	}
 }

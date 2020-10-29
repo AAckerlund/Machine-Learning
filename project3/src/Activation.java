@@ -17,17 +17,4 @@ public class Activation
 		}
 		return sum;
 	}
-
-	public static ArrayList<Double> Softmax(ArrayList<Double> values)	// used on output nodes to produce an array of probabilities
-	{
-		ArrayList<Double> output = new ArrayList<>();
-		double sumExponents = 0;
-		for (Double value : values) {	// For denominator
-			sumExponents += Math.exp(value);
-		}
-		for (int i = 0; i < values.size(); i++) {
-			output.set(i, Math.exp(values.get(i))/sumExponents);
-		}
-		return output;
-	}
 }
