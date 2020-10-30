@@ -54,6 +54,8 @@ public class Neuron
 		this.weightUpdates.put(n, weightChange);
 	}
 	
+	//TODO show weight update via debugger on this function, combine with a before and after of the whole network to show that is actually happened
+	
 	// change weights
 	public void pushWeightUpdate()
 	{

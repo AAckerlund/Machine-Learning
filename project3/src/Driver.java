@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+//TODO Show average performance: Go through one of the output files we have and show the numbers in there.
+
 public class Driver extends Thread//extending Thread allows for multithreading
 {
 	String fileStart = "dataSets/", fileEnd = ".data", filePath;
@@ -195,6 +197,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	
 	public static void main(String[] args)
 	{
+		//TODO 1/2 show sample output by running a single data set and showing the file being generated
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/

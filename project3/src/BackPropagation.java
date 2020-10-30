@@ -169,6 +169,7 @@ public class BackPropagation
 		updateWeights();    // Finally push the weights to the functional weight arrays in each Neuron
 	}
 	
+	//TODO Demonstrate gradient calculation print line/break point here.
 	private double calculateWeightUpdate(boolean outputLayer, double output, double target, Neuron n, Neuron precNeuron)
 	{
 		if(precNeuron.getWeightUpdate(n) != null)

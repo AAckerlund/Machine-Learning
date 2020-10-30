@@ -15,7 +15,7 @@ public class Printer
 	{
 		File f = new File(file + ".txt");
 		FileWriter out = null;
-		
+		//TODO 2/2 show sample output. Change this to System.out.println and show console output.
 		try
 		{
 			out = new FileWriter(f, true);
