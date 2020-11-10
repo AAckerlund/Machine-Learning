@@ -9,8 +9,6 @@ public class Network
 	private final boolean isClassification;
 	
 	HashMap<Neuron, Double> outputToClass;  // HashMap for mapping an output neuron to its corresponding class
-	//TODO show a sample model of a small network. Use the debugger on an instance of this class.
-	//TODO demonstrate a data point propagating through the network. Have a debug point in the Activation class maybe
 	public Network(int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification)
 	{
 		this.isClassification = isClassification;
