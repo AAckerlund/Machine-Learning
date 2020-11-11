@@ -98,14 +98,17 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return classes;
 	}
 
-	public void runExperiment(ArrayList<Node> dataset, double[] classes, boolean isRegression) {
+	public void runExperiment(ArrayList<Node> dataset, double[] classes, boolean isRegression)
+	{
 		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
-		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};	// includes 0 for no momentum
+		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};    // includes 0 for no momentum
 
-		for (int layers = 0; layers <= 2; layers++) {
+		for(int layers = 0; layers <= 2; layers++)
+		{
 			TrainingGroups groups = new TrainingGroups(dataset);
 			double totalMSE = 0;
-			for (int fold = 0; fold < 10; fold++) {
+			for(int fold = 0; fold < 10; fold++)
+			{
 				// Tuning phase
 				ArrayList<Node> tuningSet = groups.getTuningSet();
 				ArrayList<Node> trainingSet = groups.getTrainingSet();
@@ -132,7 +135,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				Printer.println(filePath, "Learning Rate: " + learningRate + " | Momentum Constant: " + momentum);
 				Printer.println(filePath, "Fold " + fold);
 
-				if (isRegression) {
+				if(isRegression)
+				{
 					for(Node node : testSet)
 					{
 						ArrayList<Neuron> output = net.feedForward(node.getData());
@@ -142,7 +146,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 						}
 					}
 				}
-				else {
+				else
+				{
 					HashMap<Neuron, Double> classMap = net.getOutputToClass();
 					for(Node node : testSet)
 					{
@@ -167,11 +172,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 				double MSE = bp.calculateMSError(testSet);
 				totalMSE += MSE;
-				Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold +": " + MSE + "\n");
+				Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold + ": " + MSE + "\n");
 
-				groups.iterateTestSet();	// Move to next fold
+				groups.iterateTestSet();    // Move to next fold
 			}
-			totalMSE /= 10;	// take average
+			totalMSE /= 10;    // take average
 			Printer.println(filePath, "Average Mean-Squared Error for " + layers + " hidden layers: " + totalMSE + "\n");
 		}
 	}
@@ -179,7 +184,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	public static void main(String[] args)
 	{
 		//use these if you want to run a single data set
-		/*Driver test = new Driver("machine");
+		/*Driver test = new Driver("soybean-small");
 		test.start();*/
 
 		//use these if you want to run all the data sets
