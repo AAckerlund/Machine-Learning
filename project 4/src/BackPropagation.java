@@ -38,8 +38,8 @@ public class BackPropagation
 		// train using MSError
 		// train using Gradient Descent repeatedly until either error does not improve or we reach a specified max iteration
 		ArrayList<Node> shuffledSet = new ArrayList<>(trainingSet);
-		while(((prevError < bestError) && (iteration < maxIterations)) || iteration < 5)
-		{ // do at least 5 iterations
+		while(((prevError < bestError) && (iteration < maxIterations)))
+		{
 			if(iteration % 50 == 0)
 			{
 				Printer.println(outFile, "Iteration: " + iteration + " | New Error: " + prevError);
@@ -169,7 +169,6 @@ public class BackPropagation
 		updateWeights();    // Finally push the weights to the functional weight arrays in each Neuron
 	}
 	
-	//TODO Demonstrate gradient calculation print line/break point here.
 	private double calculateWeightUpdate(boolean outputLayer, double output, double target, Neuron n, Neuron precNeuron)
 	{
 		if(precNeuron.getWeightUpdate(n) != null)

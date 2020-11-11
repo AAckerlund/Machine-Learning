@@ -1,0 +1,120 @@
+Done Machine
+Iteration: 0 | New Error: 0.9080543395391525
+Iteration: 50 | New Error: 0.0642167438118801
+Iteration: 100 | New Error: 0.05862495066367609
+Iteration: 150 | New Error: 0.0563564656436309
+
+Iteration: 152 | Best Mean-Squared-Error: 0.0563240295263929
+
+Iteration: 0 | New Error: 0.910177463828595
+
+Iteration: 2 | Best Mean-Squared-Error: 0.07448508283904554
+
+Iteration: 0 | New Error: 0.8566675767499787
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8566675767499787
+
+Iteration: 0 | New Error: 0.8860873830340961
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8860873830340961
+
+Iteration: 0 | New Error: 0.9273737586202164
+Iteration: 50 | New Error: 0.06400799913557723
+Iteration: 100 | New Error: 0.05847798081234742
+Iteration: 150 | New Error: 0.05626279530000904
+
+Iteration: 161 | Best Mean-Squared-Error: 0.056021700572112615
+
+Iteration: 0 | New Error: 0.8890455946520113
+
+Iteration: 3 | Best Mean-Squared-Error: 0.06994940992957764
+
+Iteration: 0 | New Error: 0.8945418773782488
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8945418773782488
+
+Iteration: 0 | New Error: 0.9179733279123032
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9179733279123032
+
+Iteration: 0 | New Error: 0.8969879079888564
+Iteration: 50 | New Error: 0.06392046605189597
+Iteration: 100 | New Error: 0.05848498997647635
+
+Iteration: 120 | Best Mean-Squared-Error: 0.05740778868875693
+
+Iteration: 0 | New Error: 0.8987757994500071
+
+Iteration: 3 | Best Mean-Squared-Error: 0.07106936822573733
+
+Iteration: 0 | New Error: 0.891034594853109
+
+Iteration: 1 | Best Mean-Squared-Error: 0.891034594853109
+
+Iteration: 0 | New Error: 0.853199819132224
+
+Iteration: 1 | Best Mean-Squared-Error: 0.853199819132224
+
+Iteration: 0 | New Error: 0.9072301320427926
+Iteration: 50 | New Error: 0.06310487311767603
+
+Iteration: 99 | Best Mean-Squared-Error: 0.0580041700714263
+
+Iteration: 0 | New Error: 0.9081057234266114
+
+Iteration: 3 | Best Mean-Squared-Error: 0.07776245193819092
+
+Iteration: 0 | New Error: 0.9202153901865816
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9202153901865816
+
+Iteration: 0 | New Error: 0.8823313572096869
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8823313572096869
+
+Iteration: 0 | New Error: 0.895364132356202
+
+Iteration: 1 | Best Mean-Squared-Error: 0.895364132356202
+
+Iteration: 0 | New Error: 0.8873708574565291
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8873708574565291
+
+Iteration: 0 | New Error: 0.8789590789981031
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8789590789981031
+
+Iteration: 0 | New Error: 0.919703674814072
+
+Iteration: 1 | Best Mean-Squared-Error: 0.919703674814072
+
+Iteration: 0 | New Error: 0.9157537688920978
+
+Iteration: 3 | Best Mean-Squared-Error: 0.07308630119980157
+
+
+Fold 7 | Number of Hidden Layers: 0
+Number of nodes per hidden layer: []
+Learning Rate: 0.01 | Momentum Constant: 0.1
+Fold 7
+Output: -0.6879058789809475 | Original: -0.6209086814118165
+Output: -0.610972720245407 | Original: -0.5835128077030408
+Output: -0.6319758686785575 | Original: -0.5461169339942652
+Output: -0.48966048251194755 | Original: -0.5211863515217481
+Output: -0.40108879695090555 | Original: -0.5087210602854896
+Output: -0.5435554943157301 | Original: -0.47755783219484316
+Output: -0.30798385245336407 | Original: -0.45885989534045535
+Output: -0.4860961492431058 | Original: -0.43392931286793823
+Output: -0.48267409776687725 | Original: -0.4089987303954212
+Output: -0.09806350998080524 | Original: -0.37783550230477475
+Output: 0.1277987156933206 | Original: -0.34043962859599913
+Output: -0.07485977414809004 | Original: -0.27811317241470634
+Output: -0.42929931533496396 | Original: -0.2407172987059307
+Output: -0.16501750595555678 | Original: -0.18462348814276722
+Output: -0.2795202334782212 | Original: 0.02105381725549887
+Output: 0.336424193604191 | Original: 0.18933524894498932
+Output: 0.6028521168185051 | Original: 0.5134328210877116
+Output: 0.40674195566490257 | Original: 0.9559506599748901
+Output: 2.0694319553278135 | Original: 1.8160557552767302
+Overall Mean-Squared Error for Fold 7: 0.04847611477197287
+
