@@ -13,9 +13,9 @@ mutate() - Elijah  (Alex join when done other stuff)
 replacement() - Elijah (Alex join when done other stuff)
 Particle datastructure - Jon
 Particle Update - Jon
-Cross entropy for classification - Elijah (pull from p3)
+Cross entropy for classification - Elijah (pull from p3) DONE
 chromosome datastructure - Alex
-Parse backprop data for regression sets - Elijah
+Parse backprop data for regression sets - Elijah DONE
 Multithread - Alex
  */
 
