@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -225,8 +227,18 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				for(int fold = 0; fold < 10; fold++)
 				{
 					Driver d = new Driver(file, layer, fold);
-					d.start();//Starts a new thread
+					//d.start();//Starts a new thread
 				}
+			}
+		}
+
+		DataParser dp = new DataParser();
+		for(String file : files){
+			System.out.println(file);
+			try {
+				dp.backPropOutput(file);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 	}
