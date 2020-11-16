@@ -232,7 +232,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}
 
-		DataParser dp = new DataParser();
+		/*DataParser dp = new DataParser();
 		for(String file : files){
 			System.out.println(file);
 			try {
@@ -240,6 +240,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
+
+		Selection s = new Selection();
+		Chromosome c = new Chromosome();
+		Chromosome[] cs = {c};
+		s.tournamentSelection(cs);
 	}
 }
