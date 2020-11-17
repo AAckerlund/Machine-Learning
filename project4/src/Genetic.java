@@ -85,11 +85,15 @@ public class Genetic {
         return mutatedChromosome;
     }
 
-    public void runGenetic(Chromosome[] population) {
+    public void runGenetic(Chromosome[] population, double probabilityOfCrossover, double mutationRate, double variance) {
         Chromosome father = tournamentSelection(population);
         Chromosome mother = tournamentSelection(population);
         while(father == mother){    //father and mother can not be the same
             mother = tournamentSelection(population);
+        }
+        Chromosome[] children = singlePointCrossover(father, mother, probabilityOfCrossover);
+        for(Chromosome child: children){
+            mutation(child, mutationRate, variance);
         }
     }
 }
