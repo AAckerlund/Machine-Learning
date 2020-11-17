@@ -85,6 +85,10 @@ public class Genetic {
         return mutatedChromosome;
     }
 
+    public Chromosome[] replacement(){
+        //TODO: replace population with new offspring
+    }
+
     public void runGenetic(Chromosome[] population, double probabilityOfCrossover, double mutationRate, double variance) {
         Chromosome father = tournamentSelection(population);
         Chromosome mother = tournamentSelection(population);
