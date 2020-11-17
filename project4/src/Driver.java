@@ -242,9 +242,5 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}*/
 
-		Selection s = new Selection();
-		Chromosome c = new Chromosome();
-		Chromosome[] cs = {c};
-		s.tournamentSelection(cs);
 	}
 }
