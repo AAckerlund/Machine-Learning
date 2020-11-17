@@ -101,5 +101,6 @@ public class PSO {
                 cParticle.setPrevVelocity(vel);
             }
         }
+        return null;//TODO not sure if we need to change this but it was missing.
     }
 }
