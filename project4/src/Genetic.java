@@ -97,7 +97,7 @@ public class Genetic {
         }
         Chromosome[] children = singlePointCrossover(father, mother, probabilityOfCrossover);
         for(Chromosome child: children){
-            mutation(child, mutationRate, variance);
+            Chromosome mutatedChild = mutation(child, mutationRate, variance);
         }
     }
 }
