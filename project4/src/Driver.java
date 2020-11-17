@@ -6,30 +6,33 @@ import java.util.HashMap;
 
 /*
 TODO
-Modify NN to use chromosomes - Alex (add method to modify weights)
 Select() - Elijah (Alex join when done other stuff)
-crossover() - Elijah (Alex join when done other stuff)
-mutate() - Elijah  (Alex join when done other stuff)
 replacement() - Elijah (Alex join when done other stuff)
 Particle datastructure - Jon
 Particle Update - Jon
-Cross entropy for classification - Elijah (pull from p3) DONE
-chromosome datastructure - Alex
-Parse backprop data for regression sets - Elijah DONE
 Multithread - Alex
+
+Modify NN to use chromosomes - Alex (add method to modify weights) DONE
+crossover() - Elijah (Alex join when done other stuff) DONE
+mutate() - Elijah  (Alex join when done other stuff) DONE
+Cross entropy for classification - Elijah (pull from p3) DONE
+chromosome datastructure - Alex DONE
+Parse backprop data for regression sets - Elijah DONE
  */
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
 	String fileStart = "dataSets/", fileEnd = ".data", filePath, dataPath;
 	int hiddenLayers, fold;
+	int[] hiddenLayerCount;
 	
-	public Driver(String filePath, int hiddenLayers, int fold)
+	public Driver(String filePath, int[] hiddenLayerCount, int fold)
 	{
 		this.filePath = filePath;
 		dataPath = filePath;
-		this.hiddenLayers = hiddenLayers;
+		this.hiddenLayers = hiddenLayerCount.length;
 		this.fold = fold;
+		this.hiddenLayerCount = hiddenLayerCount;
 	}
 	
 	public void run() //the method that is called when a Thread starts
@@ -147,25 +150,24 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		// Tuning phase
 		ArrayList<Node> tuningSet = groups.getTuningSet();
 		ArrayList<Node> trainingSet = groups.getTrainingSet();
-		RunWithTuning tuner = new RunWithTuning(dataset.get(0).getData().length + 2, 1000, tuningSet, trainingSet, learningRates, momentums, classes, !isRegression, layers, filePath);
-		System.out.println("Started tuning\t\t" + filePath + "\tfold " + fold + " layer " + layers);
+		RunWithTuning tuner = new RunWithTuning(dataset.get(0).getData().length + 2, 1000, tuningSet, trainingSet, learningRates, momentums, classes, !isRegression, layers, filePath, hiddenLayerCount);
+		System.out.println("Started tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + layers);
 		tuner.tune();
-		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + " layer " + layers);
+		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + layers);
 		
 		double learningRate = tuner.getBestLearningRate();
 		double momentum = tuner.getBestMomentum();
-		int[] hiddenLayerNodeNums = tuner.getBestNumNodesPerLayer();
 		
 		// Test phase
 		ArrayList<Node> testSet = groups.getTestSet();
-		Network net = new Network(dataset.get(0).getData().length, hiddenLayerNodeNums, classes, !isRegression);
+		Network net = new Network(dataset.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
 		BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
 		
-		System.out.println("Started training\t" + filePath + "\tfold " + fold + " layer " + layers);
+		System.out.println("Started training\t" + filePath + "\tfold " + fold + "\tlayer " + layers);
 		bp.trainNetwork(trainingSet);
-		System.out.println("Finished training\t" + filePath + "\tfold " + fold + " layer " + layers);
+		System.out.println("Finished training\t" + filePath + "\tfold " + fold + "\tlayer " + layers);
 		Printer.println(filePath, "\nFold " + fold + " | Number of Hidden Layers: " + layers);
-		Printer.println(filePath, "Number of nodes per hidden layer: " + Arrays.toString(hiddenLayerNodeNums));
+		Printer.println(filePath, "Number of nodes per hidden layer: " + Arrays.toString(hiddenLayerCount));
 		Printer.println(filePath, "Learning Rate: " + learningRate + " | Momentum Constant: " + momentum);
 		Printer.println(filePath, "Fold " + fold);
 		
@@ -206,8 +208,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		
 		double MSE = bp.calculateMSError(testSet);
 		Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold + ": " + MSE + "\n");
-		
-		//groups.iterateTestSet();    // Move to next fold
 	}
 	
 	
@@ -219,16 +219,25 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		test.start();*/
 		
 		//use these if you want to run all the data sets
-		String[] files = {"abalone", "forestfires", "machine"};//{"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+		int[][] nodesPerLayer = {//TODO replace with real values
+				{}, {3}, {3, 4},//abalone - dummy
+				{}, {1}, {1, 9},//cancer
+				{}, {3}, {3, 4},//fires - dummy
+				{}, {9}, {4, 10},//glass
+				{}, {3}, {3, 4},//machine - dummy
+				{}, {29}, {10, 10},//beans
+		};
+		int nodeCountCounter = 0;
 		for(String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			for(int layer = 0; layer < 3; layer++)
 			{
 				for(int fold = 0; fold < 10; fold++)
 				{
-					Driver d = new Driver(file, layer, fold);
-					//d.start();//Starts a new thread
+					new Driver(file, nodesPerLayer[nodeCountCounter], fold).start();//Starts a new thread
 				}
+				nodeCountCounter++;
 			}
 		}
 	}
