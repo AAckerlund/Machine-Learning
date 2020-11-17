@@ -225,4 +225,38 @@ public class Network
 	{
 		return isClassification;
 	}
+
+	public double calculateMSError(ArrayList<Node> trainingSet)
+	{
+		// Calculates squared error for regression for a training set
+		double error = 0;
+		if(isClassification)
+		{
+			for(Node example : trainingSet)
+			{
+				ArrayList<Neuron> output = feedForward(example.getData());
+				double correctClass = example.getId();
+				for(Neuron n : output)
+				{
+					double target = 0;
+					if(outputToClass.get(n) == correctClass)
+					{ // set target to 1 for output neuron with correct class
+						target = 1;
+					}
+					error += Math.pow(n.getValue() - target, 2);
+				}
+			}
+		}
+		else
+		{  // For regression
+			for(Node example : trainingSet)
+			{
+				double output = feedForward(example.getData()).get(0).getValue();    // Should be one output for regression
+				error += Math.pow(output - example.getId(), 2);         // add up squared errors
+			}
+		}
+		error /= trainingSet.size();    // calculate mean
+
+		return error;
+	}
 }
