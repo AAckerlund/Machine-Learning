@@ -75,6 +75,14 @@ public class Neuron
 		n.connectInput(this);    // save this node as input to complete double linked list
 		
 	}
+
+	//overloading the function so that we can choose to use predetermined values (like from a Chromosome) or not.
+	public void connectOutput(Neuron n, double weight)
+	{
+		outputs.add(n);
+		weights.put(n, weight);
+		n.connectInput(this);
+	}
 	
 	public void connectInput(Neuron n)
 	{
