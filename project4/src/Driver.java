@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 /*
 TODO
-Modify NN to use chromosomes - Alex
+Modify NN to use chromosomes - Alex (add method to modify weights)
 Select() - Elijah (Alex join when done other stuff)
 crossover() - Elijah (Alex join when done other stuff)
 mutate() - Elijah  (Alex join when done other stuff)
@@ -231,20 +231,5 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 			}
 		}
-
-		/*DataParser dp = new DataParser();
-		for(String file : files){
-			System.out.println(file);
-			try {
-				dp.backPropOutput(file);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}*/
-
-		Selection s = new Selection();
-		Chromosome c = new Chromosome();
-		Chromosome[] cs = {c};
-		s.tournamentSelection(cs);
 	}
 }
