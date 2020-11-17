@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 /*
 TODO
-Modify NN to use chromosomes - Alex
+Modify NN to use chromosomes - Alex (add method to modify weights)
 Select() - Elijah (Alex join when done other stuff)
 crossover() - Elijah (Alex join when done other stuff)
 mutate() - Elijah  (Alex join when done other stuff)
