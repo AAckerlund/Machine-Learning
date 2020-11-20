@@ -49,8 +49,8 @@ public class RunWithTuning
 		{
 			for(double learningRate : learningRates)
 			{
-				Network n = new Network(tuningSet.get(0).getData().length, bestNumNodesPerLayer, outputLayerClasses, isClassification);
-				BackPropagation backProp = new BackPropagation(n, maxIterations, learningRate, momentum, outFile);
+				Network net = new Network(tuningSet.get(0).getData().length, bestNumNodesPerLayer, outputLayerClasses, isClassification);
+				BackPropagation backProp = new BackPropagation(net, maxIterations, learningRate, momentum, outFile);
 				backProp.trainNetwork(trainingSet);
 				double error = backProp.calculateMSError(tuningSet);
 				if(error <= bestError)
