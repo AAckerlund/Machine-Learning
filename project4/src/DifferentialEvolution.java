@@ -1,6 +1,14 @@
 import java.util.Random;
 
-public class DifferentialEvolution {
+public class DifferentialEvolution extends Trainer
+{
+    Chromosome[] population;
+    double mutationProbability;
+    public DifferentialEvolution(Chromosome[] population, double mutationProbability)
+    {
+        this.population = population;
+        this.mutationProbability = mutationProbability;
+    }
     public Chromosome mutation(Chromosome[] population, Chromosome targetChromosome, int targetChromosomeIndex){
         Random random = new Random();
         int k1 = random.nextInt(population.length);
@@ -62,7 +70,9 @@ public class DifferentialEvolution {
         return null;
     }
 
-    public void runDifferentialEvolution(Chromosome[] population, double mutationProbability){
+    @Override
+    void train()
+    {
         Chromosome[] mutatedChildren = new Chromosome[]{};
         for(int i = 0; i< population.length; i++){
             Chromosome trialChromosome = mutation(population, population[i], i);

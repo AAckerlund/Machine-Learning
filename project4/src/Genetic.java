@@ -1,7 +1,17 @@
 import java.util.Random;
 
-public class Genetic {
+public class Genetic extends Trainer
+{
+    private Chromosome[] population;
+    private final double probabilityOfCrossover, mutationRate, variance;
 
+    public Genetic(Chromosome[] population, double probabilityOfCrossover, double mutationRate, double variance)
+    {
+        this.population = population;
+        this.probabilityOfCrossover = probabilityOfCrossover;
+        this.mutationRate = mutationRate;
+        this.variance =  variance;
+    }
     public Chromosome tournamentSelection(Chromosome[] population){
         Random random = new Random();
         int k1 = random.nextInt(population.length); //randomly selects first tournament participant
@@ -91,7 +101,9 @@ public class Genetic {
         return null;
     }
 
-    public void runGenetic(Chromosome[] population, double probabilityOfCrossover, double mutationRate, double variance) {
+    @Override
+    void train()
+    {
         Chromosome father = tournamentSelection(population);
         Chromosome mother = tournamentSelection(population);
         while(father == mother){    //father and mother can not be the same
