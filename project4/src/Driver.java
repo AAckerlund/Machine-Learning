@@ -142,27 +142,30 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	
 	public void runExperiment(ArrayList<Node> dataset, double[] classes, boolean isRegression)
 	{
-		double[] learningRates = new double[] {0.001, 0.01, 0.1, 1};
-		double[] momentums = new double[] {0, 0.001, 0.01, 0.1, 1};    // includes 0 for no momentum
+		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
+		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};    // includes 0 for no momentum
 
 		TrainingGroups groups = new TrainingGroups(dataset);
 
 		// Tuning phase
+		switch(trainer)
+		{
+		}
 		ArrayList<Node> tuningSet = groups.getTuningSet();
 		ArrayList<Node> trainingSet = groups.getTrainingSet();
-		RunWithTuning tuner = new RunWithTuning( 1000, tuningSet, trainingSet, learningRates, momentums, classes, !isRegression, filePath, hiddenLayerCount);
+		BackPropTuner tuner = new BackPropTuner(1000, tuningSet, trainingSet, learningRates, momentums, classes, !isRegression, filePath, hiddenLayerCount);
 		System.out.println("Started tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 		tuner.tune();
 		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
-		
+
 		double learningRate = tuner.getBestLearningRate();
 		double momentum = tuner.getBestMomentum();
-		
+
 		// Test phase
 		ArrayList<Node> testSet = groups.getTestSet();
 		Network net = new Network(dataset.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
 		BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
-		
+
 		System.out.println("Started training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 		bp.trainNetwork(trainingSet);
 		System.out.println("Finished training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
@@ -170,7 +173,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Printer.println(filePath, "Number of nodes per hidden layer: " + Arrays.toString(hiddenLayerCount));
 		Printer.println(filePath, "Learning Rate: " + learningRate + " | Momentum Constant: " + momentum);
 		Printer.println(filePath, "Fold " + fold);
-		
+
 		if(isRegression)
 		{
 			for(Node node : testSet)
@@ -205,12 +208,10 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				Printer.println(filePath, "Predicted class: " + mostLikelyClass);
 			}
 		}
-		
+
 		double MSE = bp.calculateMSError(testSet);
 		Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold + ": " + MSE + "\n");
 	}
-	
-	
 	
 	public static void main(String[] args)
 	{

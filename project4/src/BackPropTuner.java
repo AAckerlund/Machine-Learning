@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class RunWithTuning
+public class BackPropTuner extends Tuner
 {
 	private final ArrayList<Node> tuningSet, trainingSet;
 	
@@ -20,7 +20,7 @@ public class RunWithTuning
 	private final int maxIterations;
 	private double bestError;
 	
-	public RunWithTuning(int maxIterations, ArrayList<Node> tuningSet, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, String outFile, int[] hiddenLayerNodeNum)
+	public BackPropTuner(int maxIterations, ArrayList<Node> tuningSet, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, String outFile, int[] hiddenLayerNodeNum)
 	{
 		this.tuningSet = tuningSet;
 		this.trainingSet = trainingSet;
@@ -43,6 +43,7 @@ public class RunWithTuning
 	}
 	
 	//tunes the network to determine the best momentum, learning rate, and number of nodes per hidden layer.
+	@Override
 	public void tune()
 	{
 		for(double momentum : momentums)
