@@ -212,14 +212,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	
 	
 	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) throws FileNotFoundException {
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
 		
 		//use these if you want to run all the data sets
-		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+
+		/*String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		int[][] nodesPerLayer = {//TODO replace with real values
 				{}, {3}, {3, 4},//abalone - dummy
 				{}, {1}, {1, 9},//cancer
@@ -239,6 +239,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 				nodeCountCounter++;
 			}
-		}
+		}*/
+		//DataParser dp = new DataParser();
+		//dp.backPropOutput("abalone");
+		//dp.backPropOutput("forestfires");
+		//dp.backPropOutput("machine");
+		/*Genetic genetic = new Genetic();
+		double answer = genetic.normalDistributionSelection(0.5, 0.5);
+		System.out.println(answer);*/
 	}
 }

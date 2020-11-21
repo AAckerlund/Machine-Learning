@@ -13,7 +13,7 @@ public class Genetic {
         Chromosome chromosome1 = population[k1];
         Chromosome chromosome2 = population[k2];
 
-        if(chromosome1.getFitness() > chromosome2.getFitness()){  //selects participant with highest fitness
+        if(chromosome1.getFitness() < chromosome2.getFitness()){  //selects participant with highest fitness(lowest error)
             return chromosome1;
         }
         else{
@@ -59,8 +59,15 @@ public class Genetic {
     }
 
     public double normalDistributionSelection(double gene, double variance){
-        //TODO:return value based on normal distribution with given gene as the mean, variance will be tuned
-        return 0;
+        Random random = new Random();
+        double selection = random.nextGaussian()*variance + gene;
+        if(selection < 0){
+            return 0;
+        }
+        if(selection < 1){
+            return 1;
+        }
+        return selection;
     }
 
     public Chromosome mutation(Chromosome chromosome, double mutationRate, double variance){
@@ -86,7 +93,7 @@ public class Genetic {
         return mutatedChromosome;
     }
 
-    public Chromosome[] replacement(){
+    public Chromosome[] steadyStateReplacement(){
         //TODO: replace population with new offspring
         return null;
     }

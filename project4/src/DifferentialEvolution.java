@@ -1,6 +1,16 @@
 import java.util.Random;
 
 public class DifferentialEvolution {
+    private Chromosome[] population;
+    private double beta;
+    private double crossoverRate;
+
+    public DifferentialEvolution(Chromosome[] population, double beta, double crossoverRate){
+        this.population = population;
+        this.beta = beta;
+        this.crossoverRate = crossoverRate;
+    }
+
     public Chromosome mutation(Chromosome[] population, Chromosome targetChromosome, int targetChromosomeIndex){
         Random random = new Random();
         int k1 = random.nextInt(population.length);
@@ -21,7 +31,6 @@ public class DifferentialEvolution {
         Chromosome chromosome3 = population[k3];
 
         Chromosome trialChromosome = new Chromosome();
-        double beta = 2*random.nextDouble();    //random decimal value between 0 and 2
         double[] betaMultiplierWeights = new double[]{};
 
         for(int i = 0; i<chromosome2.getWeights().length; i++){
@@ -39,34 +48,43 @@ public class DifferentialEvolution {
         return trialChromosome;
     }
 
-    public Chromosome binomialCrossover(Chromosome targetChromosome, Chromosome trialChromosome, double mutationProbability){
-        boolean chooseTrialChromosome;
+    public Chromosome binomialCrossover(Chromosome targetChromosome, Chromosome trialChromosome){
         Random random = new Random();
-        double chanceOfCrossover = random.nextDouble();
-        if(chanceOfCrossover <= mutationProbability){
-            chooseTrialChromosome = true;
+        Chromosome crossedChromosome = new Chromosome();
+        double[] crossedChromosomeWeights = new double[]{};
+
+        for(int i = 0; i<targetChromosome.getWeights().length; i++){
+            double doCrossover = random.nextDouble();
+            if(doCrossover < crossoverRate){
+                crossedChromosomeWeights[i] = targetChromosome.getWeights()[i];
+            }
+            else{
+                crossedChromosomeWeights[i] = trialChromosome.getWeights()[i];
+            }
         }
-        else{
-            chooseTrialChromosome = false;
-        }
-        if(chooseTrialChromosome){
-            return trialChromosome;
-        }
-        else{
-            return targetChromosome;
-        }
+        crossedChromosome.setWeights(crossedChromosomeWeights);
+        return crossedChromosome;
     }
 
-    public Chromosome[] replacement(){
+    public Chromosome[] elitistReplacement(Chromosome[] mutatedChildren){
         //TODO: replace population with new offspring
-        return null;
+        Chromosome[] newPopulation = new Chromosome[]{};
+        for(int i = 0; i< population.length; i++){
+            if(mutatedChildren[i].getFitness() < population[i].getFitness()){
+                newPopulation[i] = mutatedChildren[i];
+            }
+            else{
+                newPopulation[i] = population[i];
+            }
+        }
+        return newPopulation;
     }
 
-    public void runDifferentialEvolution(Chromosome[] population, double mutationProbability){
+    public void runDifferentialEvolution(){
         Chromosome[] mutatedChildren = new Chromosome[]{};
         for(int i = 0; i< population.length; i++){
             Chromosome trialChromosome = mutation(population, population[i], i);
-            Chromosome child = binomialCrossover(population[i], trialChromosome, mutationProbability);
+            Chromosome child = binomialCrossover(population[i], trialChromosome);
         }
     }
 }

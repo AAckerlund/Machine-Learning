@@ -20,6 +20,14 @@ public class DataParser {
                         parsedFile.add(scanner.next());
                     }
                     for(int i = 0; i<parsedFile.size(); i++){
+                        if(parsedFile.get(i).equals("layer:")){
+                            if(layer == 2){
+                                System.out.println(parsedFile.get(i+1) + parsedFile.get(i+2));
+                            }
+                            else {
+                                System.out.println(parsedFile.get(i + 1));
+                            }
+                        }
                         if(parsedFile.get(i).equals("Overall")){
                             System.out.println(parsedFile.get(i+6));
                         }
