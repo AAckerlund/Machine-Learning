@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
-public class PSO {
+public class PSO extends Trainer
+{
     private int numParticles;
     private int maxIterations;
     private int numValues;
@@ -102,5 +103,11 @@ public class PSO {
             }
         }
         return null;//TODO not sure if we need to change this but it was missing.
+    }
+
+    @Override
+    void train()
+    {
+
     }
 }

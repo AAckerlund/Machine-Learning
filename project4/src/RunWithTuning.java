@@ -12,17 +12,15 @@ public class RunWithTuning
 	
 	private final double[] outputLayerClasses;
 	private final boolean isClassification;
-	
-	private final int numHiddenLayers;
+
 	private final int[] bestNumNodesPerLayer;
 	
 	private final String outFile;
 	
 	private final int maxIterations;
-	private final int maxHiddenNodesPerLayer;
 	private double bestError;
 	
-	public RunWithTuning(int maxHiddenNodesPerLayer, int maxIterations, ArrayList<Node> tuningSet, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, int numHiddenLayers, String outFile, int[] hiddenLayerNodeNum)
+	public RunWithTuning(int maxIterations, ArrayList<Node> tuningSet, ArrayList<Node> trainingSet, double[] learningRates, double[] momentums, double[] outputLayerClasses, boolean isClassification, String outFile, int[] hiddenLayerNodeNum)
 	{
 		this.tuningSet = tuningSet;
 		this.trainingSet = trainingSet;
@@ -35,15 +33,13 @@ public class RunWithTuning
 		
 		this.outputLayerClasses = outputLayerClasses;
 		this.isClassification = isClassification;
-		
-		this.numHiddenLayers = numHiddenLayers;
+
 		bestNumNodesPerLayer = hiddenLayerNodeNum;
 		bestError = Double.MAX_VALUE;
 		
 		this.outFile = outFile;
 		
 		this.maxIterations = maxIterations;     // Maximum number of gradient descent iterations to tune with
-		this.maxHiddenNodesPerLayer = maxHiddenNodesPerLayer;
 	}
 	
 	//tunes the network to determine the best momentum, learning rate, and number of nodes per hidden layer.
@@ -53,8 +49,8 @@ public class RunWithTuning
 		{
 			for(double learningRate : learningRates)
 			{
-				Network n = new Network(tuningSet.get(0).getData().length, bestNumNodesPerLayer, outputLayerClasses, isClassification);
-				BackPropagation backProp = new BackPropagation(n, maxIterations, learningRate, momentum, outFile);
+				Network net = new Network(tuningSet.get(0).getData().length, bestNumNodesPerLayer, outputLayerClasses, isClassification);
+				BackPropagation backProp = new BackPropagation(net, maxIterations, learningRate, momentum, outFile);
 				backProp.trainNetwork(trainingSet);
 				double error = backProp.calculateMSError(tuningSet);
 				if(error <= bestError)

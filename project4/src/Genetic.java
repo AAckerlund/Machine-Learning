@@ -1,7 +1,20 @@
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Genetic {
+public class Genetic extends Trainer
+{
+    private Chromosome[] population;
+    private final double crossoverRate, mutationRate, variance;
+    private final int replacedIndividuals;
 
+    public Genetic(Chromosome[] population, double crossoverRate, double mutationRate, double variance, int replacedIndividuals)
+    {
+        this.population = population;
+        this.crossoverRate = crossoverRate;
+        this.mutationRate = mutationRate;
+        this.variance =  variance;
+        this.replacedIndividuals = replacedIndividuals;
+    }
     public Chromosome tournamentSelection(Chromosome[] population){
         Random random = new Random();
         int k1 = random.nextInt(population.length); //randomly selects first tournament participant
@@ -95,18 +108,43 @@ public class Genetic {
 
     public Chromosome[] steadyStateReplacement(){
         //TODO: replace population with new offspring
-        return null;
+        ArrayList<Chromosome> chromosomesToKill = new ArrayList<>();
+        for(int i = 0; i<replacedIndividuals; i++) {
+            double worstFitness = 0;
+            Chromosome weakestChromosome = new Chromosome();
+            for (int j = 0; j < population.length; j++) {
+                if (population[j].getFitness() > worstFitness && !chromosomesToKill.contains(population[j])) {
+                    weakestChromosome = population[j];
+                    worstFitness = population[j].getFitness();
+                }
+            }
+            chromosomesToKill.add(weakestChromosome);
+        }
     }
 
-    public void runGenetic(Chromosome[] population, double probabilityOfCrossover, double mutationRate, double variance) {
-        Chromosome father = tournamentSelection(population);
-        Chromosome mother = tournamentSelection(population);
-        while(father == mother){    //father and mother can not be the same
-            mother = tournamentSelection(population);
+    @Override
+    void train()
+    {
+        //TODO: run Neural Network with original population, setting the fitness
+        Chromosome[] mutatedChildren = new Chromosome[]{};
+        ArrayList<Chromosome> mutatedChildrenList = new ArrayList<>();
+        for(int i = 0; i<(population.length/2); i++){
+            Chromosome father = tournamentSelection(population);
+            Chromosome mother = tournamentSelection(population);
+            while(father == mother){    //father and mother can not be the same
+                mother = tournamentSelection(population);
+            }
+            Chromosome[] children = singlePointCrossover(father, mother, crossoverRate);
+            for(int j = 0; j<children.length; j++){
+                Chromosome mutatedChild = mutation(children[j], mutationRate, variance);
+                mutatedChildrenList.add(mutatedChild);
+            }
         }
-        Chromosome[] children = singlePointCrossover(father, mother, probabilityOfCrossover);
-        for(Chromosome child: children){
-            Chromosome mutatedChild = mutation(child, mutationRate, variance);
+        for(int i = 0; i<mutatedChildrenList.size(); i++){
+            mutatedChildren[i] = mutatedChildrenList.get(i);//converts arraylist to list
         }
+
+
+
     }
 }

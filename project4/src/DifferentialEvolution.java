@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class DifferentialEvolution {
+public class DifferentialEvolution extends Trainer{
     private Chromosome[] population;
     private double beta;
     private double crossoverRate;
@@ -79,11 +79,17 @@ public class DifferentialEvolution {
         return newPopulation;
     }
 
-    public void runDifferentialEvolution(){
+    @Override
+    void train()
+    {
+        //TODO: run Neural Network with original population, setting the fitness
         Chromosome[] mutatedChildren = new Chromosome[]{};
         for(int i = 0; i< population.length; i++){
             Chromosome trialChromosome = mutation(population, population[i], i);
             Chromosome child = binomialCrossover(population[i], trialChromosome);
+            mutatedChildren[i] = child;
         }
+        //TODO: run Neural Network with mutated children, setting a fitness
+        Chromosome[] newPopulation = elitistReplacement(mutatedChildren);
     }
 }
