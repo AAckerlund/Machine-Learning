@@ -67,7 +67,6 @@ public class DifferentialEvolution {
     }
 
     public Chromosome[] elitistReplacement(Chromosome[] mutatedChildren){
-        //TODO: replace population with new offspring
         Chromosome[] newPopulation = new Chromosome[]{};
         for(int i = 0; i< population.length; i++){
             if(mutatedChildren[i].getFitness() < population[i].getFitness()){
