@@ -97,7 +97,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			classes = getClasses(nodes);
 			parsedNodes = nodes;
 		}
-		
+
+		/*
+		// Check if calcNumWeights is working
+		int numWeights = calcNumWeights(parsedNodes.get(0).getData().length, classes, !isRegression);
+		System.out.println("NumWeights: " + numWeights + " | input: " + parsedNodes.get(0).getData().length +
+				" | hidden layers: " + Arrays.toString(hiddenLayerCount) + " | output: " + classes.length);
+		*/
+
 		// Tune, Train and test using the real test set
 		runExperiment(parsedNodes, classes, isRegression);
 		System.out.println("Finished running experiment for " + filePath);
@@ -131,33 +138,42 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};    // includes 0 for no momentum
 
 		TrainingGroups groups = new TrainingGroups(dataset);
+		int numAttrValues = dataset.get(0).getData().length;
+		int numWeights = calcNumWeights(dataset.get(0).getData().length, classes, !isRegression);
 
 		// Tuning phase
-		switch(trainer)
-		{
-		}
 		ArrayList<Node> tuningSet = groups.getTuningSet();
 		ArrayList<Node> trainingSet = groups.getTrainingSet();
-		BackPropTuner tuner = new BackPropTuner(1000, tuningSet, trainingSet, learningRates, momentums, classes, !isRegression, filePath, hiddenLayerCount);
+
+		Tuner tuner = new BackPropTuner(1000, tuningSet, trainingSet, learningRates, momentums, classes,
+				!isRegression, filePath, hiddenLayerCount);	//Placeholder to make sure tuner is initialized
+		switch(trainer)
+		{
+			case "PSO" -> {
+				tuner = new PSOTuner(20, new double[]{0.001, 1}, new double[]{0.001, 1}, new double[]{0.001, 1},
+						100, 0.001, numWeights, numAttrValues, hiddenLayerCount, classes, !isRegression);
+			}
+		}
+
 		System.out.println("Started tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 		tuner.tune(trainingSet, tuningSet);
 		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 
-		double learningRate = tuner.getBestLearningRate();
-		double momentum = tuner.getBestMomentum();
+		//double learningRate = tuner.getBestLearningRate();
+		//double momentum = tuner.getBestMomentum();
 
 		// Test phase
 		ArrayList<Node> testSet = groups.getTestSet();
 		Network net = new Network(dataset.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
-		BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
+		//BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
 
 		System.out.println("Started training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
-		bp.trainNetwork(trainingSet);
+		//bp.trainNetwork(trainingSet);
 		System.out.println("Finished training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
-		Printer.println(filePath, "\nFold " + fold + " | Number of Hidden Layers: " + hiddenLayers);
+		/*Printer.println(filePath, "\nFold " + fold + " | Number of Hidden Layers: " + hiddenLayers);
 		Printer.println(filePath, "Number of nodes per hidden layer: " + Arrays.toString(hiddenLayerCount));
 		Printer.println(filePath, "Learning Rate: " + learningRate + " | Momentum Constant: " + momentum);
-		Printer.println(filePath, "Fold " + fold);
+		Printer.println(filePath, "Fold " + fold);*/
 
 		if(isRegression)
 		{
@@ -194,8 +210,15 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}
 
-		double MSE = bp.calculateMSError(testSet);
-		Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold + ": " + MSE + "\n");
+		//double MSE = bp.calculateMSError(testSet);
+		//Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold + ": " + MSE + "\n");
+	}
+
+	public int calcNumWeights(int inputLayerNodeNum, double[] classes, boolean isClassification)
+	{
+		// Calculates number of weights by using a network generation
+		Network nn = new Network(inputLayerNodeNum, hiddenLayerCount, classes, isClassification);
+		return nn.getNumWeights();
 	}
 
 	public static void main(String[] args)
@@ -203,9 +226,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
+		String[] trainers = {"GA", "DE", "PSO"};
 		//use these if you want to run all the data sets
-		
-		/*String[] trainers = {"GA", "DE", "PSO"};
+
 		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		int[][] nodesPerLayer = {
 				{}, {5}, {1, 7},//abalone
@@ -229,7 +252,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 				nodeCountCounter++;
 			}
-		}*/
+		}
 
 		//DataParser dp = new DataParser();
 		//dp.backPropOutput("abalone");
