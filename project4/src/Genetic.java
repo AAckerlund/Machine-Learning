@@ -157,4 +157,9 @@ public class Genetic extends Trainer
         ArrayList<Chromosome> newPopulation = steadyStateReplacement(mutatedChildren);
 
     }
+    @Override
+    double calcMSE()//TODO: implement me!
+    {
+        return 0.0;
+    }
 }

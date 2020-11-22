@@ -5,4 +5,5 @@ public abstract class Trainer
 
     }
     abstract void train();
+    abstract double calcMSE();
 }

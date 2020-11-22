@@ -100,4 +100,10 @@ public class DifferentialEvolution extends Trainer{
         //TODO: run Neural Network with mutated children, setting a fitness
         ArrayList<Chromosome> newPopulation = elitistReplacement(mutatedChildren);
     }
+
+    @Override
+    double calcMSE()//TODO: implement me!
+    {
+        return 0.0;
+    }
 }
