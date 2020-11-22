@@ -5,11 +5,13 @@ public class DifferentialEvolution extends Trainer{
     private ArrayList<Chromosome> population;
     private double beta;
     private double crossoverRate;
+    private Network net;
 
-    public DifferentialEvolution(ArrayList<Chromosome> population, double beta, double crossoverRate){
+    public DifferentialEvolution(ArrayList<Chromosome> population, double beta, double crossoverRate, Network net){
         this.population = population;
         this.beta = beta;
         this.crossoverRate = crossoverRate;
+        this.net = net;
     }
 
     public Chromosome mutation(ArrayList<Chromosome> population, Chromosome targetChromosome, int targetChromosomeIndex){
@@ -89,23 +91,39 @@ public class DifferentialEvolution extends Trainer{
     @Override
     void train(ArrayList<Node> trainingSet)
     {
-        //TODO: run Neural Network with original population, setting the fitness
-
+        double bestMSE = Double.POSITIVE_INFINITY;
+        for(int j = 0; j<15; j++) {
+            for (Chromosome member : population) {
+                net.updateWeights(member);
+                member.setFitness(net.calculateMSError(trainingSet));
+            }
 
         /*for(Chromosome member: population){
             System.out.println(member.getWeights());
         }
         System.out.println();*/
 
-        ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
-        for(int i = 0; i< population.size(); i++){
-            Chromosome trialChromosome = mutation(population, population.get(i), i);
-            Chromosome child = binomialCrossover(population.get(i), trialChromosome);
-            mutatedChildren.add(child);
-        }
-        //TODO: run Neural Network with mutated children, setting a fitness
-        ArrayList<Chromosome> newPopulation = elitistReplacement(mutatedChildren);
+            ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
+            for (int i = 0; i < population.size(); i++) {
+                Chromosome trialChromosome = mutation(population, population.get(i), i);
+                Chromosome child = binomialCrossover(population.get(i), trialChromosome);
+                mutatedChildren.add(child);
+            }
 
+            for (Chromosome mutatedChild : mutatedChildren) {
+                net.updateWeights(mutatedChild);
+                mutatedChild.setFitness(net.calculateMSError(trainingSet));
+            }
+
+            ArrayList<Chromosome> newPopulation = elitistReplacement(mutatedChildren);
+            population = newPopulation;
+            for (Chromosome member : population) {
+                if (member.getFitness() < bestMSE) {
+                    bestMSE = member.getFitness();
+                }
+            }
+            System.out.println(bestMSE);
+        }
 
         /*for(Chromosome member: newPopulation){
             System.out.println(member.getWeights());
