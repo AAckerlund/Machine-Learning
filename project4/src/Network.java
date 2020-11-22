@@ -332,13 +332,13 @@ public class Network
 		return isClassification;
 	}
 
-	public double calculateMSError(ArrayList<Node> trainingSet)
+	public double calculateMSError(ArrayList<Node> testSet)
 	{
 		// Calculates squared error for regression for a training set
 		double error = 0;
 		if(isClassification)
 		{
-			for(Node example : trainingSet)
+			for(Node example : testSet)
 			{
 				ArrayList<Neuron> output = feedForward(example.getData());
 				double correctClass = example.getId();
@@ -355,13 +355,13 @@ public class Network
 		}
 		else
 		{  // For regression
-			for(Node example : trainingSet)
+			for(Node example : testSet)
 			{
 				double output = feedForward(example.getData()).get(0).getValue();    // Should be one output for regression
 				error += Math.pow(output - example.getId(), 2);         // add up squared errors
 			}
 		}
-		error /= trainingSet.size();    // calculate mean
+		error /= testSet.size();    // calculate mean
 
 		return error;
 	}

@@ -5,6 +5,7 @@ public class PSO extends Trainer
 {
     private int numParticles;
     private int maxIterations;
+    private double MSECutoff;
     private int numValues;
     private double inertia;
     private double cogBias;
@@ -12,9 +13,10 @@ public class PSO extends Trainer
     private Particle[] particles;
     private Network nn;
 
-    public PSO (int numValues, int maxIterations, int numParticles, double inertia, double cogBias, double socBias, Network nn) {
+    public PSO (int numValues, int maxIterations, double MSECutoff, int numParticles, double inertia, double cogBias, double socBias, Network nn) {
         // Creates a PSO object in a ring structure, 2 neighbors
         this.numParticles = numParticles;
+        this.MSECutoff = MSECutoff;
         this.maxIterations = maxIterations;
         this.numValues = numValues;
         this.inertia = inertia;
@@ -58,10 +60,8 @@ public class PSO extends Trainer
         }
     }
 
-    //TODO: move this to train()
     private void trainPSO(ArrayList<Node> trainingSet, boolean isClassification) {
         // train by moving every particle in iterations and comparing performances, return a chromosome with the best values
-        //TODO: Define a termination condition for the training (convergence or max iterations)
         int iteration = 0;
         Chromosome currentC = new Chromosome();
 
@@ -77,6 +77,9 @@ public class PSO extends Trainer
                     if (error < cParticle.getPbestError()) {
                         cParticle.setPbest(cParticle.getPosition());    // set pbest if error is better
                         cParticle.setPbestError(error);
+                        if (error < MSECutoff) {        // Termination condition: less than some threshold error
+                            return;
+                        }
                     }
                 }
 

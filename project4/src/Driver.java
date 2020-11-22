@@ -156,7 +156,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		ArrayList<Node> trainingSet = groups.getTrainingSet();
 		BackPropTuner tuner = new BackPropTuner(1000, tuningSet, trainingSet, learningRates, momentums, classes, !isRegression, filePath, hiddenLayerCount);
 		System.out.println("Started tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
-		tuner.tune();
+		tuner.tune(trainingSet, tuningSet);
 		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 
 		double learningRate = tuner.getBestLearningRate();
