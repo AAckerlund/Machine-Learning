@@ -7,5 +7,5 @@ public abstract class Trainer
 
     }
     abstract void train(ArrayList<Node> trainingSet);
-    abstract double calcMSE();
+    abstract double bestMSE();
 }

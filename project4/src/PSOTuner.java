@@ -59,7 +59,7 @@ public class PSOTuner extends Tuner
                         net = new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification);
                         pso = new PSO(numValues, maxIterations, i, inertia, cogBias, socialBias, net);
                         pso.train();
-                        double error = pso.calcMSE();
+                        double error = pso.bestMSE();
                         if(error < bestError)
                         {
                             bestError = error;

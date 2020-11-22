@@ -52,7 +52,7 @@ public class GATuner extends Tuner
                     {
                         GA = new Genetic(weights, crossoverRate, mutationRate, variance, i);
                         GA.train();
-                        error = GA.calcMSE();
+                        error = GA.bestMSE();
                         if(error < bestError)
                         {
                             bestCrossoverRate = crossoverRate;

@@ -130,7 +130,7 @@ public class PSO extends Trainer
     }
 
     @Override
-    double calcMSE()//TODO: implement me!
+    double bestMSE()//TODO: implement me!
     {
         return 0.0;
     }

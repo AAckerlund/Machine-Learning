@@ -6,14 +6,18 @@ public class Genetic extends Trainer
     private ArrayList<Chromosome> population;
     private final double crossoverRate, mutationRate, variance;
     private final int replacedIndividuals;
+    private Network net;
+    private ArrayList<Node> tuningSet;
 
-    public Genetic(ArrayList<Chromosome> population, double crossoverRate, double mutationRate, double variance, int replacedIndividuals)
+    public Genetic(ArrayList<Chromosome> population, double crossoverRate, double mutationRate, double variance, int replacedIndividuals, Network net, ArrayList<Node> tuningSet)
     {
         this.population = population;
         this.crossoverRate = crossoverRate;
         this.mutationRate = mutationRate;
         this.variance =  variance;
         this.replacedIndividuals = replacedIndividuals;
+        this.net = net;
+        this.tuningSet = tuningSet;
     }
     public Chromosome tournamentSelection(ArrayList<Chromosome> population){
         Random random = new Random();
@@ -159,15 +163,16 @@ public class Genetic extends Trainer
 
     }
     @Override
-    double calcMSE()//TODO: implement me!
+    double bestMSE()
     {
         double bestMSE = Double.MAX_VALUE;
         for(Chromosome c : population)
         {
-            if(bestMSE > new Network().calculateMSError())
+            if(bestMSE > c.getFitness())
             {
-            
+                bestMSE = c.getFitness();
             }
         }
+        return bestMSE;
     }
 }
