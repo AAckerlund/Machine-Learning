@@ -131,10 +131,4 @@ public class PSO extends Trainer
         // TODO: take trainingset/test set as parameters
         trainPSO(trainingSet, nn.isClassification());
     }
-
-    @Override
-    double bestMSE()//TODO: implement me!
-    {
-        return 0.0;
-    }
 }

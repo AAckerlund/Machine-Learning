@@ -112,10 +112,4 @@ public class DifferentialEvolution extends Trainer{
         }
         System.out.println();
     }
-
-    @Override
-    double bestMSE()//TODO: implement me!
-    {
-        return 0.0;
-    }
 }

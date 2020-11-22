@@ -195,17 +195,4 @@ public class Genetic extends Trainer
         System.out.println();
 
     }
-    @Override
-    double bestMSE()
-    {
-        double bestMSE = Double.MAX_VALUE;
-        for(Chromosome c : population)
-        {
-            if(bestMSE > c.getFitness())
-            {
-                bestMSE = c.getFitness();
-            }
-        }
-        return bestMSE;
-    }
 }
