@@ -91,6 +91,12 @@ public class DifferentialEvolution extends Trainer{
     {
         //TODO: run Neural Network with original population, setting the fitness
 
+
+        for(Chromosome member: population){
+            System.out.println(member.getWeights());
+        }
+        System.out.println();
+
         ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
         for(int i = 0; i< population.size(); i++){
             Chromosome trialChromosome = mutation(population, population.get(i), i);
@@ -99,6 +105,12 @@ public class DifferentialEvolution extends Trainer{
         }
         //TODO: run Neural Network with mutated children, setting a fitness
         ArrayList<Chromosome> newPopulation = elitistReplacement(mutatedChildren);
+
+
+        for(Chromosome member: newPopulation){
+            System.out.println(member.getWeights());
+        }
+        System.out.println();
     }
 
     @Override
