@@ -147,15 +147,17 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		Tuner tuner = new BackPropTuner(1000, tuningSet, trainingSet, learningRates, momentums, classes,
 				!isRegression, filePath, hiddenLayerCount);	//Placeholder to make sure tuner is initialized
-		switch(trainer)
+		switch(trainer) // choose tuner
 		{
 			case "PSO" -> {
 				tuner = new PSOTuner(20, new double[]{0.001, 1}, new double[]{0.001, 1}, new double[]{0.001, 1},
 						100, 0.001, numWeights, numAttrValues, hiddenLayerCount, classes, !isRegression);
 			}
+			default -> System.err.println("Bad trainer name: " + trainer);
 		}
 
-		System.out.println("Started tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
+		System.out.println("Started tuning\t\t" + filePath + "\talgo " + trainer + "\tfold " + fold + "\tlayer " +
+				hiddenLayers + "\thiddenNodes " + Arrays.toString(hiddenLayerCount) );
 		tuner.tune(trainingSet, tuningSet);
 		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 
@@ -164,11 +166,23 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		// Test phase
 		ArrayList<Node> testSet = groups.getTestSet();
-		Network net = new Network(dataset.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
-		//BackPropagation bp = new BackPropagation(net, 10000, learningRate, momentum, filePath);
+		Network net = new Network(dataset.get(0).getData().length, hiddenLayerCount, classes, !isRegression); // Train on this network
 
+		// Placeholder trainer to make sure it's initialized
+		Trainer trainingAlgo = new PSO(numWeights, 10000, 0.001, ((PSOTuner) tuner).getBestParticleCount(),
+				((PSOTuner) tuner).getBestInertia(), ((PSOTuner) tuner).getBestCogBias(),
+				((PSOTuner) tuner).getBestSocialBias(), net);
+
+		switch(trainer)	// choose trainer
+		{
+			case "PSO" -> {
+				trainingAlgo = new PSO(numWeights, 10000, 0.001, ((PSOTuner) tuner).getBestParticleCount(),
+						((PSOTuner) tuner).getBestInertia(), ((PSOTuner) tuner).getBestCogBias(),
+						((PSOTuner) tuner).getBestSocialBias(), net);
+			}
+		}
 		System.out.println("Started training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
-		//bp.trainNetwork(trainingSet);
+		trainingAlgo.train(trainingSet);
 		System.out.println("Finished training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 		/*Printer.println(filePath, "\nFold " + fold + " | Number of Hidden Layers: " + hiddenLayers);
 		Printer.println(filePath, "Number of nodes per hidden layer: " + Arrays.toString(hiddenLayerCount));
@@ -210,8 +224,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			}
 		}
 
-		//double MSE = bp.calculateMSError(testSet);
-		//Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold + ": " + MSE + "\n");
+		double MSE = net.calculateMSError(testSet);
+		Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold + ": " + MSE + "\n");
 	}
 
 	public int calcNumWeights(int inputLayerNodeNum, double[] classes, boolean isClassification)
@@ -226,7 +240,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		String[] trainers = {"GA", "DE", "PSO"};
+		String[] trainers = {/*"GA", "DE", */"PSO"};
 		//use these if you want to run all the data sets
 
 		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
