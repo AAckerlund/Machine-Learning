@@ -125,9 +125,31 @@ public class Genetic extends Trainer
                 chromosomesToSurvive.add(population.get(i));
             }
         }
+
+        ArrayList<Chromosome> bestOfChildrenAndParents = new ArrayList<>();
+
+        for(int i = 0; i<mutatedChildren.size(); i++){
+            Chromosome best = new Chromosome();
+            best.setFitness(Double.POSITIVE_INFINITY);
+            double bestFitness = best.getFitness();
+            for(int j = 0; j<mutatedChildren.size(); j++){
+                if(mutatedChildren.get(j).getFitness() < bestFitness){
+                    bestFitness = mutatedChildren.get(j).getFitness();
+                    best = mutatedChildren.get(j);
+                }
+            }
+            for(int j = 0; j<chromosomesToKill.size(); j++){
+                if(chromosomesToKill.get(j).getFitness() < bestFitness){
+                    bestFitness = mutatedChildren.get(j).getFitness();
+                    best = mutatedChildren.get(j);
+                }
+            }
+            bestOfChildrenAndParents.add(best);
+        }
+
         ArrayList<Chromosome> newPopulationList = new ArrayList<>();
-        for(Chromosome mutatedChild: mutatedChildren){
-            newPopulationList.add(mutatedChild);
+        for(Chromosome best: bestOfChildrenAndParents){
+            newPopulationList.add(best);
         }
         for(Chromosome chromosomeToSurvive: chromosomesToSurvive){
             newPopulationList.add(chromosomeToSurvive);
@@ -139,6 +161,11 @@ public class Genetic extends Trainer
     void train()
     {
         //TODO: run Neural Network with original population, setting the fitness
+
+        for(Chromosome member: population){
+            System.out.println(member.getWeights());
+        }
+        System.out.println();
 
         ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
         for(int i = 0; i<((population.size()-replacedIndividuals)/2); i++){
@@ -155,6 +182,12 @@ public class Genetic extends Trainer
         }
         //TODO: run Neural Network with mutated children, setting the fitness
         ArrayList<Chromosome> newPopulation = steadyStateReplacement(mutatedChildren);
+
+
+        for(Chromosome member: newPopulation){
+            System.out.println(member.getWeights());
+        }
+        System.out.println();
 
     }
     @Override
