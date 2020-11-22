@@ -60,7 +60,7 @@ public class GATuner extends Tuner
             {
                 for(double variance : variances)
                 {
-                    for(int i = 1; i < populationSize; i++)
+                    for(int i = 2; i < populationSize; i+=2)
                     {
                         GA = new Genetic(weights, crossoverRate, mutationRate, variance, i, net, tuningSet);
                         GA.train(trainingSet);
