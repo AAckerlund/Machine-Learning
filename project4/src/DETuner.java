@@ -57,11 +57,6 @@ public class DETuner extends Tuner
         return bestCrossoverRate;
     }
     
-    public double getBestMutationRate()
-    {
-        return bestMutationRate;
-    }
-    
     public double getBestBeta()
     {
         return bestBeta;
