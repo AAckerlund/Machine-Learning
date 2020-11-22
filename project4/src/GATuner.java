@@ -18,11 +18,19 @@ public class GATuner extends Tuner
 
     private double bestError;
     
-    private Network net;
+    private final int inputLayerNodeNum;
+    private final int[] hiddenLayerNodeNums;
+    private final double[] outputLayerClasses;
+    private final boolean isClassification;
 
-    public GATuner(double[] crossoverRates, double[] mutationRates, double[] variances, int populationSize, ArrayList<Chromosome> weights, Network net)
+    public GATuner(double[] crossoverRates, double[] mutationRates, double[] variances, int populationSize, ArrayList<Chromosome> weights,
+                   int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification)
     {
-        this.net = net;
+        this.inputLayerNodeNum = inputLayerNodeNum;
+        this.hiddenLayerNodeNums = hiddenLayerNodeNums;
+        this.outputLayerClasses = outputLayerClasses;
+        this.isClassification = isClassification;
+        
         this.weights = weights;
 
         this.crossoverRates = crossoverRates;
@@ -45,6 +53,7 @@ public class GATuner extends Tuner
     {
         Trainer GA;
         double error;
+        Network net = new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification);
         for(double crossoverRate : crossoverRates)
         {
             for(double mutationRate : mutationRates)
