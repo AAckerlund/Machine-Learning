@@ -136,9 +136,10 @@ public class Genetic extends Trainer
     }
 
     @Override
-    void train()
+    void train(ArrayList<Node> trainingSet)
     {
         //TODO: run Neural Network with original population, setting the fitness
+        //min iteration (15 to 20)
 
         ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
         for(int i = 0; i<((population.size()-replacedIndividuals)/2); i++){
@@ -160,6 +161,6 @@ public class Genetic extends Trainer
     @Override
     double calcMSE()//TODO: implement me!
     {
-        return 0.0;
+        return new Network().calculateMSError();
     }
 }

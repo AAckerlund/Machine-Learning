@@ -123,7 +123,7 @@ public class PSO extends Trainer
     }
 
     @Override
-    void train()
+    void train(ArrayList<Node> trainingSet)
     {
         // TODO: take trainingset/test set as parameters
         trainPSO(trainingSet, nn.isClassification());
