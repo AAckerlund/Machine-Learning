@@ -153,6 +153,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				tuner = new PSOTuner(20, new double[]{0.001, 1}, new double[]{0.001, 1}, new double[]{0.001, 1},
 						100, 0.001, numWeights, numAttrValues, hiddenLayerCount, classes, !isRegression);
 			}
+			
+			case "GA" -> {
+				tuner = new GATuner(new double[]{0, .1, .5, .9, 1}, new double[]{0, .1, .5, .9, 1}, new double[]{0.001, 0.01, 0.1},
+						100, initPop(100), trainingSet.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
+			}
 			default -> System.err.println("Bad trainer name: " + trainer);
 		}
 
@@ -169,16 +174,21 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		Network net = new Network(dataset.get(0).getData().length, hiddenLayerCount, classes, !isRegression); // Train on this network
 
 		// Placeholder trainer to make sure it's initialized
-		Trainer trainingAlgo = new PSO(numWeights, 10000, 0.001, ((PSOTuner) tuner).getBestParticleCount(),
+		Trainer trainingAlgo = null;
+		/*Trainer trainingAlgo = new PSO(numWeights, 10000, 0.001, ((PSOTuner) tuner).getBestParticleCount(),
 				((PSOTuner) tuner).getBestInertia(), ((PSOTuner) tuner).getBestCogBias(),
 				((PSOTuner) tuner).getBestSocialBias(), net);
-
+*/
 		switch(trainer)	// choose trainer
 		{
 			case "PSO" -> {
 				trainingAlgo = new PSO(numWeights, 10000, 0.001, ((PSOTuner) tuner).getBestParticleCount(),
 						((PSOTuner) tuner).getBestInertia(), ((PSOTuner) tuner).getBestCogBias(),
 						((PSOTuner) tuner).getBestSocialBias(), net);
+			}
+			case "GA" -> {
+				trainingAlgo = new Genetic(initPop(((GATuner)tuner).getBestPopSize()), ((GATuner)tuner).getBestCrossoverRate(),
+						((GATuner)tuner).getBestMutationRate(), ((GATuner)tuner).getBestVariance(), ((GATuner)tuner).getBestK(), net);
 			}
 		}
 		System.out.println("Started training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
@@ -233,6 +243,16 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		// Calculates number of weights by using a network generation
 		Network nn = new Network(inputLayerNodeNum, hiddenLayerCount, classes, isClassification);
 		return nn.getNumWeights();
+	}
+	
+	public ArrayList<Chromosome> initPop(int size)
+	{
+		ArrayList<Chromosome> pop = new ArrayList<>();
+		for(int i = 0; i < size; i++)
+		{
+			pop.add(new Chromosome());
+		}
+		return pop;
 	}
 
 	public static void main(String[] args)
