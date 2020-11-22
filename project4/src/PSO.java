@@ -55,6 +55,7 @@ public class PSO extends Trainer
         }
     }
 
+    //TODO: move this to train()
     private Chromosome trainPSO(ArrayList<Node> trainingSet, int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification) {
         // train by moving every particle in iterations and comparing performances, return a chromosome with the best values
         Network nn = new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification);
