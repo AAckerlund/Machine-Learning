@@ -97,7 +97,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			classes = getClasses(nodes);
 			parsedNodes = nodes;
 		}
-		
+
+		/*
+		// Check if calcNumWeights is working
+		int numWeights = calcNumWeights(parsedNodes.get(0).getData().length, classes, !isRegression);
+		System.out.println("NumWeights: " + numWeights + " | input: " + parsedNodes.get(0).getData().length +
+				" | hidden layers: " + Arrays.toString(hiddenLayerCount) + " | output: " + classes.length);
+		*/
+
 		// Tune, Train and test using the real test set
 		runExperiment(parsedNodes, classes, isRegression);
 		System.out.println("Finished running experiment for " + filePath);
