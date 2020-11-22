@@ -212,7 +212,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				{}, {1}, {1, 9},//cancer
 				{}, {10}, {3, 10},//fires
 				{}, {9}, {4, 10},//glass
-				{}, {10}, {1, 8},//machine - dummy
+				{}, {10}, {1, 8},//machine
 				{}, {29}, {10, 10},//beans
 		};
 		int nodeCountCounter = 0;
