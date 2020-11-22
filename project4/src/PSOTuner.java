@@ -5,7 +5,7 @@ public class PSOTuner extends Tuner
     private double bestError;
     private final int maxIterations;
     private final double MSECutoff;
-    private final int numValues;
+    private final int numWeights;
     
     private double[] outputLayerClasses;
     private final boolean isClassification;
@@ -26,10 +26,10 @@ public class PSOTuner extends Tuner
     private double[] socialBiases;
 
     public PSOTuner(int particleCount, double[] inertias, double[] cogBiases, double[] socialBiases, int maxIterations,
-                    double MSECutoff, int numValues, int inputLayerNodeNum, int[] hiddenLayerNodeNums,
+                    double MSECutoff, int numWeights, int inputLayerNodeNum, int[] hiddenLayerNodeNums,
                     double[] outputLayerClasses, boolean isClassification)
     {
-        this.numValues = numValues;
+        this.numWeights = numWeights;
         this.maxIterations = maxIterations;
         this.MSECutoff = MSECutoff;
         maxParticleCount = particleCount;
@@ -61,7 +61,7 @@ public class PSOTuner extends Tuner
                 {
                     for(int i = 1; i < maxParticleCount; i++)
                     {
-                        pso = new PSO(numValues, maxIterations, MSECutoff, i, inertia, cogBias, socialBias, net);
+                        pso = new PSO(numWeights, maxIterations, MSECutoff, i, inertia, cogBias, socialBias, net);
                         pso.train(trainingSet);
                         double error = net.calculateMSError(tuningSet);
                         if(error < bestError)

@@ -1,24 +1,23 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PSO extends Trainer
 {
     private int numParticles;
     private int maxIterations;
     private double MSECutoff;
-    private int numValues;
+    private int numWeights;
     private double inertia;
     private double cogBias;
     private double socBias;
     private Particle[] particles;
     private Network nn;
 
-    public PSO (int numValues, int maxIterations, double MSECutoff, int numParticles, double inertia, double cogBias, double socBias, Network nn) {
+    public PSO (int numWeights, int maxIterations, double MSECutoff, int numParticles, double inertia, double cogBias, double socBias, Network nn) {
         // Creates a PSO object in a ring structure, 2 neighbors
         this.numParticles = numParticles;
         this.MSECutoff = MSECutoff;
         this.maxIterations = maxIterations;
-        this.numValues = numValues;
+        this.numWeights = numWeights;
         this.inertia = inertia;
         this.cogBias = cogBias;
         this.socBias = socBias;
@@ -31,9 +30,9 @@ public class PSO extends Trainer
     private void initializeSwarm() {
         // Creates the ring structure and initializes the random values for each particle
         for (int i = 0; i < numParticles; i++) {
-            double[] newPos = new double[numValues];
+            double[] newPos = new double[numWeights];
 
-            for (int j = 0; j < numValues; j++) {
+            for (int j = 0; j < numWeights; j++) {
                 newPos[j] = 0.01*Math.random(); // initialize each new pos component
             }
             particles[i] = new Particle(newPos);
