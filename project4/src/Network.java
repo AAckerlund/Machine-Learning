@@ -212,6 +212,12 @@ public class Network
 			}
 		}
 	}
+
+	public void updateWeights(Chromosome newWeights)
+	{
+		weights = newWeights;
+		generateWeights();
+	}
 	
 	public ArrayList<Neuron> feedForward(double[] inputNodeValues)
 	{
