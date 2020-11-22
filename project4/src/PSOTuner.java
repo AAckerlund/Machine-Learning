@@ -59,7 +59,7 @@ public class PSOTuner extends Tuner
             {
                 for(double socialBias : socialBiases)
                 {
-                    for(int i = 1; i < maxParticleCount; i++)
+                    for(int i = 2; i < maxParticleCount; i++)   // Start with at least 2 particles
                     {
                         pso = new PSO(numWeights, maxIterations, MSECutoff, i, inertia, cogBias, socialBias, net);
                         pso.train(trainingSet);
