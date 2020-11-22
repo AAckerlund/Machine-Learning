@@ -7,9 +7,8 @@ public class Genetic extends Trainer
     private final double crossoverRate, mutationRate, variance;
     private final int replacedIndividuals;
     private Network net;
-    private ArrayList<Node> tuningSet;
 
-    public Genetic(ArrayList<Chromosome> population, double crossoverRate, double mutationRate, double variance, int replacedIndividuals, Network net, ArrayList<Node> tuningSet)
+    public Genetic(ArrayList<Chromosome> population, double crossoverRate, double mutationRate, double variance, int replacedIndividuals, Network net)
     {
         this.population = population;
         this.crossoverRate = crossoverRate;
@@ -17,7 +16,6 @@ public class Genetic extends Trainer
         this.variance =  variance;
         this.replacedIndividuals = replacedIndividuals;
         this.net = net;
-        this.tuningSet = tuningSet;
     }
     public Chromosome tournamentSelection(ArrayList<Chromosome> population){
         Random random = new Random();
@@ -164,35 +162,55 @@ public class Genetic extends Trainer
     @Override
     void train(ArrayList<Node> trainingSet)
     {
-        //TODO: run Neural Network with original population, setting the fitness
+        double bestMSE = Double.POSITIVE_INFINITY;
         //min iteration (15 to 20)
 
-        for(Chromosome member: population){
+        for(int j = 0; j<15; j++) {
+            for (Chromosome member : population) {
+                net.updateWeights(member);
+                member.setFitness(net.calculateMSError(trainingSet));
+            }
+
+        /*for(Chromosome member: population){
             System.out.println(member.getWeights());
         }
-        System.out.println();
+        System.out.println();*/
 
-        ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
-        for(int i = 0; i<((population.size()-replacedIndividuals)/2); i++){
-            Chromosome father = tournamentSelection(population);
-            Chromosome mother = tournamentSelection(population);
-            while(father == mother){    //father and mother can not be the same
-                mother = tournamentSelection(population);
+            ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
+            for (int i = 0; i < ((population.size() - replacedIndividuals) / 2); i++) {
+                Chromosome father = tournamentSelection(population);
+                Chromosome mother = tournamentSelection(population);
+                while (father == mother) {    //father and mother can not be the same
+                    mother = tournamentSelection(population);
+                }
+                Chromosome[] children = singlePointCrossover(father, mother, crossoverRate);
+                for (int k = 0; k < children.length; k++) {
+                    Chromosome mutatedChild = mutation(children[j], mutationRate, variance);
+                    mutatedChildren.add(mutatedChild);
+                }
             }
-            Chromosome[] children = singlePointCrossover(father, mother, crossoverRate);
-            for(int j = 0; j<children.length; j++){
-                Chromosome mutatedChild = mutation(children[j], mutationRate, variance);
-                mutatedChildren.add(mutatedChild);
+
+            for (Chromosome mutatedChild : mutatedChildren) {
+                net.updateWeights(mutatedChild);
+                mutatedChild.setFitness(net.calculateMSError(trainingSet));
+            }
+
+
+            ArrayList<Chromosome> newPopulation = steadyStateReplacement(mutatedChildren);
+            population = newPopulation;
+
+            for (Chromosome member : population) {
+                if (member.getFitness() < bestMSE) {
+                    bestMSE = member.getFitness();
+                }
             }
         }
-        //TODO: run Neural Network with mutated children, setting the fitness
-        ArrayList<Chromosome> newPopulation = steadyStateReplacement(mutatedChildren);
 
 
-        for(Chromosome member: newPopulation){
+        /*for(Chromosome member: newPopulation){
             System.out.println(member.getWeights());
         }
-        System.out.println();
+        System.out.println();*/
 
     }
 }

@@ -6,15 +6,15 @@ public class DETuner extends Tuner
     private double bestError;
     
     private double bestCrossoverRate;
-    private double[] crossoverRates;
+    private final double[] crossoverRates;
     
     private double bestBeta;
-    private double[] betas;
+    private final double[] betas;
     
-    private int inputLayerNodeNum;
-    private int[] hiddenLayerNodeNums;
-    private double[] outputLayerClasses;
-    private boolean isClassification;
+    private final int inputLayerNodeNum;
+    private final int[] hiddenLayerNodeNums;
+    private final double[] outputLayerClasses;
+    private final boolean isClassification;
     
     public DETuner(ArrayList<Chromosome> weights, double[] crossoverRates, double[] betas, int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification)
     {
