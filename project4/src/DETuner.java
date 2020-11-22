@@ -39,7 +39,7 @@ public class DETuner extends Tuner
         {
             for(double beta : betas)
             {
-                DE = new DifferentialEvolution(weights, beta, crossoverRate);
+                DE = new DifferentialEvolution(weights, beta, crossoverRate, net);
                 DE.train(trainingSet);
                 error = net.calculateMSError(tuningSet);
                 if(error < bestError)
