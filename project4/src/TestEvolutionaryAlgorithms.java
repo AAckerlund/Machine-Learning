@@ -135,10 +135,12 @@ public class TestEvolutionaryAlgorithms {
         population.add(Chromosome7);
         population.add(Chromosome8);
 
-        Genetic genetic = new Genetic(population, 1, 1, 0.1, 4);
+        Network nn = new Network();
+
+        //Genetic genetic = new Genetic(population, 1, 1, 0.1, 4);
         DifferentialEvolution diffev = new DifferentialEvolution(population, 1, 0.8);
         genetic.train();
-        //diffev.train();
+        diffev.train();
 
 
     }

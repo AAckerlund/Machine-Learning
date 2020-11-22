@@ -9,7 +9,7 @@ public class Genetic extends Trainer
     private Network net;
     private ArrayList<Node> tuningSet;
 
-    public Genetic(ArrayList<Chromosome> population, double crossoverRate, double mutationRate, double variance, int replacedIndividuals, Network net, ArrayList<Node> tuningSet)
+    public Genetic(ArrayList<Chromosome> population, double crossoverRate, double mutationRate, double variance, int replacedIndividuals, Network net, ArrayList<Node> testSet)
     {
         this.population = population;
         this.crossoverRate = crossoverRate;
@@ -164,6 +164,7 @@ public class Genetic extends Trainer
     @Override
     void train(ArrayList<Node> trainingSet)
     {
+        Network nn = new Network();
         //TODO: run Neural Network with original population, setting the fitness
         //min iteration (15 to 20)
 
@@ -195,6 +196,11 @@ public class Genetic extends Trainer
         System.out.println();
 
     }
+
+    double calcMSE(){
+
+    }
+
     @Override
     double bestMSE()
     {
