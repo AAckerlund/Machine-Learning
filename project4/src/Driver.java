@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -216,7 +217,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		String[] trainers = {"GA", "DE", "PSO"};
+		//String[] trainers = {"GA", "DE", "PSO"};
 		//use these if you want to run all the data sets
 
 		/*String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};

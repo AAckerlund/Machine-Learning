@@ -115,7 +115,7 @@ public class Network
 						value.connectOutput(neuron);
 					else
 					{
-						value.connectOutput(neuron, weights.getWeights()[curWeight]);
+						value.connectOutput(neuron, weights.getWeights().get(curWeight));
 						curWeight++;
 					}
 
@@ -127,7 +127,7 @@ public class Network
 					biasNeuron.connectOutput(neuron);
 				else
 				{
-					biasNeuron.connectOutput(neuron, weights.getWeights()[curWeight]);
+					biasNeuron.connectOutput(neuron, weights.getWeights().get(curWeight));
 					curWeight++;
 				}
 			}
@@ -142,7 +142,7 @@ public class Network
 						n1.connectOutput(hiddenLayers.get(0).get(i));
 					else
 					{
-						n1.connectOutput(hiddenLayers.get(0).get(i), weights.getWeights()[curWeight]);
+						n1.connectOutput(hiddenLayers.get(0).get(i), weights.getWeights().get(curWeight));
 						curWeight++;
 					}
 				}
@@ -153,7 +153,7 @@ public class Network
 					biasNeuron.connectOutput(hiddenLayers.get(0).get(i));
 				else
 				{
-					biasNeuron.connectOutput(hiddenLayers.get(0).get(i), weights.getWeights()[curWeight]);
+					biasNeuron.connectOutput(hiddenLayers.get(0).get(i), weights.getWeights().get(curWeight));
 					curWeight++;
 				}
 			}
@@ -168,7 +168,7 @@ public class Network
 							hiddenLayers.get(layeri).get(j).connectOutput(hiddenLayers.get(layeri + 1).get(k));
 						else
 						{
-							hiddenLayers.get(layeri).get(j).connectOutput(hiddenLayers.get(layeri + 1).get(k), weights.getWeights()[curWeight]);
+							hiddenLayers.get(layeri).get(j).connectOutput(hiddenLayers.get(layeri + 1).get(k), weights.getWeights().get(curWeight));
 							curWeight++;
 						}
 					}
@@ -179,7 +179,7 @@ public class Network
 						biasNeuron.connectOutput(hiddenLayers.get(layeri + 1).get(k));
 					else
 					{
-						biasNeuron.connectOutput(hiddenLayers.get(layeri + 1).get(k), weights.getWeights()[curWeight]);
+						biasNeuron.connectOutput(hiddenLayers.get(layeri + 1).get(k), weights.getWeights().get(curWeight));
 						curWeight++;
 					}
 				}
@@ -194,7 +194,7 @@ public class Network
 						hiddenLayers.get(hiddenLayers.size() - 1).get(i).connectOutput(neuron);
 					else
 					{
-						hiddenLayers.get(hiddenLayers.size() - 1).get(i).connectOutput(neuron, weights.getWeights()[curWeight]);
+						hiddenLayers.get(hiddenLayers.size() - 1).get(i).connectOutput(neuron, weights.getWeights().get(curWeight));
 						curWeight++;
 					}
 				}
@@ -206,7 +206,7 @@ public class Network
 					biasNeuron.connectOutput(neuron);
 				else
 				{
-					biasNeuron.connectOutput(neuron, weights.getWeights()[curWeight]);
+					biasNeuron.connectOutput(neuron, weights.getWeights().get(curWeight));
 					curWeight++;
 				}
 			}
