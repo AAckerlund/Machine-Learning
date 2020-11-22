@@ -59,6 +59,7 @@ public class GATuner extends Tuner
                             bestMutationRate = mutationRate;
                             bestVariance = variance;
                             bestK = i;
+                            bestError = error;
                         }
                     }
                 }
