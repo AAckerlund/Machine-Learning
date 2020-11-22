@@ -161,6 +161,13 @@ public class Genetic extends Trainer
     @Override
     double calcMSE()//TODO: implement me!
     {
-        return new Network().calculateMSError();
+        double bestMSE = Double.MAX_VALUE;
+        for(Chromosome c : population)
+        {
+            if(bestMSE > new Network().calculateMSError())
+            {
+            
+            }
+        }
     }
 }

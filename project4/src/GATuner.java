@@ -38,7 +38,7 @@ public class GATuner extends Tuner
     }
 
     @Override
-    void tune()
+    void tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet)
     {
         Trainer GA;
         double error;

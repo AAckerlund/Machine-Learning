@@ -44,7 +44,7 @@ public class BackPropTuner extends Tuner
 	
 	//tunes the network to determine the best momentum, learning rate, and number of nodes per hidden layer.
 	@Override
-	public void tune()
+	public void tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet)
 	{
 		for(double momentum : momentums)
 		{

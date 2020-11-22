@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class DETuner extends Tuner
 {
     private double bestCrossoverRate;
@@ -9,7 +11,7 @@ public class DETuner extends Tuner
 
     }
     @Override
-    void tune()
+    void tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet)
     {
 
     }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class PSOTuner extends Tuner
 {
     private double bestError;
@@ -42,7 +44,7 @@ public class PSOTuner extends Tuner
     }
 
     @Override
-    void tune()
+    void tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet)
     {
         PSO pso;
         Network net;
