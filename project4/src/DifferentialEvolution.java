@@ -1,82 +1,103 @@
+import java.util.ArrayList;
 import java.util.Random;
 
-public class DifferentialEvolution extends Trainer
-{
-    Chromosome[] population;
-    double mutationProbability;
-    public DifferentialEvolution(Chromosome[] population, double mutationProbability)
-    {
+public class DifferentialEvolution extends Trainer{
+    private ArrayList<Chromosome> population;
+    private double beta;
+    private double crossoverRate;
+
+    public DifferentialEvolution(ArrayList<Chromosome> population, double beta, double crossoverRate){
         this.population = population;
-        this.mutationProbability = mutationProbability;
+        this.beta = beta;
+        this.crossoverRate = crossoverRate;
     }
-    public Chromosome mutation(Chromosome[] population, Chromosome targetChromosome, int targetChromosomeIndex){
+
+    public Chromosome mutation(ArrayList<Chromosome> population, Chromosome targetChromosome, int targetChromosomeIndex){
         Random random = new Random();
-        int k1 = random.nextInt(population.length);
+        int k1 = random.nextInt(population.size());
         while(k1 == targetChromosomeIndex){ //first chromosome can't be the same as target
-            k1 = random.nextInt(population.length);
+            k1 = random.nextInt(population.size());
         }
-        int k2 = random.nextInt(population.length);
+        int k2 = random.nextInt(population.size());
         while(k2 == targetChromosomeIndex || k2 == k1){ //second chromosome can't be the same as target or first
-            k2 = random.nextInt(population.length);
+            k2 = random.nextInt(population.size());
         }
-        int k3 = random.nextInt(population.length);
+        int k3 = random.nextInt(population.size());
         while(k3 == targetChromosomeIndex || k3 == k1 || k3 == k2){ //third chromosome can't be the same as target, first, or second
-            k3 = random.nextInt(population.length);
+            k3 = random.nextInt(population.size());
         }
 
-        Chromosome chromosome1 = population[k1];
-        Chromosome chromosome2 = population[k2];
-        Chromosome chromosome3 = population[k3];
+        Chromosome chromosome1 = population.get(k1);
+        Chromosome chromosome2 = population.get(k2);
+        Chromosome chromosome3 = population.get(k3);
 
         Chromosome trialChromosome = new Chromosome();
-        double beta = 2*random.nextDouble();    //random decimal value between 0 and 2
-        double[] betaMultiplierWeights = new double[]{};
-
-        for(int i = 0; i<chromosome2.getWeights().length; i++){
-            double difference = chromosome2.getWeights()[i] - chromosome3.getWeights()[i];
-            betaMultiplierWeights[i] = difference*beta;
+        //double[] betaMultiplierWeights = new double[]{};
+        ArrayList<Double> betaMultiplierWeights = new ArrayList<>();
+        for(int i = 0; i<chromosome2.getWeights().size(); i++){
+            double difference = Math.abs(chromosome2.getWeights().get(i) - chromosome3.getWeights().get(i));
+            //betaMultiplierWeights[i] = difference*beta;
+            betaMultiplierWeights.add(difference*beta);
         }
 
-        double[] trialChromosomeWeights = new double[]{};
+        //double[] trialChromosomeWeights = new double[]{};
+        ArrayList<Double> trialChromosomeWeights = new ArrayList<>();
 
-        for(int i = 0; i<chromosome1.getWeights().length; i++){
-            double sum = chromosome1.getWeights()[i] + betaMultiplierWeights[i];
-            trialChromosomeWeights[i] = sum;
+        for(int i = 0; i<chromosome1.getWeights().size(); i++){
+            double sum = chromosome1.getWeights().get(i) + betaMultiplierWeights.get(i);
+            //trialChromosomeWeights[i] = sum;
+            trialChromosomeWeights.add(sum);
         }
         trialChromosome.setWeights(trialChromosomeWeights);
         return trialChromosome;
     }
 
-    public Chromosome binomialCrossover(Chromosome targetChromosome, Chromosome trialChromosome, double mutationProbability){
-        boolean chooseTrialChromosome;
+    public Chromosome binomialCrossover(Chromosome targetChromosome, Chromosome trialChromosome){
         Random random = new Random();
-        double chanceOfCrossover = random.nextDouble();
-        if(chanceOfCrossover <= mutationProbability){
-            chooseTrialChromosome = true;
+        Chromosome crossedChromosome = new Chromosome();
+        //double[] crossedChromosomeWeights = new double[]{};
+        ArrayList<Double> crossedChromosomeWeights = new ArrayList<>();
+
+        for(int i = 0; i<targetChromosome.getWeights().size(); i++){
+            double doCrossover = random.nextDouble();
+            if(doCrossover < crossoverRate){
+                //crossedChromosomeWeights.get(i) = targetChromosome.getWeights().get(i);
+                crossedChromosomeWeights.add(targetChromosome.getWeights().get(i));
+            }
+            else{
+                //crossedChromosomeWeights[i] = trialChromosome.getWeights().get(i);
+                crossedChromosomeWeights.add(trialChromosome.getWeights().get(i));
+            }
         }
-        else{
-            chooseTrialChromosome = false;
-        }
-        if(chooseTrialChromosome){
-            return trialChromosome;
-        }
-        else{
-            return targetChromosome;
-        }
+        crossedChromosome.setWeights(crossedChromosomeWeights);
+        return crossedChromosome;
     }
 
-    public Chromosome[] replacement(){
-        //TODO: replace population with new offspring
-        return null;
+    public ArrayList<Chromosome> elitistReplacement(ArrayList<Chromosome> mutatedChildren){
+        ArrayList<Chromosome> newPopulation = new ArrayList<>();
+        for(int i = 0; i< population.size(); i++){
+            if(mutatedChildren.get(i).getFitness() < population.get(i).getFitness()){
+                newPopulation.add(mutatedChildren.get(i));
+            }
+            else{
+                newPopulation.add(population.get(i));
+            }
+        }
+        return newPopulation;
     }
 
     @Override
     void train()
     {
-        Chromosome[] mutatedChildren = new Chromosome[]{};
-        for(int i = 0; i< population.length; i++){
-            Chromosome trialChromosome = mutation(population, population[i], i);
-            Chromosome child = binomialCrossover(population[i], trialChromosome, mutationProbability);
+        //TODO: run Neural Network with original population, setting the fitness
+
+        ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
+        for(int i = 0; i< population.size(); i++){
+            Chromosome trialChromosome = mutation(population, population.get(i), i);
+            Chromosome child = binomialCrossover(population.get(i), trialChromosome);
+            mutatedChildren.add(child);
         }
+        //TODO: run Neural Network with mutated children, setting a fitness
+        ArrayList<Chromosome> newPopulation = elitistReplacement(mutatedChildren);
     }
 }

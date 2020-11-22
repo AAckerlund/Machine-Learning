@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -212,15 +213,16 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		double MSE = bp.calculateMSError(testSet);
 		Printer.println(filePath, "Overall Mean-Squared Error for Fold " + fold + ": " + MSE + "\n");
 	}
-	
+
 	public static void main(String[] args)
 	{
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		String[] trainers = {"GA", "DE", "PSO"};
+		//String[] trainers = {"GA", "DE", "PSO"};
 		//use these if you want to run all the data sets
-		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+
+		/*String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		int[][] nodesPerLayer = {//TODO replace with real values
 				{}, {5}, {1, 7},//abalone
 				{}, {1}, {1, 9},//cancer
@@ -243,6 +245,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 				nodeCountCounter++;
 			}
-		}
+		}*/
+
+		//DataParser dp = new DataParser();
+		//dp.backPropOutput("abalone");
+		//dp.backPropOutput("forestfires");
+		//dp.backPropOutput("machine");
+		/*Genetic genetic = new Genetic();
+		double answer = genetic.normalDistributionSelection(0.5, 0.5);
+		System.out.println(answer);*/
 	}
 }

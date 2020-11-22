@@ -1,0 +1,152 @@
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Done Soybean
+Iteration: 0 | New Error: 0.9971924493888908
+Iteration: 0 | New Error: 0.9915541931562181
+Iteration: 0 | New Error: 1.005917184794695
+Iteration: 0 | New Error: 1.0039927136024693
+Iteration: 0 | New Error: 1.0000855698944904
+Iteration: 0 | New Error: 1.0067698764109902
+Iteration: 0 | New Error: 0.9942801229822994
+Iteration: 0 | New Error: 1.0005252172419024
+Iteration: 0 | New Error: 0.9976885133327409
+Iteration: 0 | New Error: 1.0049845901485484
+Iteration: 0 | New Error: 0.9949663779742695
+Iteration: 0 | New Error: 0.9940139533645586
+Iteration: 0 | New Error: 0.9980183842567506
+Iteration: 0 | New Error: 1.0009005548548833
+Iteration: 0 | New Error: 0.9994100062302523
+Iteration: 0 | New Error: 1.0027754594763945
+Iteration: 0 | New Error: 1.002186380626584
+Iteration: 0 | New Error: 1.0028638746740668
+Iteration: 0 | New Error: 0.9989567841161056
+Iteration: 0 | New Error: 1.0038450238700338
+Iteration: 0 | New Error: 0.9967436371438158
+Iteration: 0 | New Error: 1.0000733260947445
+Iteration: 0 | New Error: 1.0020988961659025
+Iteration: 0 | New Error: 0.9995645852203886
+Iteration: 0 | New Error: 1.0089586917780062
+Iteration: 0 | New Error: 1.0043283397317864
+Iteration: 0 | New Error: 0.9941684047516359
+Iteration: 0 | New Error: 0.998682735662474
+Iteration: 0 | New Error: 1.002422638965683
+Iteration: 0 | New Error: 0.9904243920993948
+Iteration: 50 | New Error: 0.5326130728690304
+Iteration: 50 | New Error: 0.5371972588267137
+Iteration: 50 | New Error: 0.5363458027010682
+Iteration: 50 | New Error: 0.5350666004810873
+Iteration: 50 | New Error: 0.5322722831332777
+Iteration: 50 | New Error: 0.5355324514203028
+Iteration: 50 | New Error: 0.5384745478704694
+Iteration: 50 | New Error: 0.5351442470788751
+Iteration: 50 | New Error: 0.532055814803512
+Iteration: 50 | New Error: 0.5328951869666494
+Iteration: 100 | New Error: 0.362826274825196
+Iteration: 100 | New Error: 0.36070468452040116
+Iteration: 100 | New Error: 0.3587676072317664
+Iteration: 100 | New Error: 0.36330325731651064
+Iteration: 100 | New Error: 0.3666454268601779
+Iteration: 100 | New Error: 0.3627872314565357
+Iteration: 100 | New Error: 0.3610043645590647
+Iteration: 100 | New Error: 0.3624767107972449
+Iteration: 150 | New Error: 0.27063746113035597
+Iteration: 100 | New Error: 0.3622762568725822
+Iteration: 100 | New Error: 0.36095931245009555
+Iteration: 150 | New Error: 0.26922200648561445
+Iteration: 150 | New Error: 0.2671493624392654
+Iteration: 150 | New Error: 0.2759359613251679
+Iteration: 150 | New Error: 0.2700665260833283
+Iteration: 150 | New Error: 0.27209898656559284
+Iteration: 200 | New Error: 0.2135528244066221
+Iteration: 200 | New Error: 0.2125833702701506
+Iteration: 200 | New Error: 0.21057625048184114
+Iteration: 200 | New Error: 0.2126322596391257
+Iteration: 200 | New Error: 0.219739188588694
+Iteration: 150 | New Error: 0.2697559115420317
+Iteration: 250 | New Error: 0.1751020013684481
+Iteration: 200 | New Error: 0.21552427175161928
+Iteration: 250 | New Error: 0.17441791828386244
+Iteration: 150 | New Error: 0.27000117550891956
+Iteration: 150 | New Error: 0.2705737017845032
+Iteration: 250 | New Error: 0.17252181259381932
+Iteration: 150 | New Error: 0.2693882641351476
+Iteration: 250 | New Error: 0.17394815358305601
+Iteration: 300 | New Error: 0.14766904492519514
+Iteration: 250 | New Error: 0.18171376557718
+Iteration: 200 | New Error: 0.21318444807055661
+Iteration: 200 | New Error: 0.21248242839332954
+Iteration: 200 | New Error: 0.21359908215843879
+Iteration: 300 | New Error: 0.14636281173928828
+Iteration: 300 | New Error: 0.14539242504268213
+Iteration: 350 | New Error: 0.12723610370400779
+Iteration: 300 | New Error: 0.15441215799342461
+Iteration: 300 | New Error: 0.1471721231662083
+Iteration: 250 | New Error: 0.17727266364209585
+Iteration: 250 | New Error: 0.17519270548073407
+Iteration: 350 | New Error: 0.1258332512364584
+Iteration: 250 | New Error: 0.17408513066188963
+Iteration: 200 | New Error: 0.21272651968606304
+Iteration: 300 | New Error: 0.14777756264666658
+Iteration: 250 | New Error: 0.175025052878428
+Iteration: 350 | New Error: 0.12519473549745067
+Iteration: 350 | New Error: 0.13393346901724018
+Iteration: 350 | New Error: 0.1273501164543073
+Iteration: 400 | New Error: 0.11149614775444129
+Iteration: 350 | New Error: 0.12686550052922888
+Iteration: 400 | New Error: 0.10964003328871655
+Iteration: 400 | New Error: 0.11003527819183588
+Iteration: 450 | New Error: 0.09733152558983126
+Iteration: 400 | New Error: 0.11804474112012997
+Iteration: 300 | New Error: 0.14776657489297443
+Iteration: 250 | New Error: 0.17411213658686017
+Iteration: 300 | New Error: 0.14667692909370805
+Iteration: 300 | New Error: 0.14986641109471968
+Iteration: 450 | New Error: 0.09903927969735181
+Iteration: 400 | New Error: 0.11160992275475316
+Iteration: 450 | New Error: 0.09754717172848254
+Iteration: 500 | New Error: 0.08737303936145398
+Iteration: 400 | New Error: 0.11121315284514727
+Iteration: 550 | New Error: 0.07916565735966309
+Iteration: 500 | New Error: 0.08895985974865261
+Iteration: 450 | New Error: 0.09881875774635772
+Iteration: 350 | New Error: 0.12744317876467914
+Iteration: 600 | New Error: 0.07229529097263857
+Iteration: 450 | New Error: 0.10538091627670887
+Iteration: 500 | New Error: 0.08745527090067844
+Iteration: 300 | New Error: 0.14656560024412366
+Iteration: 650 | New Error: 0.0664669834618521
+Iteration: 550 | New Error: 0.08065222544189951
+Iteration: 450 | New Error: 0.09914995138643987
+Iteration: 700 | New Error: 0.06146552242971883
+Iteration: 50 | New Error: 0.8655861230807143
+Iteration: 350 | New Error: 0.1262685977421784
+Iteration: 500 | New Error: 0.08878500605973523
+Iteration: 550 | New Error: 0.07914833218398784
+Iteration: 750 | New Error: 0.05713041721249481
