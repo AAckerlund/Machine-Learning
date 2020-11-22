@@ -4,16 +4,16 @@ public class GATuner extends Tuner
 {
     private final ArrayList<Chromosome> weights;
 
-    private double[] crossoverRates;
+    private final double[] crossoverRates;
     private double bestCrossoverRate;
 
-    private double[] mutationRates;
+    private final double[] mutationRates;
     private double bestMutationRate;
 
-    private double[] variances;
+    private final double[] variances;
     private double bestVariance;
 
-    private int populationSize;
+    private final int populationSize;
     private int bestK;//1 to population size
 
     private double bestError;
