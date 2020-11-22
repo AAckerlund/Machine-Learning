@@ -204,6 +204,7 @@ public class Genetic extends Trainer
                     bestMSE = member.getFitness();
                 }
             }
+            System.out.println(bestMSE);
         }
 
 
