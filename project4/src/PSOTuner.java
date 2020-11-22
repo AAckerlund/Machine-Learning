@@ -51,7 +51,8 @@ public class PSOTuner extends Tuner
     void tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet)
     {
         PSO pso;
-        Network net;
+        // Initialize network with certain size
+        Network net = new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification);
         for(double inertia : inertias)
         {
             for(double cogBias : cogBiases)
@@ -60,10 +61,9 @@ public class PSOTuner extends Tuner
                 {
                     for(int i = 1; i < maxParticleCount; i++)
                     {
-                        net = new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification);
                         pso = new PSO(numValues, maxIterations, MSECutoff, i, inertia, cogBias, socialBias, net);
                         pso.train(trainingSet);
-                        double error = pso.bestMSE();
+                        double error = net.calculateMSError(tuningSet);
                         if(error < bestError)
                         {
                             bestError = error;
