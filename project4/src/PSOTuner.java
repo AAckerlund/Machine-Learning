@@ -41,7 +41,8 @@ public class PSOTuner extends Tuner
                 {
                     for(int i = 1; i < maxParticleCount; i++)
                     {
-                        pso = new PSO(numValues, maxIterations, i, inertia, cogBias, socialBias);
+                        // TODO: Fix this by storing parameters somewhere
+                        /*pso = new PSO(numValues, maxIterations, i, inertia, cogBias, socialBias, new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification));
                         pso.train();
                         double error = pso.calcMSE();
                         if(error < bestError)
@@ -51,7 +52,7 @@ public class PSOTuner extends Tuner
                             bestInertia = inertia;
                             bestParticleCount = i;
                             bestSocialBias = socialBias;
-                        }
+                        }*/
                     }
                 }
             }

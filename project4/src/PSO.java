@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PSO extends Trainer
 {
@@ -9,8 +10,9 @@ public class PSO extends Trainer
     private double cogBias;
     private double socBias;
     private Particle[] particles;
+    private Network nn;
 
-    public PSO (int numValues, int maxIterations, int numParticles, double inertia, double cogBias, double socBias) {
+    public PSO (int numValues, int maxIterations, int numParticles, double inertia, double cogBias, double socBias, Network nn) {
         // Creates a PSO object in a ring structure, 2 neighbors
         this.numParticles = numParticles;
         this.maxIterations = maxIterations;
@@ -19,6 +21,7 @@ public class PSO extends Trainer
         this.cogBias = cogBias;
         this.socBias = socBias;
         this.particles = new Particle[numParticles];
+        this.nn = nn;
 
         initializeSwarm();
     }
@@ -56,17 +59,19 @@ public class PSO extends Trainer
     }
 
     //TODO: move this to train()
-    private Chromosome trainPSO(ArrayList<Node> trainingSet, int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification) {
+    private void trainPSO(ArrayList<Node> trainingSet, boolean isClassification) {
         // train by moving every particle in iterations and comparing performances, return a chromosome with the best values
-        Network nn = new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification);
         //TODO: Define a termination condition for the training (convergence or max iterations)
         int iteration = 0;
+        Chromosome currentC = new Chromosome();
+
         while (iteration < maxIterations) {
             // Evaluation, pbest loop
             for (int i = 0; i < numParticles; i++) {
                 // evaluate particle performances, set pbests
                 Particle cParticle = particles[i];
-                //nn.updateChromosome(cParticle.getPosition());    // puts particle position into neural network
+                currentC.setWeights(cParticle.getPosition());    // update chromosome weights
+                nn.updateWeights(currentC);    // puts particle position into neural network
                 if (!isClassification) {    // use MSError for classification
                     double error = nn.calculateMSError(trainingSet);
                     if (error < cParticle.getPbestError()) {
@@ -103,13 +108,25 @@ public class PSO extends Trainer
                 cParticle.setPrevVelocity(vel);
             }
         }
-        return null;//TODO not sure if we need to change this but it was missing.
+
+        // Find best particle, update nn with the corresponding weights
+        double[] bestWeights = particles[0].getPbest(); // initialize to first value
+        double bestError = Double.MAX_VALUE;
+        for (Particle p : particles) {
+            if (p.getPbestError() < bestError) {
+                bestError = p.getPbestError();
+                bestWeights = p.getPbest();
+            }
+        }
+        Chromosome c = new Chromosome(bestWeights);
+        nn.updateWeights(c);
     }
 
     @Override
     void train()
     {
-
+        // TODO: take trainingset/test set as parameters
+        trainPSO(trainingSet, nn.isClassification());
     }
 
     @Override
