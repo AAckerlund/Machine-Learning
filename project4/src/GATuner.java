@@ -13,7 +13,8 @@ public class GATuner extends Tuner
     private final double[] variances;
     private double bestVariance;
 
-    private final int populationSize;
+    private final int maxPopulationSize;
+    private int bestPopSize;
     private int bestK;//1 to population size
 
     private double bestError;
@@ -42,8 +43,9 @@ public class GATuner extends Tuner
         this.variances = variances;
         bestVariance = 0;
 
-        this.populationSize = populationSize;
+        this.maxPopulationSize = populationSize;
         bestK = 0;
+        bestPopSize = 0;
 
         bestError = Double.MAX_VALUE;
     }
@@ -60,18 +62,22 @@ public class GATuner extends Tuner
             {
                 for(double variance : variances)
                 {
-                    for(int i = 2; i < populationSize; i+=2)
+                    for(int popSize = 8; popSize < maxPopulationSize; popSize+=4)
                     {
-                        GA = new Genetic(weights, crossoverRate, mutationRate, variance, i, net);
-                        GA.train(trainingSet);
-                        error = net.calculateMSError(tuningSet);
-                        if(error < bestError)
+                        for(int i = 2; i < popSize; i += 2)
                         {
-                            bestCrossoverRate = crossoverRate;
-                            bestMutationRate = mutationRate;
-                            bestVariance = variance;
-                            bestK = i;
-                            bestError = error;
+                            GA = new Genetic(weights, crossoverRate, mutationRate, variance, i, net);
+                            GA.train(trainingSet);
+                            error = net.calculateMSError(tuningSet);
+                            if(error < bestError)
+                            {
+                                bestCrossoverRate = crossoverRate;
+                                bestMutationRate = mutationRate;
+                                bestVariance = variance;
+                                bestK = i;
+                                bestPopSize = popSize;
+                                bestError = error;
+                            }
                         }
                     }
                 }
@@ -97,5 +103,10 @@ public class GATuner extends Tuner
     public int getBestK()
     {
         return bestK;
+    }
+    
+    public int getBestPopSize()
+    {
+        return bestPopSize;
     }
 }
