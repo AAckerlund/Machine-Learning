@@ -4,16 +4,16 @@ public class GATuner extends Tuner
 {
     private final ArrayList<Chromosome> weights;
 
-    private double[] crossoverRates;
+    private final double[] crossoverRates;
     private double bestCrossoverRate;
 
-    private double[] mutationRates;
+    private final double[] mutationRates;
     private double bestMutationRate;
 
-    private double[] variances;
+    private final double[] variances;
     private double bestVariance;
 
-    private int populationSize;
+    private final int populationSize;
     private int bestK;//1 to population size
 
     private double bestError;
@@ -60,9 +60,9 @@ public class GATuner extends Tuner
             {
                 for(double variance : variances)
                 {
-                    for(int i = 1; i < populationSize; i++)
+                    for(int i = 2; i < populationSize; i+=2)
                     {
-                        GA = new Genetic(weights, crossoverRate, mutationRate, variance, i, net, tuningSet);
+                        GA = new Genetic(weights, crossoverRate, mutationRate, variance, i, net);
                         GA.train(trainingSet);
                         error = net.calculateMSError(tuningSet);
                         if(error < bestError)
