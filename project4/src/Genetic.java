@@ -165,7 +165,7 @@ public class Genetic extends Trainer
         double bestMSE = Double.POSITIVE_INFINITY;
         //min iteration (15 to 20)
 
-        for(int i = 0; i<15; i++) {
+        for(int j = 0; j<15; j++) {
             for (Chromosome member : population) {
                 net.updateWeights(member);
                 member.setFitness(net.calculateMSError(trainingSet));
@@ -184,7 +184,7 @@ public class Genetic extends Trainer
                     mother = tournamentSelection(population);
                 }
                 Chromosome[] children = singlePointCrossover(father, mother, crossoverRate);
-                for (int j = 0; j < children.length; j++) {
+                for (int k = 0; k < children.length; k++) {
                     Chromosome mutatedChild = mutation(children[j], mutationRate, variance);
                     mutatedChildren.add(mutatedChild);
                 }

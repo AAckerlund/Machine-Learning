@@ -3,22 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-/*
-TODO
-Select() - Elijah (Alex join when done other stuff)
-replacement() - Elijah (Alex join when done other stuff)
-Particle datastructure - Jon
-Particle Update - Jon
-Multithread - Alex
-
-Modify NN to use chromosomes - Alex (add method to modify weights) DONE
-crossover() - Elijah (Alex join when done other stuff) DONE
-mutate() - Elijah  (Alex join when done other stuff) DONE
-Cross entropy for classification - Elijah (pull from p3) DONE
-chromosome datastructure - Alex DONE
-Parse backprop data for regression sets - Elijah DONE
- */
-
 public class Driver extends Thread//extending Thread allows for multithreading
 {
 	String fileStart = "dataSets/", fileEnd = ".data", filePath, dataPath, trainer;
@@ -219,16 +203,16 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		//String[] trainers = {"GA", "DE", "PSO"};
 		//use these if you want to run all the data sets
-
-		/*String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
-		int[][] nodesPerLayer = {//TODO replace with real values
+		
+		/*String[] trainers = {"GA", "DE", "PSO"};
+		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+		int[][] nodesPerLayer = {
 				{}, {5}, {1, 7},//abalone
 				{}, {1}, {1, 9},//cancer
 				{}, {10}, {3, 10},//fires
 				{}, {9}, {4, 10},//glass
-				{}, {10}, {1, 8},//machine - dummy
+				{}, {10}, {1, 8},//machine
 				{}, {29}, {10, 10},//beans
 		};
 		int nodeCountCounter = 0;

@@ -17,9 +17,20 @@ public class GATuner extends Tuner
     private int bestK;//1 to population size
 
     private double bestError;
+    
+    private final int inputLayerNodeNum;
+    private final int[] hiddenLayerNodeNums;
+    private final double[] outputLayerClasses;
+    private final boolean isClassification;
 
-    public GATuner(double[] crossoverRates, double[] mutationRates, double[] variances, int populationSize, ArrayList<Chromosome> weights)
+    public GATuner(double[] crossoverRates, double[] mutationRates, double[] variances, int populationSize, ArrayList<Chromosome> weights,
+                   int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification)
     {
+        this.inputLayerNodeNum = inputLayerNodeNum;
+        this.hiddenLayerNodeNums = hiddenLayerNodeNums;
+        this.outputLayerClasses = outputLayerClasses;
+        this.isClassification = isClassification;
+        
         this.weights = weights;
 
         this.crossoverRates = crossoverRates;
@@ -42,6 +53,7 @@ public class GATuner extends Tuner
     {
         Trainer GA;
         double error;
+        Network net = new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification);
         for(double crossoverRate : crossoverRates)
         {
             for(double mutationRate : mutationRates)
@@ -50,9 +62,9 @@ public class GATuner extends Tuner
                 {
                     for(int i = 1; i < populationSize; i++)
                     {
-                        GA = new Genetic(weights, crossoverRate, mutationRate, variance, i);
-                        GA.train();
-                        error = nn.calcbestmserror
+                        GA = new Genetic(weights, crossoverRate, mutationRate, variance, i, net, tuningSet);
+                        GA.train(trainingSet);
+                        error = net.calculateMSError(tuningSet);
                         if(error < bestError)
                         {
                             bestCrossoverRate = crossoverRate;
