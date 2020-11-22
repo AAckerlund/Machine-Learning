@@ -1,8 +1,16 @@
+import java.util.ArrayList;
+
 public class PSOTuner extends Tuner
 {
     private double bestError;
     private final int maxIterations;
     private final int numValues;
+    
+    private double[] outputLayerClasses;
+    private final boolean isClassification;
+    
+    private final int inputLayerNodeNum;
+    private final int[] hiddenLayerNodeNums;
 
     private int bestParticleCount;
     private final int maxParticleCount;
@@ -16,11 +24,17 @@ public class PSOTuner extends Tuner
     private double bestSocialBias;
     private double[] socialBiases;
 
-    public PSOTuner(int particleCount, double[] inertias, double[] cogBiases, double[] socialBiases, int maxIterations, int numValues)
+    public PSOTuner(int particleCount, double[] inertias, double[] cogBiases, double[] socialBiases, int maxIterations, int numValues, int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification)
     {
         this.numValues = numValues;
         this.maxIterations = maxIterations;
         maxParticleCount = particleCount;
+        
+        this.inputLayerNodeNum = inputLayerNodeNum;
+        this.hiddenLayerNodeNums = hiddenLayerNodeNums;
+        
+        this.outputLayerClasses = outputLayerClasses;
+        this.isClassification = isClassification;
 
         this.inertias = inertias;
         this.cogBiases = cogBiases;
@@ -30,9 +44,10 @@ public class PSOTuner extends Tuner
     }
 
     @Override
-    void tune()
+    void tune(ArrayList<Node> trainingSet, ArrayList<Node> tuningSet)
     {
         PSO pso;
+        Network net;
         for(double inertia : inertias)
         {
             for(double cogBias : cogBiases)
@@ -41,9 +56,10 @@ public class PSOTuner extends Tuner
                 {
                     for(int i = 1; i < maxParticleCount; i++)
                     {
-                        pso = new PSO(numValues, maxIterations, i, inertia, cogBias, socialBias);
+                        net = new Network(inputLayerNodeNum,hiddenLayerNodeNums,outputLayerClasses,isClassification);
+                        pso = new PSO(numValues, maxIterations, i, inertia, cogBias, socialBias, net);
                         pso.train();
-                        double error = pso.calcMSE();
+                        double error = pso.bestMSE();
                         if(error < bestError)
                         {
                             bestError = error;
