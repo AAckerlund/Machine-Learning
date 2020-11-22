@@ -17,9 +17,12 @@ public class GATuner extends Tuner
     private int bestK;//1 to population size
 
     private double bestError;
+    
+    private Network net;
 
-    public GATuner(double[] crossoverRates, double[] mutationRates, double[] variances, int populationSize, ArrayList<Chromosome> weights)
+    public GATuner(double[] crossoverRates, double[] mutationRates, double[] variances, int populationSize, ArrayList<Chromosome> weights, Network net)
     {
+        this.net = net;
         this.weights = weights;
 
         this.crossoverRates = crossoverRates;
@@ -50,9 +53,9 @@ public class GATuner extends Tuner
                 {
                     for(int i = 1; i < populationSize; i++)
                     {
-                        GA = new Genetic(weights, crossoverRate, mutationRate, variance, i);
-                        GA.train();
-                        error = GA.bestMSE();
+                        GA = new Genetic(weights, crossoverRate, mutationRate, variance, i, net, tuningSet);
+                        GA.train(trainingSet);
+                        error = net.calculateMSError(tuningSet);
                         if(error < bestError)
                         {
                             bestCrossoverRate = crossoverRate;
