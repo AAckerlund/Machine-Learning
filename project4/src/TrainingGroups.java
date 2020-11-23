@@ -17,7 +17,7 @@ public class TrainingGroups
 		this.fullDataSet = new ArrayList<>(dataset);
 		sortData();
 		partitionData();    // split data into 'folds' number of groups
-		this.testSetIndex = 0;
+		this.testSetIndex = testSetIndex;
 	}
 	
 	private void sortData()
