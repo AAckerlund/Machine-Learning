@@ -117,6 +117,7 @@ public class Network
 						value.connectOutput(neuron);
 					else
 					{
+						System.out.println("hi");
 						value.connectOutput(neuron, weights.getWeights().get(curWeight));
 						curWeight++;
 					}
