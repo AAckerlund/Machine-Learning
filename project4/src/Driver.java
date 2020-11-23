@@ -183,9 +183,12 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		switch(trainer)	// choose trainer
 		{
 			case "PSO" -> {
-				trainingAlgo = new PSO(numWeights, 10000, 0.001, ((PSOTuner) tuner).getBestParticleCount(),
-						((PSOTuner) tuner).getBestInertia(), ((PSOTuner) tuner).getBestCogBias(),
-						((PSOTuner) tuner).getBestSocialBias(), net);
+				PSOTuner psoTuner = (PSOTuner) tuner;
+				Printer.println(filePath, "Particles " + psoTuner.getBestParticleCount() + "\tInertia " +
+						psoTuner.getBestInertia() + "\tCogBias " + psoTuner.getBestCogBias() + "\tSocBias " +
+						psoTuner.getBestSocialBias());
+				trainingAlgo = new PSO(numWeights, 100, 0.001, psoTuner.getBestParticleCount(),
+						psoTuner.getBestInertia(), psoTuner.getBestCogBias(), psoTuner.getBestSocialBias(), net);
 			}
 			case "GA" -> {
 				trainingAlgo = new Genetic(initPop(((GATuner)tuner).getBestPopSize(), dataset.get(0).getData().length, classes, !isRegression), ((GATuner)tuner).getBestCrossoverRate(),
@@ -262,7 +265,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		String[] trainers = {"GA"/*, "DE", "PSO"*/};
+		String[] trainers = {/*"GA", "DE", */"PSO"};
 		//use these if you want to run all the data sets
 
 		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
