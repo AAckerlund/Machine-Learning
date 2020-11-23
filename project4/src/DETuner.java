@@ -15,14 +15,20 @@ public class DETuner extends Tuner
     private final int[] hiddenLayerNodeNums;
     private final double[] outputLayerClasses;
     private final boolean isClassification;
+
+    private final int maxPopulationSize;
+    private int bestPopSize;
     
-    public DETuner(ArrayList<Chromosome> weights, double[] crossoverRates, double[] betas, int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification)
+    public DETuner(ArrayList<Chromosome> weights, double[] crossoverRates, double[] betas, int populationSize, int inputLayerNodeNum, int[] hiddenLayerNodeNums, double[] outputLayerClasses, boolean isClassification)
     {
         this.weights = weights;
         bestError = Double.MAX_VALUE;
         
         this.crossoverRates = crossoverRates;
         this.betas = betas;
+
+        this.maxPopulationSize = populationSize;
+        bestPopSize = 0;
         
         this.inputLayerNodeNum = inputLayerNodeNum;
         this.hiddenLayerNodeNums = hiddenLayerNodeNums;
@@ -39,14 +45,15 @@ public class DETuner extends Tuner
         {
             for(double beta : betas)
             {
-                DE = new DifferentialEvolution(weights, beta, crossoverRate, net);
-                DE.train(trainingSet);
-                error = net.calculateMSError(tuningSet);
-                if(error < bestError)
-                {
-                    bestCrossoverRate = crossoverRate;
-                    bestBeta = beta;
-                    bestError = error;
+                for(int popSize = 10; popSize < maxPopulationSize; popSize+=10) {
+                    DE = new DifferentialEvolution(weights, beta, crossoverRate, net);
+                    DE.train(trainingSet);
+                    error = net.calculateMSError(tuningSet);
+                    if (error < bestError) {
+                        bestCrossoverRate = crossoverRate;
+                        bestBeta = beta;
+                        bestError = error;
+                    }
                 }
             }
         }
@@ -60,5 +67,10 @@ public class DETuner extends Tuner
     public double getBestBeta()
     {
         return bestBeta;
+    }
+
+    public int getBestPopSize()
+    {
+        return bestPopSize;
     }
 }

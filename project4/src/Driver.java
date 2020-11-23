@@ -191,6 +191,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				trainingAlgo = new Genetic(initPop(((GATuner)tuner).getBestPopSize(), dataset.get(0).getData().length, classes, !isRegression), ((GATuner)tuner).getBestCrossoverRate(),
 						((GATuner)tuner).getBestMutationRate(), ((GATuner)tuner).getBestVariance(), ((GATuner)tuner).getBestK(), net);
 			}
+			case "DE" -> {
+				trainingAlgo = new DifferentialEvolution(initPop(((DETuner)tuner).getBestPopSize(), dataset.get(0).getData().length, classes, !isRegression), ((DETuner)tuner).getBestBeta(), ((DETuner)tuner).getBestCrossoverRate(), net);
+			}
 		}
 		System.out.println("Started training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 		trainingAlgo.train(trainingSet);

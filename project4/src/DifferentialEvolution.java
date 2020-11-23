@@ -124,6 +124,7 @@ public class DifferentialEvolution extends Trainer{
             }
             System.out.println(bestMSE);
         }
+        System.out.println("DONE");
 
         /*for(Chromosome member: newPopulation){
             System.out.println(member.getWeights());
