@@ -70,7 +70,9 @@ public class Neuron
 	//also assigns saves this node as input to the next node for easy weight access in backpropagation
 	public void connectOutput(Neuron n)
 	{
-		outputs.add(n);
+		if (!outputs.contains(n)) {
+			outputs.add(n);
+		}
 		weights.put(n, (0.01 - Math.random() * 0.02));
 		n.connectInput(this);    // save this node as input to complete double linked list
 		
@@ -79,14 +81,18 @@ public class Neuron
 	//overloading the function so that we can choose to use predetermined values (like from a Chromosome) or not.
 	public void connectOutput(Neuron n, double weight)
 	{
-		outputs.add(n);
+		if (!outputs.contains(n)) {
+			outputs.add(n);
+		}
 		weights.put(n, weight);
 		n.connectInput(this);
 	}
 	
 	public void connectInput(Neuron n)
 	{
-		inputs.add(n);
+		if (!inputs.contains(n)) {
+			inputs.add(n);
+		}
 	}
 	
 	//various getters and setters

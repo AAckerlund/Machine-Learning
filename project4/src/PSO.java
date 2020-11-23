@@ -109,6 +109,7 @@ public class PSO extends Trainer
                 cParticle.setPosition(AM.add(cParticle.getPosition(), vel));
                 cParticle.setPrevVelocity(vel);
             }
+            iteration++;
         }
 
         // Find best particle, update nn with the corresponding weights
