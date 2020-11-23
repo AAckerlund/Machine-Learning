@@ -134,6 +134,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	
 	public void runExperiment(ArrayList<Node> dataset, double[] classes, boolean isRegression)
 	{
+		//TODO: implement changing the sets for each fold
 		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
 		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};    // includes 0 for no momentum
 
@@ -255,17 +256,17 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		int nodeCountCounter = 0;
 		for(String file : files)//create a new instance of the driver for each of the data sets.
 		{
-			for(int layer = 0; layer < 3; layer++)
+			/*for(int layer = 0; layer < 3; layer++)
 			{
 				for(int fold = 0; fold < 10; fold++)
-				{
+				{*/
 					for(String t : trainers)
 					{
-						new Driver(file, nodesPerLayer[nodeCountCounter], fold, t).start();//Starts a new thread
+						new Driver(file, nodesPerLayer[nodeCountCounter], 0, t).start();//Starts a new thread
 					}
-				}
+				/*}
 				nodeCountCounter++;
-			}
+			}*/
 		}
 
 		//DataParser dp = new DataParser();
