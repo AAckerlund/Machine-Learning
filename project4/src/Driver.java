@@ -283,7 +283,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				{*/
 					for(String t : trainers)
 					{
-						new Driver(file, nodesPerLayer[nodeCountCounter], 0, t).run();//Starts a new thread
+						new Driver(file, nodesPerLayer[nodeCountCounter], 0, t).start();//Starts a new thread
 					}
 				/*}
 				nodeCountCounter++;
