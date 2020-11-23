@@ -30,35 +30,35 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		{//since each dataset is different it needs its own parse function
 			case "abalone" -> {
 				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold;
+				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Abalone");
 			}
 			case "breast-cancer-wisconsin" -> {
 				nodes = p.cancerParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold;
+				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
 				Printer.println(filePath, "Done Cancer");
 			}
 			case "forestfires" -> {
 				nodes = p.firesParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold;
+				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Forest Fires");
 			}
 			case "glass" -> {
 				nodes = p.glassParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold;
+				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
 				Printer.println(filePath, "Done Glass");
 			}
 			case "machine" -> {
 				nodes = p.machineParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold;
+				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Machine");
 			}
 			case "soybean-small" -> {
 				nodes = p.beanParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold;
+				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
 				Printer.println(filePath, "Done Soybean");
 			}
 			default -> System.err.println("Bad file path: " + filePath);
@@ -157,7 +157,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			
 			case "GA" -> {
 				tuner = new GATuner(new double[]{0, .1, .5, .9, 1}, new double[]{0, .1, .5, .9, 1}, new double[]{0.001, 0.01, 0.1},
-						100, initPop(100), trainingSet.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
+						100, initPop(100, dataset.get(0).getData().length, classes, !isRegression), trainingSet.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
 			}
 			default -> System.err.println("Bad trainer name: " + trainer);
 		}
@@ -188,7 +188,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 						((PSOTuner) tuner).getBestSocialBias(), net);
 			}
 			case "GA" -> {
-				trainingAlgo = new Genetic(initPop(((GATuner)tuner).getBestPopSize()), ((GATuner)tuner).getBestCrossoverRate(),
+				trainingAlgo = new Genetic(initPop(((GATuner)tuner).getBestPopSize(), dataset.get(0).getData().length, classes, !isRegression), ((GATuner)tuner).getBestCrossoverRate(),
 						((GATuner)tuner).getBestMutationRate(), ((GATuner)tuner).getBestVariance(), ((GATuner)tuner).getBestK(), net);
 			}
 		}
@@ -246,12 +246,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return nn.getNumWeights();
 	}
 	
-	public ArrayList<Chromosome> initPop(int size)
+	public ArrayList<Chromosome> initPop(int size, int inputLayerNum, double[] classes, boolean isClassification)
 	{
 		ArrayList<Chromosome> pop = new ArrayList<>();
+		int num = calcNumWeights(inputLayerNum, classes, isClassification);
 		for(int i = 0; i < size; i++)
 		{
-			pop.add(new Chromosome());
+			pop.add(new Chromosome(num));
 		}
 		return pop;
 	}
@@ -282,7 +283,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				{*/
 					for(String t : trainers)
 					{
-						new Driver(file, nodesPerLayer[nodeCountCounter], 0, t).start();//Starts a new thread
+						new Driver(file, nodesPerLayer[nodeCountCounter], 0, t).run();//Starts a new thread
 					}
 				/*}
 				nodeCountCounter++;
