@@ -30,35 +30,35 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		{//since each dataset is different it needs its own parse function
 			case "abalone" -> {
 				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Abalone");
 			}
 			case "breast-cancer-wisconsin" -> {
 				nodes = p.cancerParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				Printer.println(filePath, "Done Cancer");
 			}
 			case "forestfires" -> {
 				nodes = p.firesParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Forest Fires");
 			}
 			case "glass" -> {
 				nodes = p.glassParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				Printer.println(filePath, "Done Glass");
 			}
 			case "machine" -> {
 				nodes = p.machineParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Machine");
 			}
 			case "soybean-small" -> {
 				nodes = p.beanParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				Printer.println(filePath, "Done Soybean");
 			}
 			default -> System.err.println("Bad file path: " + filePath);

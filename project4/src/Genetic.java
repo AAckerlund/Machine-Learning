@@ -185,7 +185,7 @@ public class Genetic extends Trainer
                 }
                 Chromosome[] children = singlePointCrossover(father, mother, crossoverRate);
                 for (int k = 0; k < children.length; k++) {
-                    Chromosome mutatedChild = mutation(children[j], mutationRate, variance);
+                    Chromosome mutatedChild = mutation(children[k], mutationRate, variance);
                     mutatedChildren.add(mutatedChild);
                 }
             }
@@ -204,7 +204,7 @@ public class Genetic extends Trainer
                     bestMSE = member.getFitness();
                 }
             }
-            System.out.println(bestMSE);
+            //System.out.println(bestMSE);
         }
 
 
