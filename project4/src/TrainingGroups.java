@@ -11,7 +11,7 @@ public class TrainingGroups
 	private final int folds = 10;    // Do 10-fold cross-validation
 	private int testSetIndex;   // Indicates which fold to select as the test data
 	
-	public TrainingGroups(ArrayList<Node> dataset)
+	public TrainingGroups(ArrayList<Node> dataset, int testSetIndex)
 	{
 		this.groups = new ArrayList<>();
 		this.fullDataSet = new ArrayList<>(dataset);

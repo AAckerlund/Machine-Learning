@@ -30,35 +30,35 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		{//since each dataset is different it needs its own parse function
 			case "abalone" -> {
 				nodes = p.abaloneParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Abalone");
 			}
 			case "breast-cancer-wisconsin" -> {
 				nodes = p.cancerParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				Printer.println(filePath, "Done Cancer");
 			}
 			case "forestfires" -> {
 				nodes = p.firesParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Forest Fires");
 			}
 			case "glass" -> {
 				nodes = p.glassParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				Printer.println(filePath, "Done Glass");
 			}
 			case "machine" -> {
 				nodes = p.machineParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				isRegression = true;
 				Printer.println(filePath, "Done Machine");
 			}
 			case "soybean-small" -> {
 				nodes = p.beanParser(fileStart + filePath + fileEnd);
-				filePath +=  "_" + hiddenLayers + "_" + fold + trainer;
+				filePath +=  "_" + hiddenLayers + "_" + fold + "_" + trainer;
 				Printer.println(filePath, "Done Soybean");
 			}
 			default -> System.err.println("Bad file path: " + filePath);
@@ -138,7 +138,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
 		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};    // includes 0 for no momentum
 
-		TrainingGroups groups = new TrainingGroups(dataset);
+		TrainingGroups groups = new TrainingGroups(dataset, fold);
 		int numAttrValues = dataset.get(0).getData().length;
 		int numWeights = calcNumWeights(dataset.get(0).getData().length, classes, !isRegression);
 
@@ -183,9 +183,12 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		switch(trainer)	// choose trainer
 		{
 			case "PSO" -> {
-				trainingAlgo = new PSO(numWeights, 10000, 0.001, ((PSOTuner) tuner).getBestParticleCount(),
-						((PSOTuner) tuner).getBestInertia(), ((PSOTuner) tuner).getBestCogBias(),
-						((PSOTuner) tuner).getBestSocialBias(), net);
+				PSOTuner psoTuner = (PSOTuner) tuner;
+				Printer.println(filePath, "Particles " + psoTuner.getBestParticleCount() + "\tInertia " +
+						psoTuner.getBestInertia() + "\tCogBias " + psoTuner.getBestCogBias() + "\tSocBias " +
+						psoTuner.getBestSocialBias());
+				trainingAlgo = new PSO(numWeights, 100, 0.001, psoTuner.getBestParticleCount(),
+						psoTuner.getBestInertia(), psoTuner.getBestCogBias(), psoTuner.getBestSocialBias(), net);
 			}
 			case "GA" -> {
 				trainingAlgo = new Genetic(initPop(((GATuner)tuner).getBestPopSize(), dataset.get(0).getData().length, classes, !isRegression), ((GATuner)tuner).getBestCrossoverRate(),
@@ -265,7 +268,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		String[] trainers = {"GA"/*, "DE", "PSO"*/};
+		String[] trainers = {/*"GA", "DE", */"PSO"};
 		//use these if you want to run all the data sets
 
 		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
@@ -280,17 +283,17 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		int nodeCountCounter = 0;
 		for(String file : files)//create a new instance of the driver for each of the data sets.
 		{
-			/*for(int layer = 0; layer < 3; layer++)
+			for(int layer = 0; layer < 3; layer++)
 			{
 				for(int fold = 0; fold < 10; fold++)
-				{*/
+				{
 					for(String t : trainers)
 					{
-						new Driver(file, nodesPerLayer[nodeCountCounter], 0, t).start();//Starts a new thread
+						new Driver(file, nodesPerLayer[nodeCountCounter], fold, t).start();//Starts a new thread
 					}
-				/*}
+				}
 				nodeCountCounter++;
-			}*/
+			}
 		}
 
 		//DataParser dp = new DataParser();
