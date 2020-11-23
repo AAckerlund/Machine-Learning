@@ -9,10 +9,14 @@ public class Chromosome {
     {
     }
 
-    /*public Chromosome(int weightSize)
+    public Chromosome(int weightSize)
     {
-        weights = new double[weightSize];
-    }*/
+        weights = new ArrayList<>();
+        for(int i = 0; i < weightSize; i++)
+        {
+            weights.add(Math.random());
+        }
+    }
 
     public Chromosome(ArrayList<Double> weights)
     {
