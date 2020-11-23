@@ -159,6 +159,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				tuner = new GATuner(new double[]{0, .1, .5, .9, 1}, new double[]{0, .1, .5, .9, 1}, new double[]{0.001, 0.01, 0.1},
 						100, initPop(100, dataset.get(0).getData().length, classes, !isRegression), trainingSet.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
 			}
+			case "DE" -> {
+				tuner = new DETuner(initPop(100, dataset.get(0).getData().length, classes, !isRegression), new double[]{0, .1, .5, .9, 1}, new double[]{0, .5, 1, 1.5, 2}, 100, trainingSet.get(0).getData().length, hiddenLayerCount, classes, !isRegression);
+			}
 			default -> System.err.println("Bad trainer name: " + trainer);
 		}
 
@@ -268,7 +271,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		String[] trainers = {/*"GA", "DE", */"PSO"};
+		String[] trainers = {/*"GA",*/ "DE"/*, "PSO"*/};
 		//use these if you want to run all the data sets
 
 		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};

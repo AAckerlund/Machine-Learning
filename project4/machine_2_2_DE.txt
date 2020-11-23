@@ -1,0 +1,82 @@
+Done Machine
+Iteration: 0 | New Error: 0.8954991465139516
+
+Iteration: 2 | Best Mean-Squared-Error: 0.8954644186127944
+
+Iteration: 0 | New Error: 0.8958623248623439
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8958623248623439
+
+Iteration: 0 | New Error: 0.8956497156954216
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8956497156954216
+
+Iteration: 0 | New Error: 0.895646978968125
+
+Iteration: 1 | Best Mean-Squared-Error: 0.895646978968125
+
+Iteration: 0 | New Error: 0.8954461852448347
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8954461852448347
+
+Iteration: 0 | New Error: 0.8955432407303862
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8955432407303862
+
+Iteration: 0 | New Error: 0.8955717382165229
+
+Iteration: 2 | Best Mean-Squared-Error: 0.4362224717254756
+
+Iteration: 0 | New Error: 0.8954624123290564
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8954624123290564
+
+Iteration: 0 | New Error: 0.8954548314365897
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8954548314365897
+
+Iteration: 0 | New Error: 0.8954489736490465
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8954489736490465
+
+Iteration: 0 | New Error: 0.8954542956794491
+
+Iteration: 2 | Best Mean-Squared-Error: 0.5267308590762015
+
+Iteration: 0 | New Error: 0.8954552761788283
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8954552761788283
+
+Iteration: 0 | New Error: 0.8960588596274591
+
+Iteration: 4 | Best Mean-Squared-Error: 0.8954116574017345
+
+Iteration: 0 | New Error: 0.895470572128527
+
+Iteration: 1 | Best Mean-Squared-Error: 0.895470572128527
+
+Iteration: 0 | New Error: 0.8954469339030501
+
+Iteration: 2 | Best Mean-Squared-Error: 0.5072941681117893
+
+Iteration: 0 | New Error: 0.8957051848051175
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8957051848051175
+
+Iteration: 0 | New Error: 0.8957566782094782
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8957566782094782
+
+Iteration: 0 | New Error: 0.8954464537554446
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8954464537554446
+
+Iteration: 0 | New Error: 0.8954598302087532
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8954598302087532
+
+Iteration: 0 | New Error: 0.8954466348188332
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8954466348188332
+
+Done Machine

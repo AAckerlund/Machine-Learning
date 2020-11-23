@@ -1,0 +1,36 @@
+Done Cancer
+Iteration: 0 | New Error: 0.4998930201497828
+
+Iteration: 3 | Best Mean-Squared-Error: 0.4991765837679054
+
+Iteration: 0 | New Error: 0.4998638346228489
+
+Iteration: 1 | Best Mean-Squared-Error: 0.4998638346228489
+
+Iteration: 0 | New Error: 0.49947350916749467
+
+Iteration: 1 | Best Mean-Squared-Error: 0.49947350916749467
+
+Iteration: 0 | New Error: 0.49969872635618756
+
+Iteration: 1 | Best Mean-Squared-Error: 0.49969872635618756
+
+Iteration: 0 | New Error: 0.49933946357650805
+
+Iteration: 1 | Best Mean-Squared-Error: 0.49933946357650805
+
+Iteration: 0 | New Error: 0.50047050722659
+
+Iteration: 1 | Best Mean-Squared-Error: 0.50047050722659
+
+Iteration: 0 | New Error: 0.500585571712207
+Iteration: 50 | New Error: 0.04897890091242071
+
+Iteration: 57 | Best Mean-Squared-Error: 0.048759577336722544
+
+Iteration: 0 | New Error: 0.500721985511026
+
+Iteration: 1 | Best Mean-Squared-Error: 0.500721985511026
+
+Iteration: 0 | New Error: 0.49997260323253834
+Done Cancer

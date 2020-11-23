@@ -1,0 +1,4 @@
+Done Cancer
+Iteration: 0 | New Error: 0.5010465851580251
+Iteration: 50 | New Error: 0.06781267293784053
+Done Cancer

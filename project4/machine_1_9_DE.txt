@@ -1,0 +1,19 @@
+Done Machine
+Iteration: 0 | New Error: 0.8954333627871564
+
+Iteration: 10 | Best Mean-Squared-Error: 0.42409311680251344
+
+Iteration: 0 | New Error: 0.8955738350945965
+
+Iteration: 2 | Best Mean-Squared-Error: 0.46698107434915115
+
+Iteration: 0 | New Error: 0.8952903846924504
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8952903846924504
+
+Iteration: 0 | New Error: 0.8956778866693459
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8956778866693459
+
+Iteration: 0 | New Error: 0.8956177113430542
+Done Machine

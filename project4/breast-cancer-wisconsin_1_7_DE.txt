@@ -1,0 +1,7 @@
+Done Cancer
+Iteration: 0 | New Error: 0.49945946602167823
+
+Iteration: 2 | Best Mean-Squared-Error: 0.4991486712795434
+
+Iteration: 0 | New Error: 0.49967230983288746
+Done Cancer

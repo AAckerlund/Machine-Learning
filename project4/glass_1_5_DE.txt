@@ -1,0 +1,3 @@
+Done Glass
+Iteration: 0 | New Error: 1.509565083619015
+Done Glass
