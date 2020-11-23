@@ -50,3 +50,4 @@ Iteration: 1 | Best Mean-Squared-Error: 0.9029788322037395
 
 Iteration: 0 | New Error: 0.932618461851093
 Done Machine
+Done Machine

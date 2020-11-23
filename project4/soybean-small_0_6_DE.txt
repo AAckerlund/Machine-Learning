@@ -6,3 +6,4 @@ Iteration: 150 | New Error: 0.266930646836191
 Iteration: 200 | New Error: 0.21024444724148372
 Iteration: 250 | New Error: 0.17215662669549198
 Done Soybean
+Done Soybean

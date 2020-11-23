@@ -80,3 +80,4 @@ Iteration: 0 | New Error: 0.8955800107241898
 Iteration: 1 | Best Mean-Squared-Error: 0.8955800107241898
 
 Done Machine
+Done Machine

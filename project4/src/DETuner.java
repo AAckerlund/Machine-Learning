@@ -52,6 +52,7 @@ public class DETuner extends Tuner
                     if (error < bestError) {
                         bestCrossoverRate = crossoverRate;
                         bestBeta = beta;
+                        bestPopSize = popSize;
                         bestError = error;
                     }
                 }

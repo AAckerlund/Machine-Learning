@@ -6,3 +6,4 @@ Iteration: 77 | Best Mean-Squared-Error: 0.9715897654174913
 
 Iteration: 0 | New Error: 1.501512187064827
 Done Glass
+Done Glass

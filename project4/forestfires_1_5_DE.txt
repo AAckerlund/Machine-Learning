@@ -25,3 +25,4 @@ Iteration: 1 | Best Mean-Squared-Error: 0.5252290787172741
 
 Iteration: 0 | New Error: 0.5245192781214993
 Done Forest Fires
+Done Forest Fires

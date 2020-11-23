@@ -1,3 +1,4 @@
 Done Soybean
 Iteration: 0 | New Error: 0.9967296349039437
 Done Soybean
+Done Soybean
