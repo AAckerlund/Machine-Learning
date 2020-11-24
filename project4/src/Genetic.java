@@ -108,56 +108,35 @@ public class Genetic extends Trainer
         return mutatedChromosome;
     }
 
-    public ArrayList<Chromosome> steadyStateReplacement(ArrayList<Chromosome> mutatedChildren){
-        ArrayList<Chromosome> chromosomesToKill = new ArrayList<>();
+    public ArrayList<Chromosome> generationalReplacement(ArrayList<Chromosome> mutatedChildren){
         ArrayList<Chromosome> chromosomesToSurvive = new ArrayList<>();
         for(int i = 0; i<replacedIndividuals; i++) {
-            double worstFitness = 0;
-            Chromosome weakestChromosome = new Chromosome();
+            double bestFitness = Double.POSITIVE_INFINITY;
+
+            Chromosome strongestChromosome = new Chromosome();
             for (int j = 0; j < population.size(); j++) {
-                if (population.get(j).getFitness() > worstFitness && !chromosomesToKill.contains(population.get(j))) {
-                    weakestChromosome = population.get(j);
-                    worstFitness = population.get(j).getFitness();
+                if (population.get(j).getFitness() < bestFitness && !chromosomesToSurvive.contains(population.get(j))) {
+                    strongestChromosome = population.get(j);
+                    bestFitness = population.get(j).getFitness();
                 }
             }
-            chromosomesToKill.add(weakestChromosome);
-        }
-        for(int i = 0; i<population.size(); i++){
-            if(!chromosomesToKill.contains(population.get(i))){
-                chromosomesToSurvive.add(population.get(i));
-            }
+            chromosomesToSurvive.add(strongestChromosome);
+
         }
 
-        ArrayList<Chromosome> bestOfChildrenAndParents = new ArrayList<>();
-
-        for(int i = 0; i<mutatedChildren.size(); i++){
-            Chromosome best = new Chromosome();
-            best.setFitness(Double.POSITIVE_INFINITY);
-            double bestFitness = best.getFitness();
-            for(int j = 0; j<mutatedChildren.size(); j++){
-                if(mutatedChildren.get(j).getFitness() < bestFitness){
-                    bestFitness = mutatedChildren.get(j).getFitness();
-                    best = mutatedChildren.get(j);
-                }
-            }
-            for(int j = 0; j<chromosomesToKill.size(); j++){
-                if(chromosomesToKill.get(j).getFitness() < bestFitness){
-                    bestFitness = mutatedChildren.get(j).getFitness();
-                    best = mutatedChildren.get(j);
-                }
-            }
-            bestOfChildrenAndParents.add(best);
-        }
+        System.out.println(" CTS SIZE: " + chromosomesToSurvive.size());
 
         ArrayList<Chromosome> newPopulationList = new ArrayList<>();
-        for(Chromosome best: bestOfChildrenAndParents){
-            newPopulationList.add(best);
+        for(Chromosome mutatedChild: mutatedChildren){
+            newPopulationList.add(mutatedChild);
         }
         for(Chromosome chromosomeToSurvive: chromosomesToSurvive){
             newPopulationList.add(chromosomeToSurvive);
         }
         return newPopulationList;
     }
+
+
 
     @Override
     void train(ArrayList<Node> trainingSet)
@@ -196,7 +175,7 @@ public class Genetic extends Trainer
             }
 
 
-            ArrayList<Chromosome> newPopulation = steadyStateReplacement(mutatedChildren);
+            ArrayList<Chromosome> newPopulation = generationalReplacement(mutatedChildren);
             population = newPopulation;
 
             for (Chromosome member : population) {
@@ -215,4 +194,62 @@ public class Genetic extends Trainer
         System.out.println();*/
 
     }
+
+    void testtrain()
+    {
+        double bestMSE = Double.POSITIVE_INFINITY;
+        //min iteration (15 to 20)
+
+            /*for (Chromosome member : population) {
+                net.updateWeights(member);
+                member.setFitness(net.calculateMSError(trainingSet));
+            }*/
+
+        for(int g = 0; g<20; g++) {
+            for (Chromosome member : population) {
+                System.out.println(member.getWeights());
+            }
+            System.out.println();
+
+            ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
+            for (int i = 0; i < ((population.size() - replacedIndividuals) / 2); i++) {
+                Chromosome father = tournamentSelection(population);
+                Chromosome mother = tournamentSelection(population);
+                while (father == mother) {    //father and mother can not be the same
+                    mother = tournamentSelection(population);
+                }
+                Chromosome[] children = singlePointCrossover(father, mother, crossoverRate);
+                for (int k = 0; k < children.length; k++) {
+                    Chromosome mutatedChild = mutation(children[k], mutationRate, variance);
+                    mutatedChildren.add(mutatedChild);
+                }
+            }
+
+            /*for (Chromosome mutatedChild : mutatedChildren) {
+                net.updateWeights(mutatedChild);
+                mutatedChild.setFitness(net.calculateMSError(trainingSet));
+            }*/
+
+
+            ArrayList<Chromosome> newPopulation = generationalReplacement(mutatedChildren);
+            population = newPopulation;
+
+            for (Chromosome member : population) {
+                if (member.getFitness() < bestMSE) {
+                    bestMSE = member.getFitness();
+                }
+            }
+            //System.out.println(bestMSE);
+
+            System.out.println("DONE");
+
+
+            for (Chromosome member : population) {
+                System.out.println(member.getWeights());
+            }
+            System.out.println();
+        }
+    }
+
+
 }
