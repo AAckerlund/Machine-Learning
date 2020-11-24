@@ -1,0 +1,16 @@
+Done Abalone
+Iteration: 0 | New Error: 1.0062963090979538
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0062963090979538
+
+Iteration: 0 | New Error: 1.006002545803928
+
+Iteration: 1 | Best Mean-Squared-Error: 1.006002545803928
+
+Iteration: 0 | New Error: 1.0060082640687322
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0060082640687322
+
+Iteration: 0 | New Error: 1.0065551617604107
+Done Abalone
+Done Abalone

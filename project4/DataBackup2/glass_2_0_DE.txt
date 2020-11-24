@@ -1,0 +1,4 @@
+Done Glass
+Iteration: 0 | New Error: 1.5011381765975678
+Done Glass
+Done Glass

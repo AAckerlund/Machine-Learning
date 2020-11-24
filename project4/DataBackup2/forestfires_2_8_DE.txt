@@ -1,0 +1,20 @@
+Done Forest Fires
+Iteration: 0 | New Error: 0.5253657503018735
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5253657503018735
+
+Iteration: 0 | New Error: 0.5251598155373689
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5251598155373689
+
+Iteration: 0 | New Error: 0.5251540243716036
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5251540243716036
+
+Iteration: 0 | New Error: 0.5245649269833669
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5245649269833669
+
+Iteration: 0 | New Error: 0.52483250180326
+Done Forest Fires
+Done Forest Fires

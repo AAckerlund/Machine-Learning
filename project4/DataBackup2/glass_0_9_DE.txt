@@ -1,0 +1,21 @@
+Done Glass
+Iteration: 0 | New Error: 1.4996941056400994
+Iteration: 50 | New Error: 1.0076755792999168
+
+Iteration: 77 | Best Mean-Squared-Error: 0.9726692583902764
+
+Iteration: 0 | New Error: 1.502292551740143
+
+Iteration: 9 | Best Mean-Squared-Error: 0.9340984659248995
+
+Iteration: 0 | New Error: 1.4960970492641734
+
+Iteration: 18 | Best Mean-Squared-Error: 0.4983073057359013
+
+Iteration: 0 | New Error: 1.498788021363463
+
+Iteration: 8 | Best Mean-Squared-Error: 0.4921517995557705
+
+Iteration: 0 | New Error: 1.4955412770548027
+Done Glass
+Done Glass
