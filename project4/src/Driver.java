@@ -290,16 +290,18 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		for(String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			Thread[] threads = new Thread[90];
-			for(String t : trainers)
+			int tensCounter = 0;
+			for(String s : trainers)
 			{
 				threads = new Thread[90];
 				for(int layer = 0; layer < 3; layer++)
 				{
 					for(int fold = 0; fold < 10; fold++)
 					{
-						threads[layer*10 + fold] = new Thread(new Driver(file, nodesPerLayer[nodeCountCounter], fold, t));
-						threads[layer*10 + fold].start();//Starts a new thread
+						threads[(tensCounter * 10) + fold] = new Thread(new Driver(file, nodesPerLayer[nodeCountCounter], fold, s));
+						threads[(tensCounter * 10) + fold].start();//Starts a new thread
 					}
+					tensCounter++;
 				}
 				nodeCountCounter++;
 			}
