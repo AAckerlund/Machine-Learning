@@ -34,20 +34,15 @@ public class DifferentialEvolution extends Trainer{
         Chromosome chromosome3 = population.get(k3);
 
         Chromosome trialChromosome = new Chromosome();
-        //double[] betaMultiplierWeights = new double[]{};
         ArrayList<Double> betaMultiplierWeights = new ArrayList<>();
         for(int i = 0; i<chromosome2.getWeights().size(); i++){
             double difference = Math.abs(chromosome2.getWeights().get(i) - chromosome3.getWeights().get(i));
-            //betaMultiplierWeights[i] = difference*beta;
             betaMultiplierWeights.add(difference*beta);
         }
-
-        //double[] trialChromosomeWeights = new double[]{};
         ArrayList<Double> trialChromosomeWeights = new ArrayList<>();
 
         for(int i = 0; i<chromosome1.getWeights().size(); i++){
             double sum = chromosome1.getWeights().get(i) + betaMultiplierWeights.get(i);
-            //trialChromosomeWeights[i] = sum;
             trialChromosomeWeights.add(sum);
         }
         trialChromosome.setWeights(trialChromosomeWeights);
@@ -57,17 +52,14 @@ public class DifferentialEvolution extends Trainer{
     public Chromosome binomialCrossover(Chromosome targetChromosome, Chromosome trialChromosome){
         Random random = new Random();
         Chromosome crossedChromosome = new Chromosome();
-        //double[] crossedChromosomeWeights = new double[]{};
         ArrayList<Double> crossedChromosomeWeights = new ArrayList<>();
 
         for(int i = 0; i<targetChromosome.getWeights().size(); i++){
             double doCrossover = random.nextDouble();
             if(doCrossover < crossoverRate){
-                //crossedChromosomeWeights.get(i) = targetChromosome.getWeights().get(i);
                 crossedChromosomeWeights.add(targetChromosome.getWeights().get(i));
             }
             else{
-                //crossedChromosomeWeights[i] = trialChromosome.getWeights().get(i);
                 crossedChromosomeWeights.add(trialChromosome.getWeights().get(i));
             }
         }
@@ -91,17 +83,11 @@ public class DifferentialEvolution extends Trainer{
     @Override
     void train(ArrayList<Node> trainingSet)
     {
-        double bestMSE = Double.POSITIVE_INFINITY;
         for(int j = 0; j<15; j++) {
             for (Chromosome member : population) {
                 net.updateWeights(member);
                 member.setFitness(net.calculateMSError(trainingSet));
             }
-
-        /*for(Chromosome member: population){
-            System.out.println(member.getWeights());
-        }
-        System.out.println();*/
 
             ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
             for (int i = 0; i < population.size(); i++) {
@@ -117,18 +103,6 @@ public class DifferentialEvolution extends Trainer{
 
             ArrayList<Chromosome> newPopulation = elitistReplacement(mutatedChildren);
             population = newPopulation;
-            for (Chromosome member : population) {
-                if (member.getFitness() < bestMSE) {
-                    bestMSE = member.getFitness();
-                }
-            }
-            //System.out.println(bestMSE);
         }
-        //System.out.println("DONE");
-
-        /*for(Chromosome member: newPopulation){
-            System.out.println(member.getWeights());
-        }
-        System.out.println();*/
     }
 }

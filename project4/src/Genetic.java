@@ -134,25 +134,14 @@ public class Genetic extends Trainer
         return newPopulationList;
     }
 
-
-
     @Override
     void train(ArrayList<Node> trainingSet)
     {
-        double bestMSE = Double.POSITIVE_INFINITY;
-        //min iteration (15 to 20)
-
         for(int j = 0; j<15; j++) {
-            //System.out.println(population.size());
             for (Chromosome member : population) {
                 net.updateWeights(member);
                 member.setFitness(net.calculateMSError(trainingSet));
             }
-
-        /*for(Chromosome member: population){
-            System.out.println(member.getWeights());
-        }
-        System.out.println();*/
 
             ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
             for (int i = 0; i < ((population.size() - replacedIndividuals) / 2); i++) {
@@ -176,79 +165,7 @@ public class Genetic extends Trainer
 
             ArrayList<Chromosome> newPopulation = generationalReplacement(mutatedChildren);
             population = newPopulation;
-
-            for (Chromosome member : population) {
-                if (member.getFitness() < bestMSE) {
-                    bestMSE = member.getFitness();
-                }
-            }
-            //System.out.println(bestMSE);
         }
-        //System.out.println("DONE");
-
-
-        /*for(Chromosome member: newPopulation){
-            System.out.println(member.getWeights());
-        }
-        System.out.println();*/
 
     }
-
-    void testtrain()
-    {
-        double bestMSE = Double.POSITIVE_INFINITY;
-        //min iteration (15 to 20)
-
-            /*for (Chromosome member : population) {
-                net.updateWeights(member);
-                member.setFitness(net.calculateMSError(trainingSet));
-            }*/
-
-        for(int g = 0; g<20; g++) {
-            for (Chromosome member : population) {
-                System.out.println(member.getWeights());
-            }
-            System.out.println();
-
-            ArrayList<Chromosome> mutatedChildren = new ArrayList<>();
-            for (int i = 0; i < ((population.size() - replacedIndividuals) / 2); i++) {
-                Chromosome father = tournamentSelection(population);
-                Chromosome mother = tournamentSelection(population);
-                while (father == mother) {    //father and mother can not be the same
-                    mother = tournamentSelection(population);
-                }
-                Chromosome[] children = singlePointCrossover(father, mother, crossoverRate);
-                for (int k = 0; k < children.length; k++) {
-                    Chromosome mutatedChild = mutation(children[k], mutationRate, variance);
-                    mutatedChildren.add(mutatedChild);
-                }
-            }
-
-            /*for (Chromosome mutatedChild : mutatedChildren) {
-                net.updateWeights(mutatedChild);
-                mutatedChild.setFitness(net.calculateMSError(trainingSet));
-            }*/
-
-
-            ArrayList<Chromosome> newPopulation = generationalReplacement(mutatedChildren);
-            population = newPopulation;
-
-            for (Chromosome member : population) {
-                if (member.getFitness() < bestMSE) {
-                    bestMSE = member.getFitness();
-                }
-            }
-            //System.out.println(bestMSE);
-
-            //System.out.println("DONE");
-
-
-            for (Chromosome member : population) {
-                System.out.println(member.getWeights());
-            }
-            System.out.println();
-        }
-    }
-
-
 }
