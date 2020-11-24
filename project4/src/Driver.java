@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
@@ -266,14 +267,14 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		return pop;
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws InterruptedException
 	{
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		String[] trainers = {/*"GA",*/ "DE"/*, "PSO"*/};
+		String[] trainers = {"GA", "DE", "PSO"};
 		//use these if you want to run all the data sets
-
+		
 		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
 		int[][] nodesPerLayer = {
 				{}, {5}, {1, 7},//abalone
@@ -284,18 +285,27 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				{}, {29}, {10, 10},//beans
 		};
 		int nodeCountCounter = 0;
+		
+	
 		for(String file : files)//create a new instance of the driver for each of the data sets.
 		{
-			for(int layer = 0; layer < 3; layer++)
+			Thread[] threads = new Thread[90];
+			for(String t : trainers)
 			{
-				for(int fold = 0; fold < 10; fold++)
+				threads = new Thread[90];
+				for(int layer = 0; layer < 3; layer++)
 				{
-					for(String t : trainers)
+					for(int fold = 0; fold < 10; fold++)
 					{
-						new Driver(file, nodesPerLayer[nodeCountCounter], fold, t).start();//Starts a new thread
+						threads[layer*10 + fold] = new Thread(new Driver(file, nodesPerLayer[nodeCountCounter], fold, t));
+						threads[layer*10 + fold].start();//Starts a new thread
 					}
 				}
 				nodeCountCounter++;
+			}
+			for(int i = 0; i < threads.length; i++)
+			{
+				threads[i].join();
 			}
 		}
 
