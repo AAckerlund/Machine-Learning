@@ -291,7 +291,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		{
 			for(String s : trainers)
 			{
-				Thread[] threads = new Thread[90];
+				Thread[] threads = new Thread[30];
 				for(int layer = 0; layer < 3; layer++)
 				{
 					for(int fold = 0; fold < 10; fold++)
