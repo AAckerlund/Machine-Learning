@@ -88,7 +88,7 @@ public class GATuner extends Tuner
     @Override
     public void tune(String dataSet)
     {
-        switch(dataSet)
+        /*switch(dataSet)
         {
             case "breast-cancer-wisconsin" -> {
                 bestCrossoverRate = ;
@@ -132,7 +132,7 @@ public class GATuner extends Tuner
                 bestK = ;
                 bestPopSize = ;
             }
-        }
+        }*/
     }
     
     public double getBestCrossoverRate()

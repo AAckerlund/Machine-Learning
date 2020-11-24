@@ -291,7 +291,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		test.start();*/
 		//use these if you want to run all the data sets
 
-		String[] trainers = {"GA", "DE", "PSO"};
+		String[] trainers = {/*"GA", */"DE"/*, "PSO"*/};
 		String[] files = {"glass", "machine", "soybean-small", "breast-cancer-wisconsin", "abalone", "forestfires"};
 
 		/*for(String file : files)//create a new instance of the driver for each of the data sets.
