@@ -321,8 +321,12 @@ public class Driver extends Thread//extending Thread allows for multithreading
 					Thread[] threads = new Thread[10];
 					for(int fold = 0; fold < 10; fold++)
 					{
-						threads[(layer * 10) + fold] = new Thread(new Driver(file, nodesPerLayer[nodeCountCounter], fold, s));
-						threads[(layer * 10) + fold].start();//Starts a new thread
+						threads[fold] = new Thread(new Driver(file, nodesPerLayer[nodeCountCounter], fold, s));
+						threads[fold].start();//Starts a new thread
+					}
+					for(Thread thread : threads)
+					{
+						thread.join();
 					}
 				}
 			}

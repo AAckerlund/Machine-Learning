@@ -17,6 +17,7 @@ public class Genetic extends Trainer
         this.replacedIndividuals = replacedIndividuals;
         this.net = net;
     }
+
     public Chromosome tournamentSelection(ArrayList<Chromosome> population){
         Random random = new Random();
         int k1 = random.nextInt(population.size()); //randomly selects first tournament participant
@@ -206,7 +207,7 @@ public class Genetic extends Trainer
             }
             //System.out.println(bestMSE);
         }
-        System.out.println("DONE");
+        //System.out.println("DONE");
 
 
         /*for(Chromosome member: newPopulation){
