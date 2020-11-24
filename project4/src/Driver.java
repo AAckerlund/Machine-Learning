@@ -275,7 +275,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		String[] trainers = {"GA", "DE", "PSO"};
 		//use these if you want to run all the data sets
 		
-		String[] files = {"abalone", "breast-cancer-wisconsin", "forestfires", "glass", "machine", "soybean-small"};
+		String[] files = {"glass", "machine", "soybean-small", "breast-cancer-wisconsin", "abalone", "forestfires"};
 		int[][] nodesPerLayer = {
 				{}, {5}, {1, 7},//abalone
 				{}, {1}, {1, 9},//cancer
@@ -299,8 +299,8 @@ public class Driver extends Thread//extending Thread allows for multithreading
 						threads[(layer * 10) + fold] = new Thread(new Driver(file, nodesPerLayer[nodeCountCounter], fold, s));
 						threads[(layer * 10) + fold].start();//Starts a new thread
 					}
+					nodeCountCounter++;
 				}
-				nodeCountCounter++;
 				for(Thread thread : threads)
 				{
 					thread.join();
