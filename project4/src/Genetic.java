@@ -124,8 +124,6 @@ public class Genetic extends Trainer
 
         }
 
-        System.out.println(" CTS SIZE: " + chromosomesToSurvive.size());
-
         ArrayList<Chromosome> newPopulationList = new ArrayList<>();
         for(Chromosome mutatedChild: mutatedChildren){
             newPopulationList.add(mutatedChild);
@@ -145,6 +143,7 @@ public class Genetic extends Trainer
         //min iteration (15 to 20)
 
         for(int j = 0; j<15; j++) {
+            //System.out.println(population.size());
             for (Chromosome member : population) {
                 net.updateWeights(member);
                 member.setFitness(net.calculateMSError(trainingSet));
@@ -185,7 +184,7 @@ public class Genetic extends Trainer
             }
             //System.out.println(bestMSE);
         }
-        System.out.println("DONE");
+        //System.out.println("DONE");
 
 
         /*for(Chromosome member: newPopulation){
@@ -241,7 +240,7 @@ public class Genetic extends Trainer
             }
             //System.out.println(bestMSE);
 
-            System.out.println("DONE");
+            //System.out.println("DONE");
 
 
             for (Chromosome member : population) {

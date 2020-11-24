@@ -1,0 +1,328 @@
+Done Cancer
+CrossOver 0.25
+mutation 0.25
+variance 0.1
+k 22
+popSize 40
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5254482073168867
+Output from Neuron corresponding to class 4.0: 0.2653506686093289
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.1295595394322571
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.6533505609764885
+Output from Neuron corresponding to class 4.0: 0.568842881701617
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.6125767993977557
+Output from Neuron corresponding to class 4.0: 0.27341229552470514
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.1441004849707375
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5666050787609651
+Output from Neuron corresponding to class 4.0: 0.30425897220645814
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.16120543421243336
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.11535065813958714
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.17991397133436152
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.4970875226376214
+Output from Neuron corresponding to class 4.0: 0.11073559363019264
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.07192431795819888
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5460154599726408
+Output from Neuron corresponding to class 4.0: 0.3269927399861722
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.1441004849707375
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.1441004849707375
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.1441004849707375
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.07192431795819888
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5770849686955338
+Output from Neuron corresponding to class 4.0: 0.27093141788276626
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.4517507623057613
+Output from Neuron corresponding to class 4.0: 0.15951488941094877
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5433776304106983
+Output from Neuron corresponding to class 4.0: 0.2732695978049139
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5900923989159321
+Output from Neuron corresponding to class 4.0: 0.2954402690706017
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.1295595394322571
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.10251654511529146
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.6517666643725556
+Output from Neuron corresponding to class 4.0: 0.3881345986229968
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.10336046731408605
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.4675405487673489
+Output from Neuron corresponding to class 4.0: 0.1534393323591147
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.10336046731408605
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.4238153582086256
+Output from Neuron corresponding to class 4.0: 0.0886943058164063
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.14523133392866622
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.07192431795819888
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.10336046731408605
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.14523133392866622
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.1441004849707375
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.1441004849707375
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5181199029295227
+Output from Neuron corresponding to class 4.0: 0.1441004849707375
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.1295595394322571
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.1295595394322571
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.08127539934834073
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.1295595394322571
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.481201676040657
+Output from Neuron corresponding to class 4.0: 0.14523133392866622
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.07192431795819888
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.44448757460765603
+Output from Neuron corresponding to class 4.0: 0.08127539934834073
+Predicted class: 2.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 2.0: 0.5406794126609431
+Output from Neuron corresponding to class 4.0: 0.16211945231413025
+Predicted class: 2.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.7698944190981488
+Output from Neuron corresponding to class 4.0: 0.7363622955808253
+Predicted class: 2.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.8203466162803381
+Output from Neuron corresponding to class 4.0: 0.8924760650118763
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.8984836677910575
+Output from Neuron corresponding to class 4.0: 0.9967649397846902
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9598614056541853
+Output from Neuron corresponding to class 4.0: 0.9956778532164415
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.7144034700824682
+Output from Neuron corresponding to class 4.0: 0.9265963957101719
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.7438162148243006
+Output from Neuron corresponding to class 4.0: 0.8990681986325202
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9518450443827053
+Output from Neuron corresponding to class 4.0: 0.9989490158212193
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9197848844261854
+Output from Neuron corresponding to class 4.0: 0.9995094212665021
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.8678087905364819
+Output from Neuron corresponding to class 4.0: 0.9793812017649234
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.8101717394585575
+Output from Neuron corresponding to class 4.0: 0.947619043037273
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.931999749659611
+Output from Neuron corresponding to class 4.0: 0.9986150308340244
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.987284190735299
+Output from Neuron corresponding to class 4.0: 0.9999739456386552
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9603102374393055
+Output from Neuron corresponding to class 4.0: 0.9928266127344751
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.7983621521664971
+Output from Neuron corresponding to class 4.0: 0.9613772992061396
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9704338301935
+Output from Neuron corresponding to class 4.0: 0.9967182452322793
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.8892432748014968
+Output from Neuron corresponding to class 4.0: 0.9792989898398927
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9329804109383716
+Output from Neuron corresponding to class 4.0: 0.9985676477619296
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.8530335144480686
+Output from Neuron corresponding to class 4.0: 0.9905990460834502
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9812828811656323
+Output from Neuron corresponding to class 4.0: 0.9998239385431255
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9190650849120516
+Output from Neuron corresponding to class 4.0: 0.9908385267769491
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9364156145354222
+Output from Neuron corresponding to class 4.0: 0.9840069091692366
+Predicted class: 4.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 2.0: 0.9413304204114534
+Output from Neuron corresponding to class 4.0: 0.9939084588553788
+Predicted class: 4.0
+Overall Mean-Squared Error for Fold 4: 0.4643898308713214
+

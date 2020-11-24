@@ -172,9 +172,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Started tuning\t\t" + filePath + "\talgo " + trainer + "\tfold " + fold + "\tlayer " +
 				hiddenLayers + "\thiddenNodes " + Arrays.toString(hiddenLayerCount) );
 		
-		tuner.tune(trainingSet, tuningSet);
+		//tuner.tune(trainingSet, tuningSet);
 		
-		//tuner.tune(fileName);//A tuning shortcut. Gives data quickly without retuning the hyperparameters each time.
+		tuner.tune(fileName);//A tuning shortcut. Gives data quickly without retuning the hyperparameters each time.
 		
 		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 
@@ -303,6 +303,10 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		}
 		new Driver("abalone", new int[]{}, 0, "PSO").start();
 */
+
+
+
+
 		int[][] nodesPerLayer = {
 				{}, {5}, {1, 7},//abalone
 				{}, {1}, {1, 9},//cancer
@@ -332,13 +336,5 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				}
 			}
 		}
-
-		//DataParser dp = new DataParser();
-		//dp.backPropOutput("abalone");
-		//dp.backPropOutput("forestfires");
-		//dp.backPropOutput("machine");
-		/*Genetic genetic = new Genetic();
-		double answer = genetic.normalDistributionSelection(0.5, 0.5);
-		System.out.println(answer);*/
 	}
 }
