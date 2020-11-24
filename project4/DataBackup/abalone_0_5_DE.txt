@@ -1,0 +1,36 @@
+Done Abalone
+Iteration: 0 | New Error: 1.0224304711501981
+
+Iteration: 8 | Best Mean-Squared-Error: 0.48808448031447227
+
+Iteration: 0 | New Error: 1.036259743890844
+
+Iteration: 3 | Best Mean-Squared-Error: 0.48947015750025413
+
+Iteration: 0 | New Error: 1.033392951358379
+
+Iteration: 2 | Best Mean-Squared-Error: 0.7581207850146319
+
+Iteration: 0 | New Error: 1.0126515004752599
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0126515004752599
+
+Iteration: 0 | New Error: 1.034521021910611
+
+Iteration: 5 | Best Mean-Squared-Error: 0.49567408774427335
+
+Iteration: 0 | New Error: 1.0015839266588695
+
+Iteration: 3 | Best Mean-Squared-Error: 0.49237972454665485
+
+Iteration: 0 | New Error: 1.0093723895946745
+
+Iteration: 2 | Best Mean-Squared-Error: 0.6627256639756319
+
+Iteration: 0 | New Error: 1.0116968100296941
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0116968100296941
+
+Iteration: 0 | New Error: 1.0180500437470879
+Done Abalone
+Done Abalone

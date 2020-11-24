@@ -1,0 +1,59 @@
+Done Machine
+Iteration: 0 | New Error: 0.9338783287656455
+Iteration: 50 | New Error: 0.0641884003593601
+Iteration: 100 | New Error: 0.0585837432327431
+
+Iteration: 125 | Best Mean-Squared-Error: 0.057270373563253284
+
+Iteration: 0 | New Error: 0.8613160718916103
+
+Iteration: 2 | Best Mean-Squared-Error: 0.08207254648407636
+
+Iteration: 0 | New Error: 0.8782183306354755
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8782183306354755
+
+Iteration: 0 | New Error: 0.9005525045786906
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9005525045786906
+
+Iteration: 0 | New Error: 0.9230518181235722
+Iteration: 50 | New Error: 0.06405188332294205
+Iteration: 100 | New Error: 0.0584925448640426
+Iteration: 150 | New Error: 0.05626626933534056
+
+Iteration: 163 | Best Mean-Squared-Error: 0.05595404293716278
+
+Iteration: 0 | New Error: 0.8793918771832506
+
+Iteration: 2 | Best Mean-Squared-Error: 0.08457428591886083
+
+Iteration: 0 | New Error: 0.9417392681900628
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9417392681900628
+
+Iteration: 0 | New Error: 0.908958746943079
+
+Iteration: 1 | Best Mean-Squared-Error: 0.908958746943079
+
+Iteration: 0 | New Error: 0.913250815125111
+Iteration: 50 | New Error: 0.0639109040592551
+Iteration: 100 | New Error: 0.058447482720033944
+
+Iteration: 128 | Best Mean-Squared-Error: 0.057015425289327584
+
+Iteration: 0 | New Error: 0.8936190288339212
+
+Iteration: 9 | Best Mean-Squared-Error: 0.059550613984364946
+
+Iteration: 0 | New Error: 0.9366379274839814
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9366379274839814
+
+Iteration: 0 | New Error: 0.8510928129813813
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8510928129813813
+
+Iteration: 0 | New Error: 0.8745825323272631
+Done Machine
+Done Machine
