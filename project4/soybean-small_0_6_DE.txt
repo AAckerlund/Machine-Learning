@@ -1,0 +1,34 @@
+Done Soybean
+CrossOver 0.75
+Beta 2.0
+popSize 10
+
+For example with class 1.0:
+Output from Neuron corresponding to class 1.0: 0.9999999963413171
+Output from Neuron corresponding to class 2.0: 6.032848848439518E-6
+Output from Neuron corresponding to class 3.0: 5.295180156481771E-13
+Output from Neuron corresponding to class 4.0: 0.003168235958052427
+Predicted class: 1.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 1.0: 1.8776809469028096E-39
+Output from Neuron corresponding to class 2.0: 0.9999999999993432
+Output from Neuron corresponding to class 3.0: 5.27442210341282E-9
+Output from Neuron corresponding to class 4.0: 0.06588491968259816
+Predicted class: 2.0
+
+For example with class 3.0:
+Output from Neuron corresponding to class 1.0: 1.0
+Output from Neuron corresponding to class 2.0: 0.9999990653220646
+Output from Neuron corresponding to class 3.0: 0.8873172639152958
+Output from Neuron corresponding to class 4.0: 6.172591200657593E-7
+Predicted class: 1.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 1.0: 2.918865587523861E-7
+Output from Neuron corresponding to class 2.0: 0.3360693475410433
+Output from Neuron corresponding to class 3.0: 0.9999999999804314
+Output from Neuron corresponding to class 4.0: 0.9999999805592789
+Predicted class: 3.0
+Overall Mean-Squared Error for Fold 6: 0.7824972490928984
+

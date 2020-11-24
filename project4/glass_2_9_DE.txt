@@ -1,0 +1,177 @@
+Done Glass
+CrossOver 0.25
+Beta 0.0
+popSize 20
+
+For example with class 1.0:
+Output from Neuron corresponding to class 1.0: 0.9496472743424859
+Output from Neuron corresponding to class 2.0: 0.9335995632766266
+Output from Neuron corresponding to class 3.0: 0.7747847132586757
+Output from Neuron corresponding to class 5.0: 0.6674098586609792
+Output from Neuron corresponding to class 6.0: 0.8255592675578098
+Output from Neuron corresponding to class 7.0: 0.828142035147114
+Predicted class: 1.0
+
+For example with class 1.0:
+Output from Neuron corresponding to class 1.0: 0.9496374070961767
+Output from Neuron corresponding to class 2.0: 0.9335849924206939
+Output from Neuron corresponding to class 3.0: 0.7747692199037328
+Output from Neuron corresponding to class 5.0: 0.6673960433655013
+Output from Neuron corresponding to class 6.0: 0.8255432981693815
+Output from Neuron corresponding to class 7.0: 0.8281191243990205
+Predicted class: 1.0
+
+For example with class 1.0:
+Output from Neuron corresponding to class 1.0: 0.9482653451201142
+Output from Neuron corresponding to class 2.0: 0.9315492491999505
+Output from Neuron corresponding to class 3.0: 0.7726350352403337
+Output from Neuron corresponding to class 5.0: 0.6655002255716442
+Output from Neuron corresponding to class 6.0: 0.823336140443382
+Output from Neuron corresponding to class 7.0: 0.82494675301479
+Predicted class: 1.0
+
+For example with class 1.0:
+Output from Neuron corresponding to class 1.0: 0.9477343729531202
+Output from Neuron corresponding to class 2.0: 0.9307565733397214
+Output from Neuron corresponding to class 3.0: 0.7718196729747618
+Output from Neuron corresponding to class 5.0: 0.6647796246331146
+Output from Neuron corresponding to class 6.0: 0.8224891444185214
+Output from Neuron corresponding to class 7.0: 0.8237263198203048
+Predicted class: 1.0
+
+For example with class 1.0:
+Output from Neuron corresponding to class 1.0: 0.946530812822206
+Output from Neuron corresponding to class 2.0: 0.9289506417795556
+Output from Neuron corresponding to class 3.0: 0.7699925497158318
+Output from Neuron corresponding to class 5.0: 0.6631719730001163
+Output from Neuron corresponding to class 6.0: 0.8205840076018677
+Output from Neuron corresponding to class 7.0: 0.8209751819647663
+Predicted class: 1.0
+
+For example with class 1.0:
+Output from Neuron corresponding to class 1.0: 0.9426834258072461
+Output from Neuron corresponding to class 2.0: 0.9231068602434072
+Output from Neuron corresponding to class 3.0: 0.7643370405625067
+Output from Neuron corresponding to class 5.0: 0.6582537770266056
+Output from Neuron corresponding to class 6.0: 0.8146310175863383
+Output from Neuron corresponding to class 7.0: 0.8123265079801277
+Predicted class: 1.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 1.0: 0.9501210788579871
+Output from Neuron corresponding to class 2.0: 0.9342980017104393
+Output from Neuron corresponding to class 3.0: 0.7755311637284829
+Output from Neuron corresponding to class 5.0: 0.6680763775088544
+Output from Neuron corresponding to class 6.0: 0.826327706996948
+Output from Neuron corresponding to class 7.0: 0.8292437629769973
+Predicted class: 1.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 1.0: 0.9492177789523468
+Output from Neuron corresponding to class 2.0: 0.9329643924901901
+Output from Neuron corresponding to class 3.0: 0.7741122683005933
+Output from Neuron corresponding to class 5.0: 0.6668109481691252
+Output from Neuron corresponding to class 6.0: 0.82486543785094
+Output from Neuron corresponding to class 7.0: 0.8271460577109062
+Predicted class: 1.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 1.0: 0.9503751290690882
+Output from Neuron corresponding to class 2.0: 0.9346714925009556
+Output from Neuron corresponding to class 3.0: 0.7759334320247907
+Output from Neuron corresponding to class 5.0: 0.6684363201869806
+Output from Neuron corresponding to class 6.0: 0.8267410478629545
+Output from Neuron corresponding to class 7.0: 0.8298357863783616
+Predicted class: 1.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 1.0: 0.9407457577167827
+Output from Neuron corresponding to class 2.0: 0.9201330061792494
+Output from Neuron corresponding to class 3.0: 0.761588409907123
+Output from Neuron corresponding to class 5.0: 0.6558921724678054
+Output from Neuron corresponding to class 6.0: 0.8117116708685801
+Output from Neuron corresponding to class 7.0: 0.8080573206450298
+Predicted class: 1.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 1.0: 0.9482135496810544
+Output from Neuron corresponding to class 2.0: 0.9314720396720515
+Output from Neuron corresponding to class 3.0: 0.7725552430588046
+Output from Neuron corresponding to class 5.0: 0.6654296183261084
+Output from Neuron corresponding to class 6.0: 0.823253341883999
+Output from Neuron corresponding to class 7.0: 0.8248275224773182
+Predicted class: 1.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 1.0: 0.9414059624783347
+Output from Neuron corresponding to class 2.0: 0.9211480355074029
+Output from Neuron corresponding to class 3.0: 0.762517794084473
+Output from Neuron corresponding to class 5.0: 0.6566887490181179
+Output from Neuron corresponding to class 6.0: 0.8127004523604769
+Output from Neuron corresponding to class 7.0: 0.8095052958797477
+Predicted class: 1.0
+
+For example with class 2.0:
+Output from Neuron corresponding to class 1.0: 0.9489462355254701
+Output from Neuron corresponding to class 2.0: 0.9325618390841683
+Output from Neuron corresponding to class 3.0: 0.7736891565615762
+Output from Neuron corresponding to class 5.0: 0.6664348368359877
+Output from Neuron corresponding to class 6.0: 0.8244281195970565
+Output from Neuron corresponding to class 7.0: 0.8265177075202607
+Predicted class: 1.0
+
+For example with class 3.0:
+Output from Neuron corresponding to class 1.0: 0.9437654232103844
+Output from Neuron corresponding to class 2.0: 0.9247596484069702
+Output from Neuron corresponding to class 3.0: 0.7659001444021608
+Output from Neuron corresponding to class 5.0: 0.6596048117677208
+Output from Neuron corresponding to class 6.0: 0.8162841003801938
+Output from Neuron corresponding to class 7.0: 0.8147359167439316
+Predicted class: 1.0
+
+For example with class 5.0:
+Output from Neuron corresponding to class 1.0: 0.9528118380175989
+Output from Neuron corresponding to class 2.0: 0.9382152191832489
+Output from Neuron corresponding to class 3.0: 0.7798663276404647
+Output from Neuron corresponding to class 5.0: 0.6719841326294729
+Output from Neuron corresponding to class 6.0: 0.8307520922006961
+Output from Neuron corresponding to class 7.0: 0.835558672013158
+Predicted class: 1.0
+
+For example with class 5.0:
+Output from Neuron corresponding to class 1.0: 0.9513272922826582
+Output from Neuron corresponding to class 2.0: 0.9360647904152849
+Output from Neuron corresponding to class 3.0: 0.7774539424257277
+Output from Neuron corresponding to class 5.0: 0.6698016880907868
+Output from Neuron corresponding to class 6.0: 0.8282983620116177
+Output from Neuron corresponding to class 7.0: 0.8320625395082019
+Predicted class: 1.0
+
+For example with class 7.0:
+Output from Neuron corresponding to class 1.0: 0.9531776890534944
+Output from Neuron corresponding to class 2.0: 0.9387408051334106
+Output from Neuron corresponding to class 3.0: 0.7804689040127335
+Output from Neuron corresponding to class 5.0: 0.6725324715063028
+Output from Neuron corresponding to class 6.0: 0.83136160395929
+Output from Neuron corresponding to class 7.0: 0.8364247082436884
+Predicted class: 1.0
+
+For example with class 7.0:
+Output from Neuron corresponding to class 1.0: 0.9491719082106728
+Output from Neuron corresponding to class 2.0: 0.9328964430465351
+Output from Neuron corresponding to class 3.0: 0.7740406837201294
+Output from Neuron corresponding to class 5.0: 0.666747275922877
+Output from Neuron corresponding to class 6.0: 0.8247914901686457
+Output from Neuron corresponding to class 7.0: 0.8270398396718047
+Predicted class: 1.0
+
+For example with class 7.0:
+Output from Neuron corresponding to class 1.0: 0.9525869989391744
+Output from Neuron corresponding to class 2.0: 0.9378913328893836
+Output from Neuron corresponding to class 3.0: 0.7794976125125669
+Output from Neuron corresponding to class 5.0: 0.6716492440282976
+Output from Neuron corresponding to class 6.0: 0.8303784536614771
+Output from Neuron corresponding to class 7.0: 0.8350273004847165
+Predicted class: 1.0
+Overall Mean-Squared Error for Fold 9: 3.397326096212897
+
