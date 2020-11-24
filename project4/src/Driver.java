@@ -328,6 +328,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 					{
 						t.join();
 					}
+					nodeCountCounter++;
 				}
 			}
 		}
