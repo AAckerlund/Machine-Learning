@@ -24,3 +24,7 @@ Iteration: 50 | New Error: 0.0778493394741172
 Iteration: 100 | New Error: 0.0599395221573535
 Iteration: 150 | New Error: 0.05497209524687653
 Done Cancer
+<<<<<<< HEAD
+=======
+Done Cancer
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

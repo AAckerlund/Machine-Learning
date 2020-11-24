@@ -18,3 +18,7 @@ Iteration: 8 | Best Mean-Squared-Error: 0.4921517995557705
 
 Iteration: 0 | New Error: 1.4955412770548027
 Done Glass
+<<<<<<< HEAD
+=======
+Done Glass
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

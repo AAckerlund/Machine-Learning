@@ -4,3 +4,7 @@ Iteration: 50 | New Error: 0.5366427207999971
 Iteration: 100 | New Error: 0.36506053224119556
 Iteration: 150 | New Error: 0.2738700559293596
 Done Soybean
+<<<<<<< HEAD
+=======
+Done Soybean
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

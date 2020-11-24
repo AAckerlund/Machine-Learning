@@ -5,3 +5,7 @@ Iteration: 2 | Best Mean-Squared-Error: 0.4991486712795434
 
 Iteration: 0 | New Error: 0.49967230983288746
 Done Cancer
+<<<<<<< HEAD
+=======
+Done Cancer
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

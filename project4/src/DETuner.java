@@ -60,6 +60,44 @@ public class DETuner extends Tuner
         }
     }
     
+    @Override
+    public void tune(String dataSet)
+    {
+        switch(dataSet)
+        {
+            case "breast-cancer-wisconsin" -> {
+                bestCrossoverRate = .25;
+                bestBeta = 2;
+                bestPopSize = 60;
+            }
+            case "machine" -> {
+                bestCrossoverRate = .25;
+                bestBeta = 0;
+                bestPopSize = 80;
+            }
+            case "soybean-small" -> {
+                bestCrossoverRate = .75;
+                bestBeta = 2;
+                bestPopSize = 10;
+            }
+            case "glass" -> {
+                bestCrossoverRate = .25;
+                bestBeta = 0;
+                bestPopSize = 20;
+            }
+            case "forestfires" -> {
+                bestCrossoverRate = .75;
+                bestBeta = 0;
+                bestPopSize = 80;
+            }
+            case "abalone" -> {
+                bestCrossoverRate = .25;
+                bestBeta = 0;
+                bestPopSize = 80;
+            }
+        }
+    }
+    
     public double getBestCrossoverRate()
     {
         return bestCrossoverRate;

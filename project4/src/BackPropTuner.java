@@ -64,6 +64,26 @@ public class BackPropTuner extends Tuner
 		}
 	}
 	
+	@Override
+	public void tune(String dataSet)
+	{
+		switch(dataSet)
+		{
+			case "breast-cancer-wisconsin" -> {
+			}
+			case "machine" -> {
+			}
+			case "soybean-small" -> {
+			}
+			case "glass" -> {
+			}
+			case "forestfires" -> {
+			}
+			case "abalone" -> {
+			}
+		}
+	}
+	
 	public double getBestLearningRate()
 	{
 		return bestLearningRate;

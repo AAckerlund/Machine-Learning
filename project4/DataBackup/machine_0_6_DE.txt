@@ -87,3 +87,7 @@ Iteration: 0 | New Error: 0.9130948089939649
 Iteration: 1 | Best Mean-Squared-Error: 0.9130948089939649
 
 Done Machine
+<<<<<<< HEAD
+=======
+Done Machine
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

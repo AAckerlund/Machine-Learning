@@ -3,10 +3,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.*;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
-	String fileStart = "dataSets/", fileEnd = ".data", filePath, dataPath, trainer;
+	String fileStart = "dataSets/", fileEnd = ".data", filePath, dataPath, trainer, fileName;
 	int hiddenLayers, fold;
 	int[] hiddenLayerCount;
 	
@@ -18,6 +20,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		this.fold = fold;
 		this.hiddenLayerCount = hiddenLayerCount;
 		this.trainer = trainer;
+		fileName = filePath;
 	}
 	
 	public void run() //the method that is called when a Thread starts
@@ -168,7 +171,11 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		System.out.println("Started tuning\t\t" + filePath + "\talgo " + trainer + "\tfold " + fold + "\tlayer " +
 				hiddenLayers + "\thiddenNodes " + Arrays.toString(hiddenLayerCount) );
-		tuner.tune(trainingSet, tuningSet);
+		
+		//tuner.tune(trainingSet, tuningSet);
+		
+		tuner.tune(fileName);//A tuning shortcut. Gives data quickly without retuning the hyperparameters each time.
+		
 		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 
 		//double learningRate = tuner.getBestLearningRate();
@@ -195,10 +202,20 @@ public class Driver extends Thread//extending Thread allows for multithreading
 						psoTuner.getBestInertia(), psoTuner.getBestCogBias(), psoTuner.getBestSocialBias(), net);
 			}
 			case "GA" -> {
+				GATuner g = (GATuner) tuner;
+				Printer.println(filePath, "CrossOver " + g.getBestCrossoverRate() +
+						"\nmutation " + g.getBestMutationRate() +
+						"\nvariance " + g.getBestVariance() +
+						"\nk " + g.getBestK() +
+						"\npopSize " + g.getBestPopSize());
 				trainingAlgo = new Genetic(initPop(((GATuner)tuner).getBestPopSize(), dataset.get(0).getData().length, classes, !isRegression), ((GATuner)tuner).getBestCrossoverRate(),
 						((GATuner)tuner).getBestMutationRate(), ((GATuner)tuner).getBestVariance(), ((GATuner)tuner).getBestK(), net);
 			}
 			case "DE" -> {
+				DETuner d = (DETuner) tuner;
+				Printer.println(filePath, "CrossOver " + d.getBestCrossoverRate() +
+						"\nBeta " + d.getBestBeta() +
+						"\npopSize " + d.getBestPopSize());
 				trainingAlgo = new DifferentialEvolution(initPop(((DETuner)tuner).getBestPopSize(), dataset.get(0).getData().length, classes, !isRegression), ((DETuner)tuner).getBestBeta(), ((DETuner)tuner).getBestCrossoverRate(), net);
 			}
 		}
@@ -272,10 +289,20 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		//use these if you want to run a single data set
 		/*Driver test = new Driver("machine");
 		test.start();*/
-		String[] trainers = {"GA", "DE", "PSO"};
 		//use these if you want to run all the data sets
-		
+
+		String[] trainers = {"GA", "DE", "PSO"};
 		String[] files = {"glass", "machine", "soybean-small", "breast-cancer-wisconsin", "abalone", "forestfires"};
+
+		/*for(String file : files)//create a new instance of the driver for each of the data sets.
+		{
+			for(String s : trainers)
+			{
+				new Driver(file, new int[]{}, 0, s).start();
+			}
+		}
+		new Driver("abalone", new int[]{}, 0, "PSO").start();
+*/
 		int[][] nodesPerLayer = {
 				{}, {5}, {1, 7},//abalone
 				{}, {1}, {1, 9},//cancer
@@ -285,25 +312,18 @@ public class Driver extends Thread//extending Thread allows for multithreading
 				{}, {29}, {10, 10},//beans
 		};
 		int nodeCountCounter = 0;
-		
-	
 		for(String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			for(String s : trainers)
 			{
-				Thread[] threads = new Thread[30];
 				for(int layer = 0; layer < 3; layer++)
 				{
+					Thread[] threads = new Thread[10];
 					for(int fold = 0; fold < 10; fold++)
 					{
 						threads[(layer * 10) + fold] = new Thread(new Driver(file, nodesPerLayer[nodeCountCounter], fold, s));
 						threads[(layer * 10) + fold].start();//Starts a new thread
 					}
-					nodeCountCounter++;
-				}
-				for(Thread thread : threads)
-				{
-					thread.join();
 				}
 			}
 		}
