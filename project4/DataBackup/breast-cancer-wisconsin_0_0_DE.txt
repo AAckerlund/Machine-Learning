@@ -1,0 +1,9 @@
+Done Cancer
+Iteration: 0 | New Error: 0.5044745173979138
+Iteration: 50 | New Error: 0.06825006804385975
+Iteration: 100 | New Error: 0.06045660521442555
+Done Cancer
+<<<<<<< HEAD
+=======
+Done Cancer
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

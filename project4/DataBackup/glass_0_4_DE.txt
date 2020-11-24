@@ -1,0 +1,12 @@
+Done Glass
+Iteration: 0 | New Error: 1.5021824329823297
+Iteration: 50 | New Error: 1.006247698859031
+
+Iteration: 77 | Best Mean-Squared-Error: 0.9715897654174913
+
+Iteration: 0 | New Error: 1.501512187064827
+Done Glass
+<<<<<<< HEAD
+=======
+Done Glass
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

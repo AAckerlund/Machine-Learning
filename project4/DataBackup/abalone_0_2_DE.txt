@@ -1,0 +1,83 @@
+Done Abalone
+Iteration: 0 | New Error: 1.0033823321544504
+
+Iteration: 6 | Best Mean-Squared-Error: 0.4918996080293684
+
+Iteration: 0 | New Error: 1.0028184065866559
+
+Iteration: 2 | Best Mean-Squared-Error: 0.4864177885021066
+
+Iteration: 0 | New Error: 1.0197538486281792
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0197538486281792
+
+Iteration: 0 | New Error: 1.0137737588586901
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0137737588586901
+
+Iteration: 0 | New Error: 0.982616288527779
+
+Iteration: 9 | Best Mean-Squared-Error: 0.4881012334017963
+
+Iteration: 0 | New Error: 0.9941656283218063
+
+Iteration: 3 | Best Mean-Squared-Error: 0.5105154920390494
+
+Iteration: 0 | New Error: 1.0050019549688467
+
+Iteration: 2 | Best Mean-Squared-Error: 0.8451102312963189
+
+Iteration: 0 | New Error: 0.9982391787859718
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9982391787859718
+
+Iteration: 0 | New Error: 0.9910718310964888
+
+Iteration: 11 | Best Mean-Squared-Error: 0.4855868974038534
+
+Iteration: 0 | New Error: 1.023897899101227
+
+Iteration: 2 | Best Mean-Squared-Error: 0.49259365665845983
+
+Iteration: 0 | New Error: 1.0056683414697207
+
+Iteration: 4 | Best Mean-Squared-Error: 0.5086867444182407
+
+Iteration: 0 | New Error: 1.0170526506885826
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0170526506885826
+
+Iteration: 0 | New Error: 0.9915499846767899
+
+Iteration: 6 | Best Mean-Squared-Error: 0.49079651413499753
+
+Iteration: 0 | New Error: 0.9861650832377801
+
+Iteration: 4 | Best Mean-Squared-Error: 0.5039173740218487
+
+Iteration: 0 | New Error: 0.9769880164133067
+
+Iteration: 2 | Best Mean-Squared-Error: 0.5897384062594135
+
+Iteration: 0 | New Error: 1.0129966727072728
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0129966727072728
+
+Iteration: 0 | New Error: 0.9919253351325636
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9919253351325636
+
+Iteration: 0 | New Error: 0.9969910657124263
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9969910657124263
+
+Iteration: 0 | New Error: 1.0321061708295147
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0321061708295147
+
+Iteration: 0 | New Error: 0.9891910027271374
+Done Abalone
+<<<<<<< HEAD
+=======
+Done Abalone
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

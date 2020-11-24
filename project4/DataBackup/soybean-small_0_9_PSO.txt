@@ -1,0 +1,32 @@
+Done Soybean
+Particles 17	Inertia 1.0	CogBias 0.001	SocBias 0.001
+
+For example with class 1.0:
+Output from Neuron corresponding to class 1.0: 0.4975780064313068
+Output from Neuron corresponding to class 2.0: 0.49427672686468094
+Output from Neuron corresponding to class 3.0: 0.5025865495991436
+Output from Neuron corresponding to class 4.0: 0.5011262225847222
+Predicted class: 3.0
+
+For example with class 3.0:
+Output from Neuron corresponding to class 1.0: 0.497341295755303
+Output from Neuron corresponding to class 2.0: 0.4928996500892103
+Output from Neuron corresponding to class 3.0: 0.4925768814027857
+Output from Neuron corresponding to class 4.0: 0.49317395865574903
+Predicted class: 1.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 1.0: 0.4955893149567738
+Output from Neuron corresponding to class 2.0: 0.4923223870720398
+Output from Neuron corresponding to class 3.0: 0.4930796481259022
+Output from Neuron corresponding to class 4.0: 0.48971797150657737
+Predicted class: 1.0
+
+For example with class 4.0:
+Output from Neuron corresponding to class 1.0: 0.49674550742400786
+Output from Neuron corresponding to class 2.0: 0.5002593682659079
+Output from Neuron corresponding to class 3.0: 0.4980741375809839
+Output from Neuron corresponding to class 4.0: 0.49594074554103584
+Predicted class: 2.0
+Overall Mean-Squared Error for Fold 9: 0.9955324451434526
+

@@ -1,0 +1,18 @@
+Done Abalone
+Iteration: 0 | New Error: 1.0060153041141455
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0060153041141455
+
+Iteration: 0 | New Error: 1.0060450552990887
+
+Iteration: 1 | Best Mean-Squared-Error: 1.0060450552990887
+
+Iteration: 0 | New Error: 1.0060429524090084
+
+Iteration: 2 | Best Mean-Squared-Error: 0.8211019217404991
+
+Done Abalone
+<<<<<<< HEAD
+=======
+Done Abalone
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

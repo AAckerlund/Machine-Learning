@@ -84,7 +84,57 @@ public class GATuner extends Tuner
             }
         }
     }
-
+    
+    @Override
+    public void tune(String dataSet)
+    {
+        switch(dataSet)
+        {
+            case "breast-cancer-wisconsin" -> {
+                bestCrossoverRate = ;
+                bestMutationRate = ;
+                bestVariance = ;
+                bestK = ;
+                bestPopSize = ;
+            }
+            case "machine" -> {
+                bestCrossoverRate = ;
+                bestMutationRate = ;
+                bestVariance = ;
+                bestK = ;
+                bestPopSize = ;
+            }
+            case "soybean-small" -> {
+                bestCrossoverRate = ;
+                bestMutationRate = ;
+                bestVariance = ;
+                bestK = ;
+                bestPopSize = ;
+            }
+            case "glass" -> {
+                bestCrossoverRate = ;
+                bestMutationRate = ;
+                bestVariance = ;
+                bestK = ;
+                bestPopSize = ;
+            }
+            case "forestfires" -> {
+                bestCrossoverRate = ;
+                bestMutationRate = ;
+                bestVariance = ;
+                bestK = ;
+                bestPopSize = ;
+            }
+            case "abalone" -> {
+                bestCrossoverRate = ;
+                bestMutationRate = ;
+                bestVariance = ;
+                bestK = ;
+                bestPopSize = ;
+            }
+        }
+    }
+    
     public double getBestCrossoverRate()
     {
         return bestCrossoverRate;

@@ -1,0 +1,25 @@
+Done Glass
+Iteration: 0 | New Error: 1.4975668419867378
+Iteration: 50 | New Error: 0.9327067192585868
+Iteration: 100 | New Error: 0.8114788189806239
+
+Iteration: 138 | Best Mean-Squared-Error: 0.7967146380761058
+
+Iteration: 0 | New Error: 1.5010990873839654
+
+Iteration: 14 | Best Mean-Squared-Error: 0.8859198248333605
+
+Iteration: 0 | New Error: 1.5022807100437594
+
+Iteration: 2 | Best Mean-Squared-Error: 0.85689773106574
+
+Iteration: 0 | New Error: 1.4995261303217071
+
+Iteration: 3 | Best Mean-Squared-Error: 0.9443529298171115
+
+Iteration: 0 | New Error: 1.4969305488717526
+Done Glass
+<<<<<<< HEAD
+=======
+Done Glass
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

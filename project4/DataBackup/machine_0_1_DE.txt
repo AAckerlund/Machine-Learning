@@ -1,0 +1,94 @@
+Done Machine
+Iteration: 0 | New Error: 0.9003555039896836
+Iteration: 50 | New Error: 0.06396754767607832
+Iteration: 100 | New Error: 0.058522154659217854
+
+Iteration: 119 | Best Mean-Squared-Error: 0.05750357607926158
+
+Iteration: 0 | New Error: 0.9073258518524661
+
+Iteration: 2 | Best Mean-Squared-Error: 0.08362349388019492
+
+Iteration: 0 | New Error: 0.8809085590231518
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8809085590231518
+
+Iteration: 0 | New Error: 0.869968678557682
+
+Iteration: 1 | Best Mean-Squared-Error: 0.869968678557682
+
+Iteration: 0 | New Error: 0.9220375618146082
+Iteration: 50 | New Error: 0.06419249851859474
+Iteration: 100 | New Error: 0.05861855147308773
+
+Iteration: 149 | Best Mean-Squared-Error: 0.0564183022151429
+
+Iteration: 0 | New Error: 0.9261361561333568
+
+Iteration: 2 | Best Mean-Squared-Error: 0.08656947908778288
+
+Iteration: 0 | New Error: 0.9479594802859875
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9479594802859875
+
+Iteration: 0 | New Error: 0.8758030722056717
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8758030722056717
+
+Iteration: 0 | New Error: 0.8757904255763098
+Iteration: 50 | New Error: 0.06391565150620411
+Iteration: 100 | New Error: 0.058428761520358245
+Iteration: 150 | New Error: 0.05623064556590584
+
+Iteration: 157 | Best Mean-Squared-Error: 0.05606849772154126
+
+Iteration: 0 | New Error: 0.8831780714520836
+
+Iteration: 4 | Best Mean-Squared-Error: 0.07006263038810404
+
+Iteration: 0 | New Error: 0.8982388670447984
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8982388670447984
+
+Iteration: 0 | New Error: 0.919652771071165
+
+Iteration: 1 | Best Mean-Squared-Error: 0.919652771071165
+
+Iteration: 0 | New Error: 0.8911915199451544
+Iteration: 50 | New Error: 0.06296611248135796
+
+Iteration: 96 | Best Mean-Squared-Error: 0.05812911739260093
+
+Iteration: 0 | New Error: 0.8849785232710561
+
+Iteration: 7 | Best Mean-Squared-Error: 0.06212498198710546
+
+Iteration: 0 | New Error: 0.8994895549273183
+
+Iteration: 2 | Best Mean-Squared-Error: 0.28340901846476585
+
+Iteration: 0 | New Error: 0.9020958977244946
+
+Iteration: 1 | Best Mean-Squared-Error: 0.9020958977244946
+
+Iteration: 0 | New Error: 0.9197329180167768
+
+Iteration: 2 | Best Mean-Squared-Error: 0.326775716265542
+
+Iteration: 0 | New Error: 0.8689137815395849
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8689137815395849
+
+Iteration: 0 | New Error: 0.8432293992308374
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8432293992308374
+
+Iteration: 0 | New Error: 0.8602063473228047
+
+Iteration: 1 | Best Mean-Squared-Error: 0.8602063473228047
+
+Done Machine
+<<<<<<< HEAD
+=======
+Done Machine
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

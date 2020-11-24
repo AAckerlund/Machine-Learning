@@ -1,0 +1,79 @@
+Done Cancer
+Iteration: 0 | New Error: 0.49936419073579363
+
+Iteration: 1 | Best Mean-Squared-Error: 0.49936419073579363
+
+Iteration: 0 | New Error: 0.5003607879097465
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5003607879097465
+
+Iteration: 0 | New Error: 0.500050957790578
+
+Iteration: 35 | Best Mean-Squared-Error: 0.05476630525319046
+
+Iteration: 0 | New Error: 0.5004342263159074
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5004342263159074
+
+Iteration: 0 | New Error: 0.5001346474636094
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5001346474636094
+
+Iteration: 0 | New Error: 0.49966717433908703
+
+Iteration: 1 | Best Mean-Squared-Error: 0.49966717433908703
+
+Iteration: 0 | New Error: 0.49955849613057207
+
+Iteration: 1 | Best Mean-Squared-Error: 0.49955849613057207
+
+Iteration: 0 | New Error: 0.49987137860549863
+
+Iteration: 4 | Best Mean-Squared-Error: 0.05411479552940457
+
+Iteration: 0 | New Error: 0.501149046074959
+
+Iteration: 3 | Best Mean-Squared-Error: 0.5004078909691141
+
+Iteration: 0 | New Error: 0.5007050074852757
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5007050074852757
+
+Iteration: 0 | New Error: 0.5005597383667648
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5005597383667648
+
+Iteration: 0 | New Error: 0.499809967216348
+
+Iteration: 9 | Best Mean-Squared-Error: 0.05182107467998484
+
+Iteration: 0 | New Error: 0.4992712686402704
+
+Iteration: 1 | Best Mean-Squared-Error: 0.4992712686402704
+
+Iteration: 0 | New Error: 0.5001501981467258
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5001501981467258
+
+Iteration: 0 | New Error: 0.49896431040993794
+
+Iteration: 33 | Best Mean-Squared-Error: 0.0549167214220116
+
+Iteration: 0 | New Error: 0.4997935369440744
+
+Iteration: 7 | Best Mean-Squared-Error: 0.06765901581281598
+
+Iteration: 0 | New Error: 0.4994963810869505
+
+Iteration: 1 | Best Mean-Squared-Error: 0.4994963810869505
+
+Iteration: 0 | New Error: 0.5007977141366042
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5007977141366042
+
+Iteration: 0 | New Error: 0.4993816873469704
+Done Cancer
+<<<<<<< HEAD
+=======
+Done Cancer
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

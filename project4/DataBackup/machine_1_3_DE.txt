@@ -1,0 +1,7 @@
+Done Machine
+Iteration: 0 | New Error: 0.895556357294627
+Done Machine
+<<<<<<< HEAD
+=======
+Done Machine
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

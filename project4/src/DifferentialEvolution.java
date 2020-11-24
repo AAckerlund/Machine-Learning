@@ -122,9 +122,9 @@ public class DifferentialEvolution extends Trainer{
                     bestMSE = member.getFitness();
                 }
             }
-            System.out.println(bestMSE);
+            //System.out.println(bestMSE);
         }
-        System.out.println("DONE");
+        //System.out.println("DONE");
 
         /*for(Chromosome member: newPopulation){
             System.out.println(member.getWeights());

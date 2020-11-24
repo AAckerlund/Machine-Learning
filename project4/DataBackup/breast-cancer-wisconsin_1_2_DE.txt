@@ -1,0 +1,28 @@
+Done Cancer
+Iteration: 0 | New Error: 0.4985443783656004
+
+Iteration: 1 | Best Mean-Squared-Error: 0.4985443783656004
+
+Iteration: 0 | New Error: 0.5004604503939595
+
+Iteration: 1 | Best Mean-Squared-Error: 0.5004604503939595
+
+Iteration: 0 | New Error: 0.5006118488503253
+
+Iteration: 18 | Best Mean-Squared-Error: 0.059027714222648846
+
+Iteration: 0 | New Error: 0.49971732882118
+
+Iteration: 6 | Best Mean-Squared-Error: 0.05020096922414408
+
+Iteration: 0 | New Error: 0.5002703477780773
+
+Iteration: 2 | Best Mean-Squared-Error: 0.4999005748074644
+
+Iteration: 0 | New Error: 0.49977896144848466
+Iteration: 50 | New Error: 0.07809167269953486
+Done Cancer
+<<<<<<< HEAD
+=======
+Done Cancer
+>>>>>>> 09facd829d60c03bb205611e857f2aa41fb108a4

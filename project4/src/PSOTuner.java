@@ -61,8 +61,7 @@ public class PSOTuner extends Tuner
                 {
                     for(int i = 2; i < maxParticleCount; i++)   // Start with at least 2 particles
                     {
-                        System.out.println("Tuning PSO with inertia " + inertia + "\tcogBias " + cogBias + "\tsocBias " +
-                                socialBias + "\tparticles " + i);
+                        //System.out.println("Tuning PSO with inertia " + inertia + "\tcogBias " + cogBias + "\tsocBias " + socialBias + "\tparticles " + i);
                         pso = new PSO(numWeights, maxIterations, MSECutoff, i, inertia, cogBias, socialBias, net);
                         pso.train(trainingSet);
                         double error = net.calculateMSError(tuningSet);
@@ -76,6 +75,50 @@ public class PSOTuner extends Tuner
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    @Override
+    public void tune(String dataSet)
+    {
+        switch(dataSet)
+        {
+            case "breast-cancer-wisconsin" -> {
+                bestParticleCount = 13;
+                bestInertia = 1.0;
+                bestCogBias = 1.0;
+                bestSocialBias = 1.0;
+            }
+            case "machine" -> {
+                bestParticleCount = 9;
+                bestInertia = 1.0;
+                bestCogBias = 1.0;
+                bestSocialBias = 1.0;
+            }
+            case "soybean-small" -> {
+                bestParticleCount = 11;
+                bestInertia = 1.0;
+                bestCogBias = 1.0;
+                bestSocialBias = 0.001;
+            }
+            case "glass" -> {
+                bestParticleCount = 16;
+                bestInertia = 0.001;
+                bestCogBias = 0.001;
+                bestSocialBias = 0.001;
+            }
+            case "forestfires" -> {
+                bestParticleCount = 11;
+                bestInertia = 1;
+                bestCogBias = 0.001;
+                bestSocialBias = 1;
+            }
+            case "abalone" -> {
+                bestParticleCount = 14;
+                bestInertia = 1;
+                bestCogBias = 1;
+                bestSocialBias = 1;
             }
         }
     }
