@@ -172,9 +172,9 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Started tuning\t\t" + filePath + "\talgo " + trainer + "\tfold " + fold + "\tlayer " +
 				hiddenLayers + "\thiddenNodes " + Arrays.toString(hiddenLayerCount) );
 		
-		//tuner.tune(trainingSet, tuningSet);
+		tuner.tune(trainingSet, tuningSet);
 		
-		tuner.tune(fileName);//A tuning shortcut. Gives data quickly without retuning the hyperparameters each time.
+		//tuner.tune(fileName);//A tuning shortcut. Gives data quickly without retuning the hyperparameters each time.
 		
 		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 
@@ -291,19 +291,18 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		test.start();*/
 		//use these if you want to run all the data sets
 
-		String[] trainers = {/*"GA", */"DE"/*, "PSO"*/};
-		String[] files = {"glass", "machine", "soybean-small", "breast-cancer-wisconsin", "abalone", "forestfires"};
+		String[] trainers = {"GA", /*"DE", "PSO"*/};
+		String[] files = {"glass"};//, "machine", "soybean-small", "breast-cancer-wisconsin", "abalone", "forestfires"};
 
-		/*for(String file : files)//create a new instance of the driver for each of the data sets.
+		for(String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			for(String s : trainers)
 			{
 				new Driver(file, new int[]{}, 0, s).start();
 			}
 		}
-		new Driver("abalone", new int[]{}, 0, "PSO").start();
-*/
-		int[][] nodesPerLayer = {
+
+		/*int[][] nodesPerLayer = {
 				{}, {5}, {1, 7},//abalone
 				{}, {1}, {1, 9},//cancer
 				{}, {10}, {3, 10},//fires
@@ -331,7 +330,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 					nodeCountCounter++;
 				}
 			}
-		}
+		}*/
 
 		//DataParser dp = new DataParser();
 		//dp.backPropOutput("abalone");
