@@ -1,0 +1,2 @@
+Done Abalone
+Iteration: 0 | New Error: 1.0060893608272272
