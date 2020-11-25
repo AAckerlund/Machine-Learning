@@ -61,7 +61,6 @@ public class PSOTuner extends Tuner
                 {
                     for(int i = 2; i < maxParticleCount; i++)   // Start with at least 2 particles
                     {
-                        //System.out.println("Tuning PSO with inertia " + inertia + "\tcogBias " + cogBias + "\tsocBias " + socialBias + "\tparticles " + i);
                         pso = new PSO(numWeights, maxIterations, MSECutoff, i, inertia, cogBias, socialBias, net);
                         pso.train(trainingSet);
                         double error = net.calculateMSError(tuningSet);

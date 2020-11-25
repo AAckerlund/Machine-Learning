@@ -77,6 +77,12 @@ public class GATuner extends Tuner
                                 bestK = i;
                                 bestPopSize = popSize;
                                 bestError = error;
+
+                                System.out.println("Best crossover Rate: " + bestCrossoverRate);
+                                System.out.println("Best mutation Rate: " + bestMutationRate);
+                                System.out.println("Best variance: " + bestVariance);
+                                System.out.println("Best K: " + bestK);
+                                System.out.println("Best pop size" + bestPopSize);
                             }
                         }
                     }
@@ -88,51 +94,51 @@ public class GATuner extends Tuner
     @Override
     public void tune(String dataSet)
     {
-        /*switch(dataSet)
+        switch(dataSet)
         {
             case "breast-cancer-wisconsin" -> {
-                bestCrossoverRate = ;
-                bestMutationRate = ;
-                bestVariance = ;
-                bestK = ;
-                bestPopSize = ;
+                bestCrossoverRate = 0.25;
+                bestMutationRate = 0.25;
+                bestVariance = 0.1;
+                bestK = 22;
+                bestPopSize = 40;
             }
             case "machine" -> {
-                bestCrossoverRate = ;
-                bestMutationRate = ;
-                bestVariance = ;
-                bestK = ;
-                bestPopSize = ;
+                bestCrossoverRate = 0.75;
+                bestMutationRate = 0.25;
+                bestVariance = 0.1;
+                bestK = 16;
+                bestPopSize = 84;
             }
             case "soybean-small" -> {
-                bestCrossoverRate = ;
-                bestMutationRate = ;
-                bestVariance = ;
-                bestK = ;
-                bestPopSize = ;
+                bestCrossoverRate = 0.75;
+                bestMutationRate = 0.75;
+                bestVariance = 0.1;
+                bestK = 4;
+                bestPopSize = 12;
             }
             case "glass" -> {
-                bestCrossoverRate = ;
-                bestMutationRate = ;
-                bestVariance = ;
-                bestK = ;
-                bestPopSize = ;
+                bestCrossoverRate = 0.25;
+                bestMutationRate = 0.75;
+                bestVariance = 0.1;
+                bestK = 10;
+                bestPopSize = 20;
             }
             case "forestfires" -> {
-                bestCrossoverRate = ;
-                bestMutationRate = ;
-                bestVariance = ;
-                bestK = ;
-                bestPopSize = ;
+                bestCrossoverRate = 0.75;
+                bestMutationRate = 0.25;
+                bestVariance = 0.1;
+                bestK = 32;
+                bestPopSize = 88;
             }
             case "abalone" -> {
-                bestCrossoverRate = ;
-                bestMutationRate = ;
-                bestVariance = ;
-                bestK = ;
-                bestPopSize = ;
+                bestCrossoverRate = 0.75;
+                bestMutationRate = 0.25;
+                bestVariance = 0.1;
+                bestK = 44;
+                bestPopSize = 80;
             }
-        }*/
+        }
     }
     
     public double getBestCrossoverRate()

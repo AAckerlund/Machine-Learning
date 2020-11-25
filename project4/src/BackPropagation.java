@@ -28,7 +28,7 @@ public class BackPropagation
 	}
 	
 	// trains neural net on a shuffled training set until error does not improve (or until a set max)
-	public double trainNetwork(ArrayList<Node> trainingSet)
+	public void trainNetwork(ArrayList<Node> trainingSet)
 	{
 		double bestError = Double.MAX_VALUE;
 		double prevError = calculateMSError(trainingSet);
@@ -55,20 +55,6 @@ public class BackPropagation
 			iteration++;
 		}
 		Printer.println(outFile, "\nIteration: " + iteration + " | Best Mean-Squared-Error: " + bestError + "\n");
-		return bestError;
-	}
-
-	public class CrossEntropy {
-		public double calculateLoss(double predictedValue, double trueValue){
-			double loss;
-			if(trueValue == 1){
-				loss = -Math.log(predictedValue);
-			}
-			else{
-				loss = -Math.log(1 - predictedValue);
-			}
-			return loss;
-		}
 	}
 	
 	public double calculateMSError(ArrayList<Node> trainingSet)

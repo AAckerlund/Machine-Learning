@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /*
-edge weights are initialized to random values between -0.01 and 0.01
+edge weights are initialized to random values between -0.01 and 0.01, or is based on a chromosome
 each node points to every node in the next layer
  */
 public class Neuron

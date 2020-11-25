@@ -1,10 +1,6 @@
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.*;
 
 public class Driver extends Thread//extending Thread allows for multithreading
 {
@@ -102,13 +98,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			parsedNodes = nodes;
 		}
 
-		/*
-		// Check if calcNumWeights is working
-		int numWeights = calcNumWeights(parsedNodes.get(0).getData().length, classes, !isRegression);
-		System.out.println("NumWeights: " + numWeights + " | input: " + parsedNodes.get(0).getData().length +
-				" | hidden layers: " + Arrays.toString(hiddenLayerCount) + " | output: " + classes.length);
-		*/
-
 		// Tune, Train and test using the real test set
 		runExperiment(parsedNodes, classes, isRegression);
 		System.out.println("Finished running experiment for " + filePath);
@@ -138,7 +127,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 	
 	public void runExperiment(ArrayList<Node> dataset, double[] classes, boolean isRegression)
 	{
-		//TODO: implement changing the sets for each fold
 		double[] learningRates = new double[]{0.001, 0.01, 0.1, 1};
 		double[] momentums = new double[]{0, 0.001, 0.01, 0.1, 1};    // includes 0 for no momentum
 
@@ -150,7 +138,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		ArrayList<Node> tuningSet = groups.getTuningSet();
 		ArrayList<Node> trainingSet = groups.getTrainingSet();
 
-		Tuner tuner = new BackPropTuner(1000, tuningSet, trainingSet, learningRates, momentums, classes,
+		Tuner tuner = new BackPropTuner(1000, learningRates, momentums, classes,
 				!isRegression, filePath, hiddenLayerCount);	//Placeholder to make sure tuner is initialized
 		switch(trainer) // choose tuner
 		{
@@ -172,14 +160,13 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Started tuning\t\t" + filePath + "\talgo " + trainer + "\tfold " + fold + "\tlayer " +
 				hiddenLayers + "\thiddenNodes " + Arrays.toString(hiddenLayerCount) );
 		
-		tuner.tune(trainingSet, tuningSet);
+		//performs actual tuning
+		//tuner.tune(trainingSet, tuningSet);
 		
-		//tuner.tune(fileName);//A tuning shortcut. Gives data quickly without retuning the hyperparameters each time.
+		tuner.tune(fileName);//A tuning shortcut. Gives data quickly without retuning the hyperparameters each time.
 		
 		System.out.println("Finished tuning\t\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 
-		//double learningRate = tuner.getBestLearningRate();
-		//double momentum = tuner.getBestMomentum();
 
 		// Test phase
 		ArrayList<Node> testSet = groups.getTestSet();
@@ -187,10 +174,7 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 		// Placeholder trainer to make sure it's initialized
 		Trainer trainingAlgo = null;
-		/*Trainer trainingAlgo = new PSO(numWeights, 10000, 0.001, ((PSOTuner) tuner).getBestParticleCount(),
-				((PSOTuner) tuner).getBestInertia(), ((PSOTuner) tuner).getBestCogBias(),
-				((PSOTuner) tuner).getBestSocialBias(), net);
-*/
+
 		switch(trainer)	// choose trainer
 		{
 			case "PSO" -> {
@@ -222,10 +206,6 @@ public class Driver extends Thread//extending Thread allows for multithreading
 		System.out.println("Started training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
 		trainingAlgo.train(trainingSet);
 		System.out.println("Finished training\t" + filePath + "\tfold " + fold + "\tlayer " + hiddenLayers);
-		/*Printer.println(filePath, "\nFold " + fold + " | Number of Hidden Layers: " + hiddenLayers);
-		Printer.println(filePath, "Number of nodes per hidden layer: " + Arrays.toString(hiddenLayerCount));
-		Printer.println(filePath, "Learning Rate: " + learningRate + " | Momentum Constant: " + momentum);
-		Printer.println(filePath, "Fold " + fold);*/
 
 		if(isRegression)
 		{
@@ -286,23 +266,20 @@ public class Driver extends Thread//extending Thread allows for multithreading
 
 	public static void main(String[] args) throws InterruptedException
 	{
-		//use these if you want to run a single data set
-		/*Driver test = new Driver("machine");
-		test.start();*/
-		//use these if you want to run all the data sets
+		String[] trainers = {"GA", "DE", "PSO"};
+		String[] files = {"glass", "machine", "soybean-small", "breast-cancer-wisconsin", "abalone", "forestfires"};
 
-		String[] trainers = {"GA", /*"DE", "PSO"*/};
-		String[] files = {"glass"};//, "machine", "soybean-small", "breast-cancer-wisconsin", "abalone", "forestfires"};
-
+		/* The code in this comment was used to collect our hyperparameters
 		for(String file : files)//create a new instance of the driver for each of the data sets.
 		{
 			for(String s : trainers)
 			{
 				new Driver(file, new int[]{}, 0, s).start();
 			}
-		}
+		}*/
 
-		/*int[][] nodesPerLayer = {
+		
+		int[][] nodesPerLayer = {
 				{}, {5}, {1, 7},//abalone
 				{}, {1}, {1, 9},//cancer
 				{}, {10}, {3, 10},//fires
@@ -317,27 +294,19 @@ public class Driver extends Thread//extending Thread allows for multithreading
 			{
 				for(int layer = 0; layer < 3; layer++)
 				{
-					Thread[] threads = new Thread[10];
+					Thread[] threads = new Thread[10];//run 10 threads at a time.
 					for(int fold = 0; fold < 10; fold++)
 					{
 						threads[fold] = new Thread(new Driver(file, nodesPerLayer[nodeCountCounter], fold, s));
 						threads[fold].start();//Starts a new thread
 					}
-					for(Thread t : threads)
+					for(Thread t : threads)//makes the program wait for the current 10 threads to all finish before allowing the next 10 to start.
 					{
 						t.join();
 					}
 					nodeCountCounter++;
 				}
 			}
-		}*/
-
-		//DataParser dp = new DataParser();
-		//dp.backPropOutput("abalone");
-		//dp.backPropOutput("forestfires");
-		//dp.backPropOutput("machine");
-		/*Genetic genetic = new Genetic();
-		double answer = genetic.normalDistributionSelection(0.5, 0.5);
-		System.out.println(answer);*/
+		}
 	}
 }
